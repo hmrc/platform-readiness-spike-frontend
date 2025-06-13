@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package models
+package pages
 
-case class Field(name: String, errorKeys: Map[ErrorType, String])
+import play.api.libs.json.JsPath
 
-object Field {
+case object NonstandardPatternPage extends QuestionPage[String] {
 
-  def apply(name: String, errors: (ErrorType, String)*): Field =
-    Field(name, errors.toMap)
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "nonstandardPattern"
 }
-
-sealed trait ErrorType
-case object Required extends ErrorType
-case object Invalid extends ErrorType
