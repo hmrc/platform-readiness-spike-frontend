@@ -47,3 +47,16 @@ signedOut.guidance = We did not save your answers.
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
+
+nonstandardPattern.title = What non-standard patterns are implemented on your service?
+nonstandardPattern.heading = What non-standard patterns are implemented on your service?
+nonstandardPattern.checkYourAnswersLabel = nonstandardPattern
+nonstandardPattern.error.required = Enter any non-standard patterns which may be implemented by your service
+nonstandardPattern.error.length = This text must be 100 characters or less
+nonstandardPattern.change.hidden = NonstandardPattern
+
+breakBobbyRules.title = Does your service break any Bobby Rules?
+breakBobbyRules.heading = Does your service break any Bobby Rules?
+breakBobbyRules.checkYourAnswersLabel = breakBobbyRules
+breakBobbyRules.error.required = Select yes if breakBobbyRules
+breakBobbyRules.change.hidden = BreakBobbyRules

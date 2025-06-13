@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package models
+package forms
 
-case class Field(name: String, errorKeys: Map[ErrorType, String])
+import javax.inject.Inject
 
-object Field {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  def apply(name: String, errors: (ErrorType, String)*): Field =
-    Field(name, errors.toMap)
+class BreakBobbyRulesFormProvider @Inject() extends Mappings {
+
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("breakBobbyRules.error.required")
+    )
 }
-
-sealed trait ErrorType
-case object Required extends ErrorType
-case object Invalid extends ErrorType
