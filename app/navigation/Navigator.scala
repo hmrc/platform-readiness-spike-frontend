@@ -27,6 +27,7 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
+    case IndexPage => _ => routes.NonstandardPatternController.onPageLoad(NormalMode)
     case NonstandardPatternPage => _ => routes.BreakBobbyRulesController.onPageLoad(NormalMode)
     case _ => _ => routes.IndexController.onPageLoad()
   }

@@ -34,6 +34,9 @@ class NavigatorSpec extends SpecBase {
         case object UnknownPage extends Page
         navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad()
       }
+      "must go from the Index page to the Non-standard Pattern page" in {
+        navigator.nextPage(IndexPage, NormalMode, UserAnswers("id")) mustBe routes.NonstandardPatternController.onPageLoad(NormalMode)
+      }
       "must go from the Non-standard Pattern page to the Bobby Rules page" in {
         navigator.nextPage(NonstandardPatternPage, NormalMode, UserAnswers("id")) mustBe routes.BreakBobbyRulesController.onPageLoad(NormalMode)
       }

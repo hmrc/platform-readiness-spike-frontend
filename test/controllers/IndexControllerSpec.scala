@@ -17,8 +17,11 @@
 package controllers
 
 import base.SpecBase
+import models.NormalMode
+import navigation.{FakeNavigator, Navigator}
+import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.IndexView
 
 class IndexControllerSpec extends SpecBase {
@@ -27,7 +30,11 @@ class IndexControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      val navigator = new FakeNavigator(routes.BreakBobbyRulesController.onPageLoad(NormalMode))
+
+      val application = applicationBuilder(userAnswers = None)
+        .overrides(bind[Navigator].toInstance(navigator))
+        .build()
 
       running(application) {
         val request = FakeRequest(GET, routes.IndexController.onPageLoad().url)
@@ -38,7 +45,7 @@ class IndexControllerSpec extends SpecBase {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view()(request, messages(application)).toString
+        contentAsString(result) mustEqual view(routes.BreakBobbyRulesController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
   }
