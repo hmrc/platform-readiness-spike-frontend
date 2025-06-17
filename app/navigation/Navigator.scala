@@ -27,8 +27,24 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case IndexPage => _ => routes.NonstandardPatternController.onPageLoad(NormalMode)
+    case IndexPage => _ => routes.ServiceURLController.onPageLoad(NormalMode)
+
+    case ServiceURLPage => _ => routes.DoesNonstandardPatternController.onPageLoad(NormalMode)
+
+    case DoesNonstandardPatternPage => userAnswers =>
+      userAnswers.get(DoesNonstandardPatternPage) match {
+        case Some(true) => routes.NonstandardPatternController.onPageLoad(NormalMode)
+        case _ => routes.BreakBobbyRulesController.onPageLoad(NormalMode)
+      }
+
     case NonstandardPatternPage => _ => routes.BreakBobbyRulesController.onPageLoad(NormalMode)
+
+    case BreakBobbyRulesPage => _ => routes.DeprecatedLibrariesController.onPageLoad(NormalMode)
+
+    case DeprecatedLibrariesPage => _ => routes.UsingHTTPVerbsController.onPageLoad(NormalMode)
+
+    case UsingHTTPVerbsPage => _ => routes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
+
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
