@@ -17,16 +17,20 @@
 package navigation
 
 import javax.inject.{Inject, Singleton}
-
 import play.api.mvc.Call
-import controllers.routes
-import pages._
-import models._
+import controllers.{ReadMeFitForPurposeController, routes}
+import pages.*
+import models.*
 
 @Singleton
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
+    /*######################################################
+    
+                       BUILD & RESILIENCE
+    
+    #######################################################*/
     case IndexPage => _ => routes.ServiceURLController.onPageLoad(NormalMode)
 
     case ServiceURLPage => _ => routes.DoesNonstandardPatternController.onPageLoad(NormalMode)
@@ -45,10 +49,19 @@ class Navigator @Inject()() {
 
     case UsingHTTPVerbsPage => _ => routes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
 
+    case ReadMeFitForPurposePage => _ => routes.CheckYourAnswersController.onPageLoad()
+
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
+
+    case DoesNonstandardPatternPage => userAnswers =>
+      userAnswers.get(DoesNonstandardPatternPage) match {
+        case Some(true) => routes.NonstandardPatternController.onPageLoad(CheckMode)
+        case _ => routes.CheckYourAnswersController.onPageLoad()
+      }
+
     case _ => _ => routes.CheckYourAnswersController.onPageLoad()
   }
 

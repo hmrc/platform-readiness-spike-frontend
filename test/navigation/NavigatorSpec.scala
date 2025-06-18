@@ -42,13 +42,13 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(ServiceURLPage, NormalMode, UserAnswers("id")) mustBe routes.DoesNonstandardPatternController.onPageLoad(NormalMode)
       }
 
-      "must go from the Does Include Non-standard Pattern page to the Which Non-standard Pattern page WHEN answer is YES" in {
+      "NORMALMODE must go from the Does Include Non-standard Pattern page to the Which Non-standard Pattern page WHEN answer is YES" in {
         UserAnswers("id").set(DoesNonstandardPatternPage, true).foreach{userAnswers =>
           navigator.nextPage(DoesNonstandardPatternPage, NormalMode, userAnswers) mustBe routes.NonstandardPatternController.onPageLoad(NormalMode)
         }
       }
 
-      "must go from the Does Include Non-standard Pattern Page to Break Bobby Rules page WHEN answer is NO" in {
+      "NORMALMODE must go from the Does Include Non-standard Pattern Page to Break Bobby Rules page WHEN answer is NO" in {
         UserAnswers("id").set(DoesNonstandardPatternPage, false).foreach{userAnswers =>
           navigator.nextPage(DoesNonstandardPatternPage, NormalMode, userAnswers) mustBe routes.BreakBobbyRulesController.onPageLoad(NormalMode)
         }
@@ -70,14 +70,28 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(UsingHTTPVerbsPage, NormalMode, UserAnswers("id")) mustBe routes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
       }
 
+      "must go from the ReadME Up-To-Date and fit for purpose page to the CheckYourAnswers page" in {
+        navigator.nextPage(ReadMeFitForPurposePage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+      }
     }
 
     "in Check mode" - {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
-
         case object UnknownPage extends Page
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+      }
+
+      "CHECKMODE must go from the Does Include Non-standard Pattern Page to Which Non-standard Patterns page WHEN answer is YES" in {
+        UserAnswers("id").set(DoesNonstandardPatternPage, true).foreach { userAnswers =>
+          navigator.nextPage(DoesNonstandardPatternPage, CheckMode, userAnswers) mustBe routes.NonstandardPatternController.onPageLoad(CheckMode)
+        }
+      }
+
+      "CHECKMODE must go from the Does Include Non-standard Pattern Page to CheckYourAnswers page WHEN answer is NO" in {
+        UserAnswers("id").set(DoesNonstandardPatternPage, false).foreach { userAnswers =>
+          navigator.nextPage(DoesNonstandardPatternPage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad()
+        }
       }
     }
   }

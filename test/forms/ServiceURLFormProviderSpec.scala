@@ -16,14 +16,16 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
+import forms.behaviours.ServiceURLFieldBehaviours
 import play.api.data.FormError
 
-class ServiceURLFormProviderSpec extends StringFieldBehaviours {
+class ServiceURLFormProviderSpec extends ServiceURLFieldBehaviours {
 
   val requiredKey = "serviceURL.error.required"
   val lengthKey = "serviceURL.error.length"
+  val urlKey = "serviceURL.error.url"
   val maxLength = 100
+  val prefix = "https://catalogue.tax.service.gov.uk/repositories/"
 
   val form = new ServiceURLFormProvider()()
 
@@ -34,7 +36,7 @@ class ServiceURLFormProviderSpec extends StringFieldBehaviours {
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      serviceURLsWithMaxLength(maxLength)
     )
 
     behave like fieldWithMaxLength(
@@ -42,6 +44,13 @@ class ServiceURLFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       maxLength = maxLength,
       lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
+
+    behave like fieldThatRequiresURLPrefix(
+      form,
+      fieldName,
+      prefix = prefix,
+      urlError = FormError(fieldName, urlKey)
     )
 
     behave like mandatoryField(

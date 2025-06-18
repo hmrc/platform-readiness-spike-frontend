@@ -52,13 +52,13 @@ trait Generators extends ModelGenerators {
   }
 
   def intsLargerThanMaxValue: Gen[BigInt] =
-    arbitrary[BigInt] suchThat(x => x > Int.MaxValue)
+    arbitrary[BigInt] suchThat (x => x > Int.MaxValue)
 
   def intsSmallerThanMinValue: Gen[BigInt] =
-    arbitrary[BigInt] suchThat(x => x < Int.MinValue)
+    arbitrary[BigInt] suchThat (x => x < Int.MinValue)
 
   def nonNumerics: Gen[String] =
-    alphaStr suchThat(_.size > 0)
+    alphaStr suchThat (_.size > 0)
 
   def decimals: Gen[String] =
     arbitrary[BigDecimal]
@@ -67,19 +67,19 @@ trait Generators extends ModelGenerators {
       .map("%f".format(_))
 
   def intsBelowValue(value: Int): Gen[Int] =
-    arbitrary[Int] suchThat(_ < value)
+    arbitrary[Int] suchThat (_ < value)
 
   def intsAboveValue(value: Int): Gen[Int] =
-    arbitrary[Int] suchThat(_ > value)
+    arbitrary[Int] suchThat (_ > value)
 
   def intsOutsideRange(min: Int, max: Int): Gen[Int] =
-    arbitrary[Int] suchThat(x => x < min || x > max)
+    arbitrary[Int] suchThat (x => x < min || x > max)
 
   def nonBooleans: Gen[String] =
     arbitrary[String]
-      .suchThat (_.nonEmpty)
-      .suchThat (_ != "true")
-      .suchThat (_ != "false")
+      .suchThat(_.nonEmpty)
+      .suchThat(_ != "true")
+      .suchThat(_ != "false")
 
   def nonEmptyString: Gen[String] =
     arbitrary[String] suchThat (_.nonEmpty)
@@ -92,8 +92,8 @@ trait Generators extends ModelGenerators {
 
   def stringsLongerThan(minLength: Int): Gen[String] = for {
     maxLength <- (minLength * 2).max(100)
-    length    <- Gen.chooseNum(minLength + 1, maxLength)
-    chars     <- listOfN(length, arbitrary[Char])
+    length <- Gen.chooseNum(minLength + 1, maxLength)
+    chars <- listOfN(length, arbitrary[Char])
   } yield chars.mkString
 
   def stringsExceptSpecificValues(excluded: Seq[String]): Gen[String] =
@@ -117,4 +117,24 @@ trait Generators extends ModelGenerators {
         Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).toLocalDate
     }
   }
+
+  def serviceURLsWithMaxLength(maxLength: Int): Gen[String] = {
+    val urlPrefix = "https://catalogue.tax.service.gov.uk/repositories/"
+    for {
+      length <- choose(1, maxLength - urlPrefix.length)
+      chars <- listOfN(length, arbitrary[Char])
+    } yield urlPrefix + chars.mkString
+  }
+
+  def serviceURLsLongerThan(minLength: Int): Gen[String] = {
+    val urlPrefix = "https://catalogue.tax.service.gov.uk/repositories/"
+    for {
+      maxLength <- (minLength * 2).max(100)
+      length <- Gen.chooseNum(minLength - urlPrefix.length + 1, maxLength)
+      chars <- listOfN(length, arbitrary[Char])
+    } yield urlPrefix + chars.mkString
+  }
+
+  def stringsNotStartingWithValue(prefix: String): Gen[String] =
+    nonEmptyString suchThat (!_.startsWith(prefix))
 }

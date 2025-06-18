@@ -23,9 +23,12 @@ import play.api.data.Form
 
 class ServiceURLFormProvider @Inject() extends Mappings {
 
+  val prefix = "https://catalogue.tax.service.gov.uk/repositories/"
+
   def apply(): Form[String] =
     Form(
       "value" -> text("serviceURL.error.required")
         .verifying(maxLength(100, "serviceURL.error.length"))
+        .verifying(startsWith(prefix, errorKey = "serviceURL.error.url"))
     )
 }
