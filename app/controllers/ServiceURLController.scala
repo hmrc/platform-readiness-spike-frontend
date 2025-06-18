@@ -16,31 +16,30 @@
 
 package controllers
 
-import controllers.actions.*
-import forms.NonstandardPatternFormProvider
-
+import controllers.actions._
+import forms.ServiceURLFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.NonstandardPatternPage
+import pages.ServiceURLPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.NonstandardPatternView
+import views.html.ServiceURLView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class NonstandardPatternController @Inject()(
+class ServiceURLController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionRepository: SessionRepository,
                                         navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
-                                        formProvider: NonstandardPatternFormProvider,
+                                        formProvider: ServiceURLFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: NonstandardPatternView
+                                        view: ServiceURLView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -48,11 +47,10 @@ class NonstandardPatternController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(NonstandardPatternPage) match {
+      val preparedForm = request.userAnswers.get(ServiceURLPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
-
 
       Ok(view(preparedForm, mode))
   }
@@ -66,9 +64,9 @@ class NonstandardPatternController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(NonstandardPatternPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(ServiceURLPage, value))
             _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(NonstandardPatternPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(ServiceURLPage, mode, updatedAnswers))
       )
   }
 }

@@ -30,16 +30,46 @@ class NavigatorSpec extends SpecBase {
     "in Normal mode" - {
 
       "must go from a page that doesn't exist in the route map to Index" in {
-
         case object UnknownPage extends Page
         navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad()
       }
-      "must go from the Index page to the Non-standard Pattern page" in {
-        navigator.nextPage(IndexPage, NormalMode, UserAnswers("id")) mustBe routes.NonstandardPatternController.onPageLoad(NormalMode)
+
+      "must go from the Index page to the Does Include Non-standard Pattern page" in {
+        navigator.nextPage(IndexPage, NormalMode, UserAnswers("id")) mustBe routes.ServiceURLController.onPageLoad(NormalMode)
       }
-      "must go from the Non-standard Pattern page to the Bobby Rules page" in {
+
+      "must go from the Service URL page to the Does Include Non-standard Pattern page" in {
+        navigator.nextPage(ServiceURLPage, NormalMode, UserAnswers("id")) mustBe routes.DoesNonstandardPatternController.onPageLoad(NormalMode)
+      }
+
+      "must go from the Does Include Non-standard Pattern page to the Which Non-standard Pattern page WHEN answer is YES" in {
+        UserAnswers("id").set(DoesNonstandardPatternPage, true).foreach{userAnswers =>
+          navigator.nextPage(DoesNonstandardPatternPage, NormalMode, userAnswers) mustBe routes.NonstandardPatternController.onPageLoad(NormalMode)
+        }
+      }
+
+      "must go from the Does Include Non-standard Pattern Page to Break Bobby Rules page WHEN answer is NO" in {
+        UserAnswers("id").set(DoesNonstandardPatternPage, false).foreach{userAnswers =>
+          navigator.nextPage(DoesNonstandardPatternPage, NormalMode, userAnswers) mustBe routes.BreakBobbyRulesController.onPageLoad(NormalMode)
+        }
+      }
+
+      "must go from the Which Non-standard Pattern page to the Bobby Rules page" in {
         navigator.nextPage(NonstandardPatternPage, NormalMode, UserAnswers("id")) mustBe routes.BreakBobbyRulesController.onPageLoad(NormalMode)
       }
+
+      "must go from the Bobby Rules page to the Deprecated HMRC Libraries page" in {
+        navigator.nextPage(BreakBobbyRulesPage, NormalMode, UserAnswers("id")) mustBe routes.DeprecatedLibrariesController.onPageLoad(NormalMode)
+      }
+
+      "must go from the Deprecated HMRC Libraries page to the Using HTTP Verbs page" in {
+        navigator.nextPage(DeprecatedLibrariesPage, NormalMode, UserAnswers("id")) mustBe routes.UsingHTTPVerbsController.onPageLoad(NormalMode)
+      }
+
+      "must go from the HTTP Verbs page to the ReadME Up-To-Date and fit for purpose page" in {
+        navigator.nextPage(UsingHTTPVerbsPage, NormalMode, UserAnswers("id")) mustBe routes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
+      }
+
     }
 
     "in Check mode" - {
