@@ -1,7 +1,7 @@
 
 # platform-readiness-spike-frontend
 
-This is a placeholder README.md for a new repository
+Service based on the Platform Readiness Assessment, aiming to achieve the same process in a more understandable and accessible manner.  
 
 ### License
 
