@@ -20,6 +20,12 @@ GET         /account/signed-out                          controllers.auth.Signed
 
 GET         /unauthorised                                controllers.UnauthorisedController.onPageLoad()
 
+
+GET         /service-url                                 controllers.ServiceURLController.onPageLoad(mode: Mode = NormalMode)
+POST        /service-url                                 controllers.ServiceURLController.onSubmit(mode: Mode = NormalMode)
+GET         /change-service-url                          controllers.ServiceURLController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-service-url                          controllers.ServiceURLController.onSubmit(mode: Mode = CheckMode)
+
 GET         /does-nonstandard-pattern                    controllers.DoesNonstandardPatternController.onPageLoad(mode: Mode = NormalMode)
 POST        /does-nonstandard-pattern                    controllers.DoesNonstandardPatternController.onSubmit(mode: Mode = NormalMode)
 GET         /change-does-nonstandard-pattern             controllers.DoesNonstandardPatternController.onPageLoad(mode: Mode = CheckMode)
@@ -35,20 +41,15 @@ POST        /break-bobby-rules                           controllers.BreakBobbyR
 GET         /change-break-bobby-rules                    controllers.BreakBobbyRulesController.onPageLoad(mode: Mode = CheckMode)
 POST        /change-break-bobby-rules                    controllers.BreakBobbyRulesController.onSubmit(mode: Mode = CheckMode)
 
-GET         /using-http-verbs                            controllers.UsingHTTPVerbsController.onPageLoad(mode: Mode = NormalMode)
-POST        /using-http-verbs                            controllers.UsingHTTPVerbsController.onSubmit(mode: Mode = NormalMode)
-GET         /change-using-http-verbs                     controllers.UsingHTTPVerbsController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-using-http-verbs                     controllers.UsingHTTPVerbsController.onSubmit(mode: Mode = CheckMode)
-
 GET         /deprecated-libraries                        controllers.DeprecatedLibrariesController.onPageLoad(mode: Mode = NormalMode)
 POST        /deprecated-libraries                        controllers.DeprecatedLibrariesController.onSubmit(mode: Mode = NormalMode)
 GET         /change-deprecated-libraries                 controllers.DeprecatedLibrariesController.onPageLoad(mode: Mode = CheckMode)
 POST        /change-deprecated-libraries                 controllers.DeprecatedLibrariesController.onSubmit(mode: Mode = CheckMode)
 
-GET         /service-url                                 controllers.ServiceURLController.onPageLoad(mode: Mode = NormalMode)
-POST        /service-url                                 controllers.ServiceURLController.onSubmit(mode: Mode = NormalMode)
-GET         /change-service-url                          controllers.ServiceURLController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-service-url                          controllers.ServiceURLController.onSubmit(mode: Mode = CheckMode)
+GET         /using-http-verbs                            controllers.UsingHTTPVerbsController.onPageLoad(mode: Mode = NormalMode)
+POST        /using-http-verbs                            controllers.UsingHTTPVerbsController.onSubmit(mode: Mode = NormalMode)
+GET         /change-using-http-verbs                     controllers.UsingHTTPVerbsController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-using-http-verbs                     controllers.UsingHTTPVerbsController.onSubmit(mode: Mode = CheckMode)
 
 GET         /read-me-fit-for-purpose                     controllers.ReadMeFitForPurposeController.onPageLoad(mode: Mode = NormalMode)
 POST        /read-me-fit-for-purpose                     controllers.ReadMeFitForPurposeController.onSubmit(mode: Mode = NormalMode)

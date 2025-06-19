@@ -130,4 +130,13 @@ trait Constraints {
           Invalid(errorKey, CurrencyFormatter.currencyFormat(maximum))
         }
     }
+
+  protected def startsWith(prefix: String, errorKey: String): Constraint[String] = {
+    Constraint {
+      case input if input.startsWith(prefix) =>
+        Valid
+      case _ =>
+        Invalid(errorKey)
+    }
+  }
 }
