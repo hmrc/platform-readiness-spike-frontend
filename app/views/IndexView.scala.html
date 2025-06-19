@@ -29,14 +29,24 @@
     <h1 class="govuk-heading-xl">@messages("index.heading")</h1>
 
     <p class="govuk-body">@messages("index.guidance")</p>
-    <p class="govuk-body">@messages("index.guidance2")</p>
+    <p class="govuk-body">@messages("index.guidance2")
+        <ol class="govuk-body">
+            <li>@messages("index.guidance3")</li>
+            <li>@messages("index.guidance4")</li>
+            <li>@messages("index.guidance5")</li>
+            <li>@messages("index.guidance6")</li>
+        </ol>
+    </p>
+    <p class="govuk-body">@messages("index.guidance7")</p>
 
 
-    <div>@govukButton(Button(
-        href = Some(nextPageLink),
-        isStartButton = true,
-        content = Text(messages("site.continue")),
-        attributes = Map("id" -> "start")
-    ))</div>
+    <div>
+        @govukButton(Button(
+            href = Some(nextPageLink),
+            isStartButton = true,
+            content = Text(messages("site.start")),
+            attributes = Map("id" -> "start")
+        ))
+    </div>
 
 }
