@@ -29,7 +29,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
   "view" should {
 
     def createView: Html =
-      page(controllers.routes.NonstandardPatternController.onPageLoad(NormalMode).url)(request, messages)
+      page(controllers.routes.ServiceURLController.onPageLoad(NormalMode).url)(request, messages)
 
     val view = createView
 
@@ -46,7 +46,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
       view
         .getElementById("start")
-        .attr("href") mustBe controllers.routes.NonstandardPatternController.onPageLoad(NormalMode).url
+        .attr("href") mustBe controllers.routes.ServiceURLController.onPageLoad(NormalMode).url
     }
   }  
 }

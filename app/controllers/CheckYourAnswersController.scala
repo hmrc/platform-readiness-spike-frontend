@@ -18,16 +18,11 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import pages.DoesNonstandardPatternPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import viewmodels.checkAnswers.{BreakBobbyRulesSummary,
-  DeprecatedLibrariesSummary,
-  DoesNonstandardPatternSummary,
-  NonstandardPatternSummary,
-  ReadMeFitForPurposeSummary,
-  ServiceURLSummary,
-  UsingHTTPVerbsSummary}
+import viewmodels.checkAnswers.{AppropriateTimeoutsSummary, BreakBobbyRulesSummary, DeprecatedLibrariesSummary, DoesNonstandardPatternSummary, NonstandardPatternSummary, ReadMeFitForPurposeSummary, ServiceURLSummary, UsingHTTPVerbsSummary}
 import viewmodels.govuk.summarylist.*
 import views.html.CheckYourAnswersView
 
@@ -43,14 +38,19 @@ class CheckYourAnswersController @Inject()(
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
+      val nonStandardPatternSummaryRow  =
+        if request.userAnswers.get(DoesNonstandardPatternPage).getOrElse(false) then NonstandardPatternSummary.row(request.userAnswers)
+        else None
+
       val list = SummaryListViewModel(
         rows = Seq(ServiceURLSummary.row(request.userAnswers),
           DoesNonstandardPatternSummary.row(request.userAnswers),
-          NonstandardPatternSummary.row(request.userAnswers),
+          nonStandardPatternSummaryRow,
           BreakBobbyRulesSummary.row(request.userAnswers),
           DeprecatedLibrariesSummary.row(request.userAnswers),
           UsingHTTPVerbsSummary.row(request.userAnswers),
-          ReadMeFitForPurposeSummary.row(request.userAnswers)
+          ReadMeFitForPurposeSummary.row(request.userAnswers),
+          AppropriateTimeoutsSummary.row(request.userAnswers)
         ).flatten
       )
 

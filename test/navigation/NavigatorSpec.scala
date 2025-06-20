@@ -70,8 +70,12 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(UsingHTTPVerbsPage, NormalMode, UserAnswers("id")) mustBe routes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
       }
 
-      "must go from the ReadME Up-To-Date and fit for purpose page to the CheckYourAnswers page" in {
-        navigator.nextPage(ReadMeFitForPurposePage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+      "must go from the ReadME Up-To-Date and fit for purpose page to the Appropriate Timeouts page" in {
+        navigator.nextPage(ReadMeFitForPurposePage, NormalMode, UserAnswers("id")) mustBe routes.AppropriateTimeoutsController.onPageLoad(NormalMode)
+      }
+
+      "must go from the Appropriate Timeouts page to the Check Your Answers page" in {
+        navigator.nextPage(AppropriateTimeoutsPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
       }
     }
 
