@@ -96,6 +96,15 @@ deprecatedLibraries.change.hidden = DeprecatedLibraries
 
 readMeFitForPurpose.title = Is your service ReadMe document up to date and fit for purpose?
 readMeFitForPurpose.heading = Is your service ReadMe document up to date and fit for purpose?
-readMeFitForPurpose.checkYourAnswersLabel = Is your README up to date and fit for purpose
+readMeFitForPurpose.checkYourAnswersLabel = Is your README up to date and fit for purpose?
 readMeFitForPurpose.error.required = Select yes if your service(s) ReadMe document(s) are both up to date and are fit for purpose
 readMeFitForPurpose.change.hidden = ReadMeFitForPurpose
+
+appropriateTimeouts.title = Are appropriate timeouts used on all I/O within your service?
+appropriateTimeouts.heading = Are appropriate timeouts used on all I/O within your service?
+appropriateTimeouts.checkYourAnswersLabel = Are appropriate timeouts used on all I/O within your service?
+appropriateTimeouts.error.required = Select yes if appropriate timeouts are used on all I/O within your service
+appropriateTimeouts.change.hidden = AppropriateTimeouts
+appropriateTimeouts.hint = This should be proven through tests. Check the documentation on [MDTP Retries and Timeouts](https://docs.google.com/document/d/1kF-SRGCdAKoPoxCXd_vw6IJC_h7-y5WOM5_ZRyjDCds/edit)
+appropriateTimeouts.hint2 = If a downstream system starts to consistently fail your services should degrade gracefully, this should be proven with tests.
+appropriateTimeouts.hint3 = You should also confirm HoD API usage fits within the Scrubbing Centre rate limits.

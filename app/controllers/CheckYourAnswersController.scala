@@ -21,13 +21,7 @@ import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierA
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import viewmodels.checkAnswers.{BreakBobbyRulesSummary,
-  DeprecatedLibrariesSummary,
-  DoesNonstandardPatternSummary,
-  NonstandardPatternSummary,
-  ReadMeFitForPurposeSummary,
-  ServiceURLSummary,
-  UsingHTTPVerbsSummary}
+import viewmodels.checkAnswers.{AppropriateTimeoutsSummary, BreakBobbyRulesSummary, DeprecatedLibrariesSummary, DoesNonstandardPatternSummary, NonstandardPatternSummary, ReadMeFitForPurposeSummary, ServiceURLSummary, UsingHTTPVerbsSummary}
 import viewmodels.govuk.summarylist.*
 import views.html.CheckYourAnswersView
 
@@ -50,7 +44,8 @@ class CheckYourAnswersController @Inject()(
           BreakBobbyRulesSummary.row(request.userAnswers),
           DeprecatedLibrariesSummary.row(request.userAnswers),
           UsingHTTPVerbsSummary.row(request.userAnswers),
-          ReadMeFitForPurposeSummary.row(request.userAnswers)
+          ReadMeFitForPurposeSummary.row(request.userAnswers),
+          AppropriateTimeoutsSummary.row(request.userAnswers)
         ).flatten
       )
 
