@@ -29,8 +29,13 @@ error.summary.title = There is a problem
 
 index.title = Platform Readiness Assessment
 index.heading = Platform Readiness Assessment
-index.guidance = Welcome to your new frontend.
-index.guidance2 = Please see the README file for a guide to getting started.
+index.guidance = All new MDTP microservices must have been through at least one peer-reviewed Platform Readiness Assessment (PRA) before being deployed into a live environment (Externaltest or Production) and having real users accessing the microservice. This is to ensure the relevant microservices are compatible with MDTP best practices and will not imperil any existing microservices, downstream services, platform infrastructure or working practices.
+index.guidance2 = Furthermore, a PRA is required for each significant architectural change. e.g.
+index.guidance3 = Two microservices releasing at the same time for a new service.
+index.guidance4 = Adding one new microservice to an already released family of microservices providing a service.
+index.guidance5 = An existing microservice making a call to a new external service.
+index.guidance6 = A major change within an existing microservice.
+index.guidance7 = Stubs should also undergo PRAs in a similar way - if they will never go to a live environment (e.g. Externaltest), then they should undergo their peer review alongside a microservice that uses it.
 
 checkYourAnswers.title = Check your answers
 checkYourAnswers.heading = Check your answers
