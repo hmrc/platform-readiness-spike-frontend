@@ -24,6 +24,13 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
+@hintPanel() = {
+<div>
+    <p class="govuk-body">@messages("appropriateTimeouts.hint") <a href="https://docs.google.com/document/d/1kF-SRGCdAKoPoxCXd_vw6IJC_h7-y5WOM5_ZRyjDCds/edit">MDTP Retries and Timeouts</a>. @messages("appropriateTimeouts.hint2")</p>
+    <p class="govuk-body">@messages("appropriateTimeouts.hint3")</p>
+</div>
+}
+
 @layout(pageTitle = title(form, messages("appropriateTimeouts.title"))) {
 
 
@@ -39,6 +46,7 @@
                 field = form("value"),
                 legend = LegendViewModel(messages("appropriateTimeouts.heading")).asPageHeading()
             )
+            .withHint(Hint(content = HtmlContent(hintPanel())))
         )
 
         @govukButton(
