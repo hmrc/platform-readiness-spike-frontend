@@ -1,4 +1,4 @@
-service.name = platform-readiness-spike-frontend
+service.name = Platform Readiness Assessment
 
 site.back = Back
 site.remove = Remove
@@ -106,6 +106,6 @@ appropriateTimeouts.checkYourAnswersLabel = Are appropriate timeouts used on all
 appropriateTimeouts.error.required = Select yes if appropriate timeouts are used on all I/O within your service
 appropriateTimeouts.change.hidden = AppropriateTimeouts
 appropriateTimeouts.hint = This should be proven through tests. Check the documentation on:
-appropriateTimeouts.hintURL =
+appropriateTimeouts.hintURL = MDTP Retries and Timeouts
 appropriateTimeouts.hint2 = If a downstream system starts to consistently fail your services should degrade gracefully, this should be proven with tests.
 appropriateTimeouts.hint3 = You should also confirm HoD API usage fits within the Scrubbing Centre rate limits.
