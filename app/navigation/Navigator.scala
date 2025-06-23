@@ -49,7 +49,9 @@ class Navigator @Inject()() {
 
     case UsingHTTPVerbsPage => _ => routes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
 
-    case ReadMeFitForPurposePage => _ => routes.CheckYourAnswersController.onPageLoad()
+    case ReadMeFitForPurposePage => _ => routes.AppropriateTimeoutsController.onPageLoad(NormalMode)
+
+    case AppropriateTimeoutsPage => _ => routes.CheckYourAnswersController.onPageLoad()
 
     case _ => _ => routes.IndexController.onPageLoad()
   }
