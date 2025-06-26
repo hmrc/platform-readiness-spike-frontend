@@ -22,7 +22,7 @@ import pages.DoesNonstandardPatternPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import viewmodels.checkAnswers.{AppropriateTimeoutsSummary, BreakBobbyRulesSummary, DeprecatedLibrariesSummary, DoesNonstandardPatternSummary, NonstandardPatternSummary, ReadMeFitForPurposeSummary, ServiceURLSummary, UsingHTTPVerbsSummary}
+import viewmodels.checkAnswers.*
 import viewmodels.govuk.summarylist.*
 import views.html.CheckYourAnswersView
 

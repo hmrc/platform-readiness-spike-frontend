@@ -19,29 +19,34 @@ package controllers.actions
 import base.SpecBase
 import models.UserAnswers
 import models.requests.{IdentifierRequest, OptionalDataRequest}
-import org.mockito.Mockito._
+import org.mockito.ArgumentMatchers.{any, refEq}
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
 import repositories.SessionRepository
+import services.SessionService
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DataRetrievalActionSpec extends SpecBase with MockitoSugar {
 
-  class Harness(sessionRepository: SessionRepository) extends DataRetrievalActionImpl(sessionRepository) {
+  class Harness(sessionService: SessionService) extends DataRetrievalActionImpl(sessionService) {
+
     def callTransform[A](request: IdentifierRequest[A]): Future[OptionalDataRequest[A]] = transform(request)
   }
 
+  implicit val hc: HeaderCarrier = HeaderCarrier()
   "Data Retrieval Action" - {
 
-    "when there is no data in the cache" - {
+    "when there is no data returned from downstream" - {
 
       "must set userAnswers to 'None' in the request" in {
 
-        val sessionRepository = mock[SessionRepository]
-        when(sessionRepository.get("id")) thenReturn Future(None)
-        val action = new Harness(sessionRepository)
+        val sessionService = mock[SessionService]
+        when(sessionService.getUserAnswers(refEq("id"))(any())) thenReturn Future(None)
+        val action = new Harness(sessionService)
 
         val result = action.callTransform(IdentifierRequest(FakeRequest(), "id")).futureValue
 
@@ -49,13 +54,13 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "when there is data in the cache" - {
+    "when there is data returned from downstream" - {
 
       "must build a userAnswers object and add it to the request" in {
 
-        val sessionRepository = mock[SessionRepository]
-        when(sessionRepository.get("id")) thenReturn Future(Some(UserAnswers("id")))
-        val action = new Harness(sessionRepository)
+        val sessionService = mock[SessionService]
+        when(sessionService.getUserAnswers(refEq("id"))(any())) thenReturn Future(Some(UserAnswers("id")))
+        val action = new Harness(sessionService)
 
         val result = action.callTransform(new IdentifierRequest(FakeRequest(), "id")).futureValue
 

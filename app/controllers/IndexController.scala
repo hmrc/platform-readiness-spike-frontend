@@ -20,18 +20,18 @@ import controllers.actions.{DataRetrievalAction, IdentifierAction}
 import models.{NormalMode, UserAnswers}
 import navigation.Navigator
 import pages.IndexPage
-
-import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
+
+import javax.inject.Inject
 
 class IndexController @Inject()(
                                  val controllerComponents: MessagesControllerComponents,
                                  identify: IdentifierAction,
-                                 sessionRepository: SessionRepository,
+                                 sessionService: SessionService,
                                  navigator: Navigator,
                                  view: IndexView,
                                  getData: DataRetrievalAction
@@ -41,7 +41,7 @@ class IndexController @Inject()(
     request.userAnswers match {
       case None =>
         val newUserAnswers = UserAnswers(request.userId)
-        sessionRepository.set(newUserAnswers)
+        sessionService.setUserAnswers(newUserAnswers)
         Ok(view(navigator.nextPage(IndexPage, NormalMode, newUserAnswers).url))
       case Some(userAnswers) => Ok(view(navigator.nextPage(IndexPage, NormalMode, userAnswers).url))
     }

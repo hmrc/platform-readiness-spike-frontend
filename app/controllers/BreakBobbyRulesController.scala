@@ -16,23 +16,23 @@
 
 package controllers
 
-import controllers.actions._
+import controllers.actions.*
 import forms.BreakBobbyRulesFormProvider
-import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
 import pages.BreakBobbyRulesPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.BreakBobbyRulesView
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class BreakBobbyRulesController @Inject()(
                                          override val messagesApi: MessagesApi,
-                                         sessionRepository: SessionRepository,
+                                         sessionService: SessionService,
                                          navigator: Navigator,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
@@ -65,7 +65,7 @@ class BreakBobbyRulesController @Inject()(
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(BreakBobbyRulesPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
+            _              <- sessionService.setUserAnswers(updatedAnswers)
           } yield Redirect(navigator.nextPage(BreakBobbyRulesPage, mode, updatedAnswers))
       )
   }
