@@ -26,9 +26,11 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.DeprecatedLibrariesPage
 import play.api.inject.bind
 import play.api.mvc.Call
+import play.api.mvc.Results.NoContent
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import repositories.SessionRepository
+import services.SessionService
 import views.html.DeprecatedLibrariesView
 
 import scala.concurrent.Future
@@ -80,15 +82,15 @@ class DeprecatedLibrariesControllerSpec extends SpecBase with MockitoSugar {
 
     "must redirect to the next page when valid data is submitted" in {
 
-      val mockSessionRepository = mock[SessionRepository]
+      val mockSessionService = mock[SessionService]
 
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      when(mockSessionService.setUserAnswers(any())(any())) thenReturn Future.successful(NoContent)
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
             bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
+            bind[SessionService].toInstance(mockSessionService)
           )
           .build()
 

@@ -21,6 +21,8 @@ import play.api.Configuration
 import play.api.i18n.Lang
 import play.api.mvc.RequestHeader
 
+import scala.concurrent.duration.{DurationInt, FiniteDuration}
+
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
 
@@ -52,4 +54,9 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   val countdown: Int = configuration.get[Int]("timeout-dialog.countdown")
 
   val cacheTtl: Long = configuration.get[Int]("mongodb.timeToLiveInSeconds")
+
+  lazy val retryIntervals: Seq[FiniteDuration] = configuration
+    .get[Seq[Int]]("retry-intervals")
+    .map(_.milliseconds)
+    .toList
 }
