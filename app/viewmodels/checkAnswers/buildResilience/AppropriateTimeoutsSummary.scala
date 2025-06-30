@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package viewmodels.checkAnswers
+package viewmodels.checkAnswers.buildResilience
 
 import controllers.buildResilience.routes
 import models.{CheckMode, UserAnswers}
-import pages.buildResilience.DeprecatedLibrariesPage
+import pages.buildResilience.AppropriateTimeoutsPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
 
-object DeprecatedLibrariesSummary  {
+object AppropriateTimeoutsSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DeprecatedLibrariesPage).map {
+    answers.get(AppropriateTimeoutsPage).map {
       answer =>
 
         val value = if (answer) "site.yes" else "site.no"
 
         SummaryListRowViewModel(
-          key     = "deprecatedLibraries.checkYourAnswersLabel",
+          key     = "appropriateTimeouts.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.DeprecatedLibrariesController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("deprecatedLibraries.change.hidden"))
+            ActionItemViewModel("site.change", routes.AppropriateTimeoutsController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("appropriateTimeouts.change.hidden"))
           )
         )
     }

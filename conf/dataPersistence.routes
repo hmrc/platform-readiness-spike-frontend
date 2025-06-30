@@ -1,0 +1,39 @@
+GET         /using-mongo                                 controllers.dataPersistence.UsingMongoController.onPageLoad(mode: Mode = NormalMode)
+POST        /using-mongo                                 controllers.dataPersistence.UsingMongoController.onSubmit(mode: Mode = NormalMode)
+GET         /change-using-mongo                          controllers.dataPersistence.UsingMongoController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-using-mongo                          controllers.dataPersistence.UsingMongoController.onSubmit(mode: Mode = CheckMode)
+
+GET         /resilient-recycle-mongo                     controllers.dataPersistence.ResilientRecycleMongoController.onPageLoad(mode: Mode = NormalMode)
+POST        /resilient-recycle-mongo                     controllers.dataPersistence.ResilientRecycleMongoController.onSubmit(mode: Mode = NormalMode)
+GET         /change-resilient-recycle-mongo              controllers.dataPersistence.ResilientRecycleMongoController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-resilient-recycle-mongo              controllers.dataPersistence.ResilientRecycleMongoController.onSubmit(mode: Mode = CheckMode)
+
+GET         /public-mongo-ttl                            controllers.dataPersistence.PublicMongoTTLController.onPageLoad(mode: Mode = NormalMode)
+POST        /public-mongo-ttl                            controllers.dataPersistence.PublicMongoTTLController.onSubmit(mode: Mode = NormalMode)
+GET         /change-public-mongo-ttl                     controllers.dataPersistence.PublicMongoTTLController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-public-mongo-ttl                     controllers.dataPersistence.PublicMongoTTLController.onSubmit(mode: Mode = CheckMode)
+
+GET         /field-level-encryption                      controllers.dataPersistence.FieldLevelEncryptionController.onPageLoad(mode: Mode = NormalMode)
+POST        /field-level-encryption                      controllers.dataPersistence.FieldLevelEncryptionController.onSubmit(mode: Mode = NormalMode)
+GET         /change-field-level-encryption               controllers.dataPersistence.FieldLevelEncryptionController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-field-level-encryption               controllers.dataPersistence.FieldLevelEncryptionController.onSubmit(mode: Mode = CheckMode)
+
+GET         /protected-mongo-ttl                         controllers.dataPersistence.ProtectedMongoTTLController.onPageLoad(mode: Mode = NormalMode)
+POST        /protected-mongo-ttl                         controllers.dataPersistence.ProtectedMongoTTLController.onSubmit(mode: Mode = NormalMode)
+GET         /change-protected-mongo-ttl                  controllers.dataPersistence.ProtectedMongoTTLController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-protected-mongo-ttl                  controllers.dataPersistence.ProtectedMongoTTLController.onSubmit(mode: Mode = CheckMode)
+
+GET         /mongo-tested-with-indexing                  controllers.dataPersistence.MongoTestedWithIndexingController.onPageLoad(mode: Mode = NormalMode)
+POST        /mongo-tested-with-indexing                  controllers.dataPersistence.MongoTestedWithIndexingController.onSubmit(mode: Mode = NormalMode)
+GET         /change-mongo-tested-with-indexing           controllers.dataPersistence.MongoTestedWithIndexingController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-mongo-tested-with-indexing           controllers.dataPersistence.MongoTestedWithIndexingController.onSubmit(mode: Mode = CheckMode)
+
+GET         /using-object-store                          controllers.dataPersistence.UsingObjectStoreController.onPageLoad(mode: Mode = NormalMode)
+POST        /using-object-store                          controllers.dataPersistence.UsingObjectStoreController.onSubmit(mode: Mode = NormalMode)
+GET         /change-using-object-store                   controllers.dataPersistence.UsingObjectStoreController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-using-object-store                   controllers.dataPersistence.UsingObjectStoreController.onSubmit(mode: Mode = CheckMode)
+
+GET         /correct-retention-period                    controllers.dataPersistence.CorrectRetentionPeriodController.onPageLoad(mode: Mode = NormalMode)
+POST        /correct-retention-period                    controllers.dataPersistence.CorrectRetentionPeriodController.onSubmit(mode: Mode = NormalMode)
+GET         /change-correct-retention-period             controllers.dataPersistence.CorrectRetentionPeriodController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-correct-retention-period             controllers.dataPersistence.CorrectRetentionPeriodController.onSubmit(mode: Mode = CheckMode)

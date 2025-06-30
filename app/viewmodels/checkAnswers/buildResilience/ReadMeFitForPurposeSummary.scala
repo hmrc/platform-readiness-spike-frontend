@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package viewmodels.checkAnswers
+package viewmodels.checkAnswers.buildResilience
 
 import controllers.buildResilience.routes
 import models.{CheckMode, UserAnswers}
-import pages.buildResilience.BreakBobbyRulesPage
+import pages.buildResilience.ReadMeFitForPurposePage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
 
-object BreakBobbyRulesSummary  {
+object ReadMeFitForPurposeSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(BreakBobbyRulesPage).map {
+    answers.get(ReadMeFitForPurposePage).map {
       answer =>
 
         val value = if (answer) "site.yes" else "site.no"
 
         SummaryListRowViewModel(
-          key     = "breakBobbyRules.checkYourAnswersLabel",
+          key     = "readMeFitForPurpose.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.BreakBobbyRulesController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("breakBobbyRules.change.hidden"))
+            ActionItemViewModel("site.change", routes.ReadMeFitForPurposeController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("readMeFitForPurpose.change.hidden"))
           )
         )
     }

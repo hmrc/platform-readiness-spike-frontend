@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-package viewmodels.checkAnswers
+package viewmodels.checkAnswers.dataPersistence
 
-import controllers.buildResilience.routes
+import controllers.dataPersistence.routes
 import models.{CheckMode, UserAnswers}
-import pages.buildResilience.ServiceURLPage
+import pages.dataPersistence.ProtectedMongoTTLPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
 
-object ServiceURLSummary  {
+object ProtectedMongoTTLSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(ServiceURLPage).map {
+    answers.get(ProtectedMongoTTLPage).map {
       answer =>
 
+        val value = if (answer) "site.yes" else "site.no"
+
         SummaryListRowViewModel(
-          key     = "serviceURL.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlFormat.escape(answer).toString),
+          key     = "protectedMongoTTL.checkYourAnswersLabel",
+          value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.ServiceURLController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("serviceURL.change.hidden"))
+            ActionItemViewModel("site.change", routes.ProtectedMongoTTLController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("protectedMongoTTL.change.hidden"))
           )
         )
     }
