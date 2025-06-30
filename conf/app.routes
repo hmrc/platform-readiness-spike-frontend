@@ -2,6 +2,8 @@
 
 ->          /hmrc-frontend                               hmrcfrontend.Routes
 
+->          /build-resilience                            buildResilience.Routes
+
 GET         /                                            controllers.IndexController.onPageLoad()
 
 GET         /assets/*file                                controllers.Assets.versioned(path="/public", file: Asset)
@@ -19,43 +21,3 @@ GET         /account/sign-out                            controllers.auth.AuthCo
 GET         /account/signed-out                          controllers.auth.SignedOutController.onPageLoad()
 
 GET         /unauthorised                                controllers.UnauthorisedController.onPageLoad()
-
-GET         /service-url                                 controllers.ServiceURLController.onPageLoad(mode: Mode = NormalMode)
-POST        /service-url                                 controllers.ServiceURLController.onSubmit(mode: Mode = NormalMode)
-GET         /change-service-url                          controllers.ServiceURLController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-service-url                          controllers.ServiceURLController.onSubmit(mode: Mode = CheckMode)
-
-GET         /does-nonstandard-pattern                    controllers.DoesNonstandardPatternController.onPageLoad(mode: Mode = NormalMode)
-POST        /does-nonstandard-pattern                    controllers.DoesNonstandardPatternController.onSubmit(mode: Mode = NormalMode)
-GET         /change-does-nonstandard-pattern             controllers.DoesNonstandardPatternController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-does-nonstandard-pattern             controllers.DoesNonstandardPatternController.onSubmit(mode: Mode = CheckMode)
-
-GET         /which-nonstandard-pattern                   controllers.NonstandardPatternController.onPageLoad(mode: Mode = NormalMode)
-POST        /which-nonstandard-pattern                   controllers.NonstandardPatternController.onSubmit(mode: Mode = NormalMode)
-GET         /change-which-nonstandard-pattern            controllers.NonstandardPatternController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-which-nonstandard-pattern            controllers.NonstandardPatternController.onSubmit(mode: Mode = CheckMode)
-
-GET         /break-bobby-rules                           controllers.BreakBobbyRulesController.onPageLoad(mode: Mode = NormalMode)
-POST        /break-bobby-rules                           controllers.BreakBobbyRulesController.onSubmit(mode: Mode = NormalMode)
-GET         /change-break-bobby-rules                    controllers.BreakBobbyRulesController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-break-bobby-rules                    controllers.BreakBobbyRulesController.onSubmit(mode: Mode = CheckMode)
-
-GET         /deprecated-libraries                        controllers.DeprecatedLibrariesController.onPageLoad(mode: Mode = NormalMode)
-POST        /deprecated-libraries                        controllers.DeprecatedLibrariesController.onSubmit(mode: Mode = NormalMode)
-GET         /change-deprecated-libraries                 controllers.DeprecatedLibrariesController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-deprecated-libraries                 controllers.DeprecatedLibrariesController.onSubmit(mode: Mode = CheckMode)
-
-GET         /using-http-verbs                            controllers.UsingHTTPVerbsController.onPageLoad(mode: Mode = NormalMode)
-POST        /using-http-verbs                            controllers.UsingHTTPVerbsController.onSubmit(mode: Mode = NormalMode)
-GET         /change-using-http-verbs                     controllers.UsingHTTPVerbsController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-using-http-verbs                     controllers.UsingHTTPVerbsController.onSubmit(mode: Mode = CheckMode)
-
-GET         /read-me-fit-for-purpose                     controllers.ReadMeFitForPurposeController.onPageLoad(mode: Mode = NormalMode)
-POST        /read-me-fit-for-purpose                     controllers.ReadMeFitForPurposeController.onSubmit(mode: Mode = NormalMode)
-GET         /change-read-me-fit-for-purpose              controllers.ReadMeFitForPurposeController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-read-me-fit-for-purpose              controllers.ReadMeFitForPurposeController.onSubmit(mode: Mode = CheckMode)
-
-GET        /appropriate-timeouts                         controllers.AppropriateTimeoutsController.onPageLoad(mode: Mode = NormalMode)
-POST       /appropriate-timeouts                         controllers.AppropriateTimeoutsController.onSubmit(mode: Mode = NormalMode)
-GET        /change-appropriate-timeouts                  controllers.AppropriateTimeoutsController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-appropriate-timeouts                  controllers.AppropriateTimeoutsController.onSubmit(mode: Mode = CheckMode)

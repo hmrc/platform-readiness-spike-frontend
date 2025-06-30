@@ -30,7 +30,7 @@ class IndexControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val navigator = new FakeNavigator(routes.ServiceURLController.onPageLoad(NormalMode))
+      val navigator = new FakeNavigator(buildResilience.routes.ServiceURLController.onPageLoad(NormalMode))
 
       val application = applicationBuilder(userAnswers = None)
         .overrides(bind[Navigator].toInstance(navigator))
@@ -45,7 +45,7 @@ class IndexControllerSpec extends SpecBase {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(routes.ServiceURLController.onPageLoad(NormalMode).url)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(buildResilience.routes.ServiceURLController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
   }

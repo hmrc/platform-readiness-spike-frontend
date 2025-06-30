@@ -16,9 +16,9 @@
 
 package viewmodels.checkAnswers
 
-import controllers.routes
+import controllers.buildResilience.routes
 import models.{CheckMode, UserAnswers}
-import pages.NonstandardPatternPage
+import pages.buildResilience.NonstandardPatternPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow

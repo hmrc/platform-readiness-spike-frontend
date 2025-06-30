@@ -1,0 +1,39 @@
+GET         /service-url                                 controllers.buildResilience.ServiceURLController.onPageLoad(mode: Mode = NormalMode)
+POST        /service-url                                 controllers.buildResilience.ServiceURLController.onSubmit(mode: Mode = NormalMode)
+GET         /change-service-url                          controllers.buildResilience.ServiceURLController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-service-url                          controllers.buildResilience.ServiceURLController.onSubmit(mode: Mode = CheckMode)
+
+GET         /does-nonstandard-pattern                    controllers.buildResilience.DoesNonstandardPatternController.onPageLoad(mode: Mode = NormalMode)
+POST        /does-nonstandard-pattern                    controllers.buildResilience.DoesNonstandardPatternController.onSubmit(mode: Mode = NormalMode)
+GET         /change-does-nonstandard-pattern             controllers.buildResilience.DoesNonstandardPatternController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-does-nonstandard-pattern             controllers.buildResilience.DoesNonstandardPatternController.onSubmit(mode: Mode = CheckMode)
+
+GET         /which-nonstandard-pattern                   controllers.buildResilience.NonstandardPatternController.onPageLoad(mode: Mode = NormalMode)
+POST        /which-nonstandard-pattern                   controllers.buildResilience.NonstandardPatternController.onSubmit(mode: Mode = NormalMode)
+GET         /change-which-nonstandard-pattern            controllers.buildResilience.NonstandardPatternController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-which-nonstandard-pattern            controllers.buildResilience.NonstandardPatternController.onSubmit(mode: Mode = CheckMode)
+
+GET         /break-bobby-rules                           controllers.buildResilience.BreakBobbyRulesController.onPageLoad(mode: Mode = NormalMode)
+POST        /break-bobby-rules                           controllers.buildResilience.BreakBobbyRulesController.onSubmit(mode: Mode = NormalMode)
+GET         /change-break-bobby-rules                    controllers.buildResilience.BreakBobbyRulesController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-break-bobby-rules                    controllers.buildResilience.BreakBobbyRulesController.onSubmit(mode: Mode = CheckMode)
+
+GET         /deprecated-libraries                        controllers.buildResilience.DeprecatedLibrariesController.onPageLoad(mode: Mode = NormalMode)
+POST        /deprecated-libraries                        controllers.buildResilience.DeprecatedLibrariesController.onSubmit(mode: Mode = NormalMode)
+GET         /change-deprecated-libraries                 controllers.buildResilience.DeprecatedLibrariesController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-deprecated-libraries                 controllers.buildResilience.DeprecatedLibrariesController.onSubmit(mode: Mode = CheckMode)
+
+GET         /using-http-verbs                            controllers.buildResilience.UsingHTTPVerbsController.onPageLoad(mode: Mode = NormalMode)
+POST        /using-http-verbs                            controllers.buildResilience.UsingHTTPVerbsController.onSubmit(mode: Mode = NormalMode)
+GET         /change-using-http-verbs                     controllers.buildResilience.UsingHTTPVerbsController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-using-http-verbs                     controllers.buildResilience.UsingHTTPVerbsController.onSubmit(mode: Mode = CheckMode)
+
+GET         /read-me-fit-for-purpose                     controllers.buildResilience.ReadMeFitForPurposeController.onPageLoad(mode: Mode = NormalMode)
+POST        /read-me-fit-for-purpose                     controllers.buildResilience.ReadMeFitForPurposeController.onSubmit(mode: Mode = NormalMode)
+GET         /change-read-me-fit-for-purpose              controllers.buildResilience.ReadMeFitForPurposeController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-read-me-fit-for-purpose              controllers.buildResilience.ReadMeFitForPurposeController.onSubmit(mode: Mode = CheckMode)
+
+GET         /appropriate-timeouts                        controllers.buildResilience.AppropriateTimeoutsController.onPageLoad(mode: Mode = NormalMode)
+POST        /appropriate-timeouts                        controllers.buildResilience.AppropriateTimeoutsController.onSubmit(mode: Mode = NormalMode)
+GET         /change-appropriate-timeouts                 controllers.buildResilience.AppropriateTimeoutsController.onPageLoad(mode: Mode = CheckMode)
+POST        /change-appropriate-timeouts                 controllers.buildResilience.AppropriateTimeoutsController.onSubmit(mode: Mode = CheckMode)

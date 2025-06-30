@@ -54,9 +54,9 @@ signedOut.guidance = We did not save your answers.
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
 
-serviceURL.title = What is the service page URL for your service within the MDPT Catalogue?
-serviceURL.heading = What is the service page URL for your service within the MDPT Catalogue?
-serviceURL.checkYourAnswersLabel = MDPT Catalogue Service URL
+serviceURL.title = What is the service page URL for your service within the MDTP Catalogue?
+serviceURL.heading = What is the service page URL for your service within the MDTP Catalogue?
+serviceURL.checkYourAnswersLabel = MDTP Catalogue Service URL
 serviceURL.error.required = Enter serviceURL
 serviceURL.error.length = The service page URL should be 100 characters or less
 serviceURL.error.url = The service page URL should be in the correct format
