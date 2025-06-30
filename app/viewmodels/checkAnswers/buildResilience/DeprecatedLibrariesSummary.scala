@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package viewmodels.checkAnswers
+package viewmodels.checkAnswers.buildResilience
 
 import controllers.buildResilience.routes
 import models.{CheckMode, UserAnswers}
-import pages.buildResilience.DoesNonstandardPatternPage
+import pages.buildResilience.DeprecatedLibrariesPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
 
-object DoesNonstandardPatternSummary  {
+object DeprecatedLibrariesSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(DoesNonstandardPatternPage).map {
+    answers.get(DeprecatedLibrariesPage).map {
       answer =>
 
         val value = if (answer) "site.yes" else "site.no"
 
         SummaryListRowViewModel(
-          key     = "doesNonstandardPattern.checkYourAnswersLabel",
+          key     = "deprecatedLibraries.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.DoesNonstandardPatternController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("doesNonstandardPattern.change.hidden"))
+            ActionItemViewModel("site.change", routes.DeprecatedLibrariesController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("deprecatedLibraries.change.hidden"))
           )
         )
     }

@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package viewmodels.checkAnswers
+package viewmodels.checkAnswers.dataPersistence
 
-import controllers.buildResilience.routes
+import controllers.dataPersistence.routes
 import models.{CheckMode, UserAnswers}
-import pages.buildResilience.UsingHTTPVerbsPage
+import pages.dataPersistence.ResilientRecycleMongoPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
 
-object UsingHTTPVerbsSummary  {
+object ResilientRecycleMongoSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(UsingHTTPVerbsPage).map {
+    answers.get(ResilientRecycleMongoPage).map {
       answer =>
 
         val value = if (answer) "site.yes" else "site.no"
 
         SummaryListRowViewModel(
-          key     = "usingHTTPVerbs.checkYourAnswersLabel",
+          key     = "resilientRecycleMongo.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.UsingHTTPVerbsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("usingHTTPVerbs.change.hidden"))
+            ActionItemViewModel("site.change", routes.ResilientRecycleMongoController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("resilientRecycleMongo.change.hidden"))
           )
         )
     }

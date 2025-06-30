@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package viewmodels.checkAnswers
+package viewmodels.checkAnswers.buildResilience
 
 import controllers.buildResilience.routes
 import models.{CheckMode, UserAnswers}
-import pages.buildResilience.AppropriateTimeoutsPage
+import pages.buildResilience.UsingHTTPVerbsPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
 
-object AppropriateTimeoutsSummary  {
+object UsingHTTPVerbsSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(AppropriateTimeoutsPage).map {
+    answers.get(UsingHTTPVerbsPage).map {
       answer =>
 
         val value = if (answer) "site.yes" else "site.no"
 
         SummaryListRowViewModel(
-          key     = "appropriateTimeouts.checkYourAnswersLabel",
+          key     = "usingHTTPVerbs.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.AppropriateTimeoutsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("appropriateTimeouts.change.hidden"))
+            ActionItemViewModel("site.change", routes.UsingHTTPVerbsController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("usingHTTPVerbs.change.hidden"))
           )
         )
     }

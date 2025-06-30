@@ -22,7 +22,7 @@ import pages.buildResilience.DoesNonstandardPatternPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import viewmodels.checkAnswers.*
+import viewmodels.checkAnswers.buildResilience.*
 import viewmodels.govuk.summarylist.*
 import views.html.CheckYourAnswersView
 

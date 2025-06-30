@@ -54,6 +54,10 @@ signedOut.guidance = We did not save your answers.
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
 
+#========================================
+#          Build & Resilience
+#========================================
+
 serviceURL.title = What is the service page URL for your service within the MDTP Catalogue?
 serviceURL.heading = What is the service page URL for your service within the MDTP Catalogue?
 serviceURL.checkYourAnswersLabel = MDTP Catalogue Service URL
@@ -109,3 +113,55 @@ appropriateTimeouts.hint = This should be proven through tests. Check the docume
 appropriateTimeouts.hintURL = MDTP Retries and Timeouts
 appropriateTimeouts.hint2 = If a downstream system starts to consistently fail your services should degrade gracefully, this should be proven with tests.
 appropriateTimeouts.hint3 = You should also confirm HoD API usage fits within the Scrubbing Centre rate limits.
+
+#========================================
+#           Data Persistence
+#========================================
+
+correctRetentionPeriod.title = correctRetentionPeriod
+correctRetentionPeriod.heading = correctRetentionPeriod
+correctRetentionPeriod.checkYourAnswersLabel = correctRetentionPeriod
+correctRetentionPeriod.error.required = Select yes if correctRetentionPeriod
+correctRetentionPeriod.change.hidden = CorrectRetentionPeriod
+
+fieldLevelEncryption.title = fieldLevelEncryption
+fieldLevelEncryption.heading = fieldLevelEncryption
+fieldLevelEncryption.checkYourAnswersLabel = fieldLevelEncryption
+fieldLevelEncryption.error.required = Select yes if fieldLevelEncryption
+fieldLevelEncryption.change.hidden = FieldLevelEncryption
+
+mongoTestedWithIndexing.title = mongoTestedWithIndexing
+mongoTestedWithIndexing.heading = mongoTestedWithIndexing
+mongoTestedWithIndexing.checkYourAnswersLabel = mongoTestedWithIndexing
+mongoTestedWithIndexing.error.required = Select yes if mongoTestedWithIndexing
+mongoTestedWithIndexing.change.hidden = MongoTestedWithIndexing
+
+protectedMongoTTL.title = protectedMongoTTL
+protectedMongoTTL.heading = protectedMongoTTL
+protectedMongoTTL.checkYourAnswersLabel = protectedMongoTTL
+protectedMongoTTL.error.required = Select yes if protectedMongoTTL
+protectedMongoTTL.change.hidden = ProtectedMongoTTL
+
+publicMongoTTL.title = publicMongoTTL
+publicMongoTTL.heading = publicMongoTTL
+publicMongoTTL.checkYourAnswersLabel = publicMongoTTL
+publicMongoTTL.error.required = Select yes if publicMongoTTL
+publicMongoTTL.change.hidden = PublicMongoTTL
+
+resilientRecycleMongo.title = resilientRecycleMongo
+resilientRecycleMongo.heading = resilientRecycleMongo
+resilientRecycleMongo.checkYourAnswersLabel = resilientRecycleMongo
+resilientRecycleMongo.error.required = Select yes if resilientRecycleMongo
+resilientRecycleMongo.change.hidden = ResilientRecycleMongo
+
+usingMongo.title = usingMongo
+usingMongo.heading = usingMongo
+usingMongo.checkYourAnswersLabel = usingMongo
+usingMongo.error.required = Select yes if usingMongo
+usingMongo.change.hidden = UsingMongo
+
+usingObjectStore.title = usingObjectStore
+usingObjectStore.heading = usingObjectStore
+usingObjectStore.checkYourAnswersLabel = usingObjectStore
+usingObjectStore.error.required = Select yes if usingObjectStore
+usingObjectStore.change.hidden = UsingObjectStore

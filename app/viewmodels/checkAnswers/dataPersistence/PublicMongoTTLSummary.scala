@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-package viewmodels.checkAnswers
+package viewmodels.checkAnswers.dataPersistence
 
-import controllers.buildResilience.routes
+import controllers.dataPersistence.routes
 import models.{CheckMode, UserAnswers}
-import pages.buildResilience.NonstandardPatternPage
+import pages.dataPersistence.PublicMongoTTLPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
 
-object NonstandardPatternSummary  {
+object PublicMongoTTLSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(NonstandardPatternPage).map {
+    answers.get(PublicMongoTTLPage).map {
       answer =>
 
+        val value = if (answer) "site.yes" else "site.no"
+
         SummaryListRowViewModel(
-          key     = "nonstandardPattern.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlFormat.escape(answer).toString),
+          key     = "publicMongoTTL.checkYourAnswersLabel",
+          value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.NonstandardPatternController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("nonstandardPattern.change.hidden"))
+            ActionItemViewModel("site.change", routes.PublicMongoTTLController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("publicMongoTTL.change.hidden"))
           )
         )
     }
