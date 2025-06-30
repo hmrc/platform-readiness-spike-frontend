@@ -16,9 +16,11 @@
 
 package navigation
 
-import controllers.{ReadMeFitForPurposeController, routes}
+import controllers.buildResilience.routes as buildRoutes
+import controllers.routes
 import models.*
 import pages.*
+import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
 import play.api.mvc.Call
 
 import javax.inject.{Inject, Singleton}
@@ -32,25 +34,25 @@ class Navigator @Inject()() {
                        BUILD & RESILIENCE
     
     #######################################################*/
-    case IndexPage => _ => routes.ServiceURLController.onPageLoad(NormalMode)
+    case IndexPage => _ => buildRoutes.ServiceURLController.onPageLoad(NormalMode)
 
-    case ServiceURLPage => _ => routes.DoesNonstandardPatternController.onPageLoad(NormalMode)
+    case ServiceURLPage => _ => buildRoutes.DoesNonstandardPatternController.onPageLoad(NormalMode)
 
     case DoesNonstandardPatternPage => userAnswers =>
       userAnswers.get(DoesNonstandardPatternPage) match {
-        case Some(true) => routes.NonstandardPatternController.onPageLoad(NormalMode)
-        case _ => routes.BreakBobbyRulesController.onPageLoad(NormalMode)
+        case Some(true) => buildRoutes.NonstandardPatternController.onPageLoad(NormalMode)
+        case _ => buildRoutes.BreakBobbyRulesController.onPageLoad(NormalMode)
       }
 
-    case NonstandardPatternPage => _ => routes.BreakBobbyRulesController.onPageLoad(NormalMode)
+    case NonstandardPatternPage => _ => buildRoutes.BreakBobbyRulesController.onPageLoad(NormalMode)
 
-    case BreakBobbyRulesPage => _ => routes.DeprecatedLibrariesController.onPageLoad(NormalMode)
+    case BreakBobbyRulesPage => _ => buildRoutes.DeprecatedLibrariesController.onPageLoad(NormalMode)
 
-    case DeprecatedLibrariesPage => _ => routes.UsingHTTPVerbsController.onPageLoad(NormalMode)
+    case DeprecatedLibrariesPage => _ => buildRoutes.UsingHTTPVerbsController.onPageLoad(NormalMode)
 
-    case UsingHTTPVerbsPage => _ => routes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
+    case UsingHTTPVerbsPage => _ => buildRoutes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
 
-    case ReadMeFitForPurposePage => _ => routes.AppropriateTimeoutsController.onPageLoad(NormalMode)
+    case ReadMeFitForPurposePage => _ => buildRoutes.AppropriateTimeoutsController.onPageLoad(NormalMode)
 
     case AppropriateTimeoutsPage => _ => routes.CheckYourAnswersController.onPageLoad()
 
@@ -61,7 +63,7 @@ class Navigator @Inject()() {
 
     case DoesNonstandardPatternPage => userAnswers =>
       userAnswers.get(DoesNonstandardPatternPage) match {
-        case Some(true) => routes.NonstandardPatternController.onPageLoad(CheckMode)
+        case Some(true) => buildRoutes.NonstandardPatternController.onPageLoad(CheckMode)
         case _ => routes.CheckYourAnswersController.onPageLoad()
       }
 
