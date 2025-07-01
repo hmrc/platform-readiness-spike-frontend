@@ -17,10 +17,12 @@
 package navigation
 
 import controllers.buildResilience.routes as buildRoutes
+import controllers.dataPersistence.routes as dataRoutes
 import controllers.routes
 import models.*
 import pages.*
 import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
+import pages.dataPersistence.{CorrectRetentionPeriodPage, FieldLevelEncryptionPage, MongoTestedWithIndexingPage, ProtectedMongoTTLPage, PublicMongoTTLPage, ResilientRecycleMongoPage, UsingMongoPage, UsingObjectStorePage}
 import play.api.mvc.Call
 
 import javax.inject.{Inject, Singleton}
@@ -34,6 +36,7 @@ class Navigator @Inject()() {
                        BUILD & RESILIENCE
     
     #######################################################*/
+
     case IndexPage => _ => buildRoutes.ServiceURLController.onPageLoad(NormalMode)
 
     case ServiceURLPage => _ => buildRoutes.DoesNonstandardPatternController.onPageLoad(NormalMode)
@@ -55,6 +58,28 @@ class Navigator @Inject()() {
     case ReadMeFitForPurposePage => _ => buildRoutes.AppropriateTimeoutsController.onPageLoad(NormalMode)
 
     case AppropriateTimeoutsPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+
+    /*######################################################
+
+                      DATA PERSISTENCE
+
+    #######################################################*/
+
+    case UsingMongoPage => _ => dataRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+
+    case ResilientRecycleMongoPage => _ => dataRoutes.PublicMongoTTLController.onPageLoad(NormalMode)
+
+    case PublicMongoTTLPage => _ => dataRoutes.FieldLevelEncryptionController.onPageLoad(NormalMode)
+
+    case FieldLevelEncryptionPage => _ => dataRoutes.ProtectedMongoTTLController.onPageLoad(NormalMode)
+
+    case ProtectedMongoTTLPage => _ => dataRoutes.MongoTestedWithIndexingController.onPageLoad(NormalMode)
+
+    case MongoTestedWithIndexingPage => _ => dataRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
+
+    case UsingObjectStorePage => _ => dataRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
+
+    case CorrectRetentionPeriodPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
 
     case _ => _ => routes.IndexController.onPageLoad()
   }
