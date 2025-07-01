@@ -37,3 +37,5 @@ GET         /correct-retention-period                    controllers.dataPersist
 POST        /correct-retention-period                    controllers.dataPersistence.CorrectRetentionPeriodController.onSubmit(mode: Mode = NormalMode)
 GET         /change-correct-retention-period             controllers.dataPersistence.CorrectRetentionPeriodController.onPageLoad(mode: Mode = CheckMode)
 POST        /change-correct-retention-period             controllers.dataPersistence.CorrectRetentionPeriodController.onSubmit(mode: Mode = CheckMode)
+
+GET         /check-your-answers                          controllers.dataPersistence.CheckYourAnswersController.onPageLoad()

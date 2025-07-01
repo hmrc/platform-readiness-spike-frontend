@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.buildResilience
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
@@ -24,7 +24,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.checkAnswers.buildResilience.*
 import viewmodels.govuk.summarylist.*
-import views.html.CheckYourAnswersView
+import views.html.buildResilience.CheckYourAnswersView
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,

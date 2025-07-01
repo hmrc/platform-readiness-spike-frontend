@@ -37,3 +37,5 @@ GET         /appropriate-timeouts                        controllers.buildResili
 POST        /appropriate-timeouts                        controllers.buildResilience.AppropriateTimeoutsController.onSubmit(mode: Mode = NormalMode)
 GET         /change-appropriate-timeouts                 controllers.buildResilience.AppropriateTimeoutsController.onPageLoad(mode: Mode = CheckMode)
 POST        /change-appropriate-timeouts                 controllers.buildResilience.AppropriateTimeoutsController.onSubmit(mode: Mode = CheckMode)
+
+GET         /check-your-answers                          controllers.buildResilience.CheckYourAnswersController.onPageLoad()
