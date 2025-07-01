@@ -77,7 +77,7 @@ class NavigatorSpec extends SpecBase {
       }
 
       "must go from the Appropriate Timeouts page to the Check Your Answers page" in {
-        navigator.nextPage(AppropriateTimeoutsPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(AppropriateTimeoutsPage, NormalMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
       }
     }
 
@@ -85,7 +85,7 @@ class NavigatorSpec extends SpecBase {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
       }
 
       "CHECKMODE must go from the Does Include Non-standard Pattern Page to Which Non-standard Patterns page WHEN answer is YES" in {
@@ -96,7 +96,7 @@ class NavigatorSpec extends SpecBase {
 
       "CHECKMODE must go from the Does Include Non-standard Pattern Page to CheckYourAnswers page WHEN answer is NO" in {
         UserAnswers("id").set(DoesNonstandardPatternPage, false).foreach { userAnswers =>
-          navigator.nextPage(DoesNonstandardPatternPage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad()
+          navigator.nextPage(DoesNonstandardPatternPage, CheckMode, userAnswers) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
         }
       }
     }

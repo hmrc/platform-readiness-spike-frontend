@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package controllers
+package controllers.buildResilience
 
 import base.SpecBase
+import controllers.buildResilience.routes as buildRoutes
+import controllers.routes
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import viewmodels.govuk.SummaryListFluency
-import views.html.CheckYourAnswersView
+import views.html.buildResilience.CheckYourAnswersView
 
 class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
@@ -31,7 +33,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
+        val request = FakeRequest(GET, buildRoutes.CheckYourAnswersController.onPageLoad().url)
 
         val result = route(application, request).value
 
@@ -48,7 +50,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
+        val request = FakeRequest(GET, buildRoutes.CheckYourAnswersController.onPageLoad().url)
 
         val result = route(application, request).value
 

@@ -54,7 +54,7 @@ class Navigator @Inject()() {
 
     case ReadMeFitForPurposePage => _ => buildRoutes.AppropriateTimeoutsController.onPageLoad(NormalMode)
 
-    case AppropriateTimeoutsPage => _ => routes.CheckYourAnswersController.onPageLoad()
+    case AppropriateTimeoutsPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
 
     case _ => _ => routes.IndexController.onPageLoad()
   }
@@ -64,10 +64,10 @@ class Navigator @Inject()() {
     case DoesNonstandardPatternPage => userAnswers =>
       userAnswers.get(DoesNonstandardPatternPage) match {
         case Some(true) => buildRoutes.NonstandardPatternController.onPageLoad(CheckMode)
-        case _ => routes.CheckYourAnswersController.onPageLoad()
+        case _ => buildRoutes.CheckYourAnswersController.onPageLoad()
       }
 
-    case _ => _ => routes.CheckYourAnswersController.onPageLoad()
+    case _ => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
