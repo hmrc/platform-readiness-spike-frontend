@@ -1,4 +1,4 @@
-package forms
+package forms.$section$
 
 import javax.inject.Inject
 

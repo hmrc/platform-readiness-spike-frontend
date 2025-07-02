@@ -81,6 +81,12 @@ class Navigator @Inject()() {
 
     case CorrectRetentionPeriodPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
 
+    /*######################################################
+
+                    COMMON SERVICE USAGE
+
+    #######################################################*/
+
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
@@ -133,6 +139,12 @@ class Navigator @Inject()() {
     case UsingObjectStorePage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
 
     case CorrectRetentionPeriodPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    /*######################################################
+
+                    COMMON SERVICE USAGE
+
+    #######################################################*/
 
     case _ => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
   }
