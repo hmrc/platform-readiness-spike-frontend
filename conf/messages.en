@@ -118,50 +118,50 @@ appropriateTimeouts.hint3 = You should also confirm HoD API usage fits within th
 #           Data Persistence
 #========================================
 
-correctRetentionPeriod.title = correctRetentionPeriod
-correctRetentionPeriod.heading = correctRetentionPeriod
-correctRetentionPeriod.checkYourAnswersLabel = correctRetentionPeriod
-correctRetentionPeriod.error.required = Select yes if correctRetentionPeriod
-correctRetentionPeriod.change.hidden = CorrectRetentionPeriod
-
-fieldLevelEncryption.title = fieldLevelEncryption
-fieldLevelEncryption.heading = fieldLevelEncryption
-fieldLevelEncryption.checkYourAnswersLabel = fieldLevelEncryption
-fieldLevelEncryption.error.required = Select yes if fieldLevelEncryption
-fieldLevelEncryption.change.hidden = FieldLevelEncryption
-
-mongoTestedWithIndexing.title = mongoTestedWithIndexing
-mongoTestedWithIndexing.heading = mongoTestedWithIndexing
-mongoTestedWithIndexing.checkYourAnswersLabel = mongoTestedWithIndexing
-mongoTestedWithIndexing.error.required = Select yes if mongoTestedWithIndexing
-mongoTestedWithIndexing.change.hidden = MongoTestedWithIndexing
-
-protectedMongoTTL.title = protectedMongoTTL
-protectedMongoTTL.heading = protectedMongoTTL
-protectedMongoTTL.checkYourAnswersLabel = protectedMongoTTL
-protectedMongoTTL.error.required = Select yes if protectedMongoTTL
-protectedMongoTTL.change.hidden = ProtectedMongoTTL
-
-publicMongoTTL.title = publicMongoTTL
-publicMongoTTL.heading = publicMongoTTL
-publicMongoTTL.checkYourAnswersLabel = publicMongoTTL
-publicMongoTTL.error.required = Select yes if publicMongoTTL
-publicMongoTTL.change.hidden = PublicMongoTTL
-
-resilientRecycleMongo.title = resilientRecycleMongo
-resilientRecycleMongo.heading = resilientRecycleMongo
-resilientRecycleMongo.checkYourAnswersLabel = resilientRecycleMongo
-resilientRecycleMongo.error.required = Select yes if resilientRecycleMongo
-resilientRecycleMongo.change.hidden = ResilientRecycleMongo
-
-usingMongo.title = usingMongo
-usingMongo.heading = usingMongo
-usingMongo.checkYourAnswersLabel = usingMongo
-usingMongo.error.required = Select yes if usingMongo
+usingMongo.title = Are you using Mongo for JSON data persistence?
+usingMongo.heading = Are you using Mongo for JSON data persistence?
+usingMongo.checkYourAnswersLabel = Are you using Mongo for JSON data persistence?
+usingMongo.error.required = Select yes if you are using Mongo for JSON data persistence
 usingMongo.change.hidden = UsingMongo
 
-usingObjectStore.title = usingObjectStore
-usingObjectStore.heading = usingObjectStore
-usingObjectStore.checkYourAnswersLabel = usingObjectStore
-usingObjectStore.error.required = Select yes if usingObjectStore
+resilientRecycleMongo.title = Are you resilient to a recycle of Mongo?
+resilientRecycleMongo.heading = Are you resilient to a recycle of Mongo?
+resilientRecycleMongo.checkYourAnswersLabel = Are you resilient to a recycle of Mongo?
+resilientRecycleMongo.error.required = Select yes if you are resilient to a recycle of Mongo
+resilientRecycleMongo.change.hidden = ResilientRecycleMongo
+
+publicMongoTTL.title = Does your public Mongo have a Time to Live of less than or equal to 7 days?
+publicMongoTTL.heading = Does your public Mongo have a Time to Live of less than or equal to 7 days?
+publicMongoTTL.checkYourAnswersLabel = Does your public Mongo have a Time to Live of less than or equal to 7 days?
+publicMongoTTL.error.required = Select yes if your public Mongo has a Time to Live of 7 or less days
+publicMongoTTL.change.hidden = PublicMongoTTL
+
+fieldLevelEncryption.title = Does your service use Field Level Encryption wherever necessary?
+fieldLevelEncryption.heading = Does your service use Field Level Encryption wherever necessary?
+fieldLevelEncryption.checkYourAnswersLabel = Does your service use Field Level Encryption wherever necessary?
+fieldLevelEncryption.error.required = Select yes if your service uses Field Level Encryption where necessary
+fieldLevelEncryption.change.hidden = FieldLevelEncryption
+
+protectedMongoTTL.title = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
+protectedMongoTTL.heading = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
+protectedMongoTTL.checkYourAnswersLabel = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
+protectedMongoTTL.error.required = Select yes if your protected Mongo has a Time to Live of 30 or less days
+protectedMongoTTL.change.hidden = ProtectedMongoTTL
+
+mongoTestedWithIndexing.title = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
+mongoTestedWithIndexing.heading = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
+mongoTestedWithIndexing.checkYourAnswersLabel = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
+mongoTestedWithIndexing.error.required = Select yes if you have BOTH performance tested your service with production like data volumes AND have applied indexes where necessary
+mongoTestedWithIndexing.change.hidden = MongoTestedWithIndexing
+
+usingObjectStore.title = Are you using Object Store for Binary data persistence?
+usingObjectStore.heading = Are you using Object Store for Binary data persistence?
+usingObjectStore.checkYourAnswersLabel = Are you using Object Store for Binary data persistence?
+usingObjectStore.error.required = Select yes if you are using Object Store for Binary data persistence?
 usingObjectStore.change.hidden = UsingObjectStore
+
+correctRetentionPeriod.title = Have you correctly set the retention period in the upload bucket?
+correctRetentionPeriod.heading = Have you correctly set the retention period in the upload bucket?
+correctRetentionPeriod.checkYourAnswersLabel = Have you correctly set the retention period in the upload bucket?
+correctRetentionPeriod.error.required = Select yes if the correct retention period in the upload bucket has been set
+correctRetentionPeriod.change.hidden = CorrectRetentionPeriod

@@ -14,9 +14,12 @@
  * limitations under the License.
  *@
 
+@import controllers.dataPersistence.routes as dataRoutes
+
 @this(
     layout: templates.Layout,
-    govukSummaryList: GovukSummaryList
+    govukSummaryList: GovukSummaryList,
+    govukButton: GovukButton
 )
 
 @(list: SummaryList)(implicit request: Request[_], messages: Messages)
@@ -26,4 +29,12 @@
     <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
 
     @govukSummaryList(list)
+
+    <div>
+        @govukButton(
+            ButtonViewModel(messages("site.continue"))
+                .withAttribute("id","continue")
+                .asLink(dataRoutes.UsingMongoController.onPageLoad(NormalMode).url)
+        )
+    </div>
 }

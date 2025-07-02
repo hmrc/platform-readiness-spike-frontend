@@ -117,21 +117,81 @@ class NavigatorSpec extends SpecBase {
 
     "in Check mode" - {
 
+      "in Build & Resilience" - {
+
+        "must go from the Service URL page to the Check Your Answers page" in {
+          navigator.nextPage(ServiceURLPage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
+        }
+
+        "CHECKMODE must go from the Does Include Non-standard Pattern Page to Which Non-standard Patterns page WHEN answer is YES" in {
+          UserAnswers("id").set(DoesNonstandardPatternPage, true).foreach { userAnswers =>
+            navigator.nextPage(DoesNonstandardPatternPage, CheckMode, userAnswers) mustBe buildRoutes.NonstandardPatternController.onPageLoad(CheckMode)
+          }
+        }
+
+        "CHECKMODE must go from the Does Include Non-standard Pattern Page to CheckYourAnswers page WHEN answer is NO" in {
+          UserAnswers("id").set(DoesNonstandardPatternPage, false).foreach { userAnswers =>
+            navigator.nextPage(DoesNonstandardPatternPage, CheckMode, userAnswers) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
+          }
+        }
+
+        "must go from the Which Non-standard Pattern page to the Check Your Answers page" in {
+          navigator.nextPage(NonstandardPatternPage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
+        }
+
+        "must go from the Bobby Rules page to the Check Your Answers page" in {
+          navigator.nextPage(BreakBobbyRulesPage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
+        }
+
+        "must go from the Deprecated HMRC Libraries page to the Check Your Answers page" in {
+          navigator.nextPage(DeprecatedLibrariesPage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
+        }
+
+        "must go from the HTTP Verbs page to the Check Your Answers page" in {
+          navigator.nextPage(UsingHTTPVerbsPage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
+        }
+
+        "must go from the ReadME Up-To-Date and fit for purpose page to the Check Your Answers page" in {
+          navigator.nextPage(ReadMeFitForPurposePage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
+        }
+
+        "must go from the Appropriate Timeouts page to the Check Your Answers page" in {
+          navigator.nextPage(AppropriateTimeoutsPage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      }
+
+
+      "in Data Persistence" - {
+
+        "must go from the Using Mongo page to the Check Your Answers page" in {
+          navigator.nextPage(UsingMongoPage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from the UResilient Recycling Mongo page to the Check Your Answers page" in {
+          navigator.nextPage(ResilientRecycleMongoPage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from the Public Mongo TTL page to the Check Your Answers page" in {
+          navigator.nextPage(PublicMongoTTLPage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from the Field Level Encryption page to the Check Your Answers page" in {
+          navigator.nextPage(FieldLevelEncryptionPage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from the Protected Mongo TTL page to the Check Your Answers page" in {
+          navigator.nextPage(ProtectedMongoTTLPage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from the Mongo Tested With Indexing page to the Check Your Answers page" in {
+          navigator.nextPage(MongoTestedWithIndexingPage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from the Object Store page to the CCheck Your Answers page" in {
+          navigator.nextPage(UsingObjectStorePage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from the Correct Retention Period page to the Check Your Answers page" in {
+          navigator.nextPage(CorrectRetentionPeriodPage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      }
+
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
-      }
-
-      "CHECKMODE must go from the Does Include Non-standard Pattern Page to Which Non-standard Patterns page WHEN answer is YES" in {
-        UserAnswers("id").set(DoesNonstandardPatternPage, true).foreach { userAnswers =>
-          navigator.nextPage(DoesNonstandardPatternPage, CheckMode, userAnswers) mustBe buildRoutes.NonstandardPatternController.onPageLoad(CheckMode)
-        }
-      }
-
-      "CHECKMODE must go from the Does Include Non-standard Pattern Page to CheckYourAnswers page WHEN answer is NO" in {
-        UserAnswers("id").set(DoesNonstandardPatternPage, false).foreach { userAnswers =>
-          navigator.nextPage(DoesNonstandardPatternPage, CheckMode, userAnswers) mustBe buildRoutes.CheckYourAnswersController.onPageLoad()
-        }
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe dataRoutes.CheckYourAnswersController.onPageLoad()
       }
     }
   }

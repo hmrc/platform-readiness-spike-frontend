@@ -86,13 +86,55 @@ class Navigator @Inject()() {
 
   private val checkRouteMap: Page => UserAnswers => Call = {
 
+    /*######################################################
+    
+                       BUILD & RESILIENCE
+    
+    #######################################################*/
+
+    case ServiceURLPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    
     case DoesNonstandardPatternPage => userAnswers =>
       userAnswers.get(DoesNonstandardPatternPage) match {
         case Some(true) => buildRoutes.NonstandardPatternController.onPageLoad(CheckMode)
         case _ => buildRoutes.CheckYourAnswersController.onPageLoad()
       }
 
-    case _ => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case NonstandardPatternPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+
+    case BreakBobbyRulesPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+
+    case DeprecatedLibrariesPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+
+    case UsingHTTPVerbsPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+
+    case ReadMeFitForPurposePage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+
+    case AppropriateTimeoutsPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+
+    /*######################################################
+
+                      DATA PERSISTENCE
+
+    #######################################################*/
+
+    case UsingMongoPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    case ResilientRecycleMongoPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    case PublicMongoTTLPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    case FieldLevelEncryptionPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    case ProtectedMongoTTLPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    case MongoTestedWithIndexingPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    case UsingObjectStorePage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    case CorrectRetentionPeriodPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+
+    case _ => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {

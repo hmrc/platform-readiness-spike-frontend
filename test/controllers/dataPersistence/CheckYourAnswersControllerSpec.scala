@@ -17,7 +17,7 @@
 package controllers.dataPersistence
 
 import base.SpecBase
-import controllers.buildResilience.routes as buildRoutes
+import controllers.dataPersistence.routes as dataRoutes
 import controllers.routes
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
@@ -33,7 +33,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, buildRoutes.CheckYourAnswersController.onPageLoad().url)
+        val request = FakeRequest(GET, dataRoutes.CheckYourAnswersController.onPageLoad().url)
 
         val result = route(application, request).value
 
@@ -50,7 +50,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, buildRoutes.CheckYourAnswersController.onPageLoad().url)
+        val request = FakeRequest(GET, dataRoutes.CheckYourAnswersController.onPageLoad().url)
 
         val result = route(application, request).value
 
