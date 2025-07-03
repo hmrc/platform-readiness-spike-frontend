@@ -23,7 +23,6 @@ import org.mockito.ArgumentMatchers.{any, refEq}
 import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
-import repositories.SessionRepository
 import services.SessionService
 import uk.gov.hmrc.http.HeaderCarrier
 

@@ -17,8 +17,8 @@
 package controllers.buildResilience
 
 import base.SpecBase
-import controllers.routes
 import controllers.buildResilience.routes as buildRoutes
+import controllers.routes
 import forms.buildResilience.NonstandardPatternFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
@@ -31,7 +31,6 @@ import play.api.mvc.Call
 import play.api.mvc.Results.NoContent
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
-import repositories.SessionRepository
 import services.SessionService
 import views.html.buildResilience.NonstandardPatternView
 

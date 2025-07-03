@@ -21,7 +21,6 @@ import connectors.SessionConnector
 import models.UserAnswers
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
-
 import scala.concurrent.Future
 
 @Singleton
@@ -31,7 +30,6 @@ class SessionServiceImpl @Inject()(sessionConnector: SessionConnector) extends S
 
   def setUserAnswers(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] =
     sessionConnector.setUserAnswers(userAnswers)
-
 }
 
 @ImplementedBy(classOf[SessionServiceImpl])
