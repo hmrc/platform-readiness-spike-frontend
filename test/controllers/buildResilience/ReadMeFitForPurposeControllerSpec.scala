@@ -31,7 +31,6 @@ import play.api.mvc.Call
 import play.api.mvc.Results.NoContent
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
-import repositories.SessionRepository
 import services.SessionService
 import views.html.buildResilience.ReadMeFitForPurposeView
 
