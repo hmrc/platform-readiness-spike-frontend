@@ -165,3 +165,13 @@ correctRetentionPeriod.heading = Have you correctly set the retention period in 
 correctRetentionPeriod.checkYourAnswersLabel = Have you correctly set the retention period in the upload bucket?
 correctRetentionPeriod.error.required = Select yes if the correct retention period in the upload bucket has been set
 correctRetentionPeriod.change.hidden = CorrectRetentionPeriod
+
+#========================================
+#          Common Service Usage
+#========================================
+
+intergrationCheck.title = intergrationCheck
+intergrationCheck.heading = intergrationCheck
+intergrationCheck.checkYourAnswersLabel = intergrationCheck
+intergrationCheck.error.required = Select yes if intergrationCheck
+intergrationCheck.change.hidden = IntergrationCheck
