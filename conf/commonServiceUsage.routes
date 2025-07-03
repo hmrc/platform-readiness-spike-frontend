@@ -1,0 +1,4 @@
+GET        /intergrationCheck                        controllers.commonServiceUsage.IntergrationCheckController.onPageLoad(mode: Mode = NormalMode)
+POST       /intergrationCheck                        controllers.commonServiceUsage.IntergrationCheckController.onSubmit(mode: Mode = NormalMode)
+GET        /changeIntergrationCheck                  controllers.commonServiceUsage.IntergrationCheckController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeIntergrationCheck                  controllers.commonServiceUsage.IntergrationCheckController.onSubmit(mode: Mode = CheckMode)

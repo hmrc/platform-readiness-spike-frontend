@@ -1,5 +1,8 @@
 package controllers.$section$
 
+import controllers.routes
+import controllers.$section$.routes as $section$Routes
+
 import base.SpecBase
 import forms.$section$.$className$FormProvider
 import models.{NormalMode, UserAnswers}
@@ -25,7 +28,7 @@ class $className$ControllerSpec extends SpecBase with MockitoSugar {
   val formProvider = new $className$FormProvider()
   val form = formProvider()
 
-  lazy val $className;format="decap"$Route = routes.$className$Controller.onPageLoad(NormalMode).url
+  lazy val $className;format="decap"$Route = $section$Routes.$className$Controller.onPageLoad(NormalMode).url
 
   "$className$ Controller" - {
 
@@ -67,7 +70,7 @@ class $className$ControllerSpec extends SpecBase with MockitoSugar {
 
       val mockSessionService = mock[SessionService]
 
-      when(mockSessionService.set(any())(any())) thenReturn Future.successful(NoContent)
+      when(mockSessionService.setUserAnswers(any())(any())) thenReturn Future.successful(NoContent)
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
