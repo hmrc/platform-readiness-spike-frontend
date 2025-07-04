@@ -21,11 +21,13 @@ import controllers.routes
 import controllers.buildResilience.routes as buildResilienceRoutes
 import controllers.dataPersistence.routes as dataPersistenceRoutes
 import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
+import controllers.security.routes as securityRoutes
 import models.*
 import pages.*
 import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
 import pages.commonServiceUsage.{IntegrationCheckPage, NotifyDependantServicesPage}
 import pages.dataPersistence.{CorrectRetentionPeriodPage, FieldLevelEncryptionPage, MongoTestedWithIndexingPage, ProtectedMongoTTLPage, PublicMongoTTLPage, ResilientRecycleMongoPage, UsingMongoPage, UsingObjectStorePage}
+import pages.security.{FrontendAuthenticationPage, ProtectedMicroserviceAuthPage, PublicMicroserviceAuthPage}
 
 class NavigatorSpec extends SpecBase {
 
@@ -125,6 +127,19 @@ class NavigatorSpec extends SpecBase {
           navigator.nextPage(NotifyDependantServicesPage, NormalMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
         }
       }
+
+      "in Security" - {
+
+        "must go from the Frontend Authentication page to Public Microservice Auth page" in {
+          navigator.nextPage(FrontendAuthenticationPage, NormalMode, UserAnswers("id")) mustBe securityRoutes.PublicMicroserviceAuthController.onPageLoad(NormalMode)
+        }
+        "must go from the Public Microservice Auth page to Protected Microservice Auth page" in {
+          navigator.nextPage(PublicMicroserviceAuthPage, NormalMode, UserAnswers("id")) mustBe securityRoutes.ProtectedMicroserviceAuthController.onPageLoad(NormalMode)
+        }
+        "must go from Protected Microservice Auth page to Check Your Answers Page" in {
+          navigator.nextPage(ProtectedMicroserviceAuthPage, NormalMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      }
     }
 
     "in Check mode" - {
@@ -206,14 +221,27 @@ class NavigatorSpec extends SpecBase {
         "must go from the Integration Check page to Check Your Answers page" in {
           navigator.nextPage(IntegrationCheckPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
         }
-        "must go from the Notify Dependant Services page to Check Your Answers" in {
+        "must go from the Notify Dependant Services page to Check Your Answers page" in {
           navigator.nextPage(NotifyDependantServicesPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      }
+
+      "in Security" - {
+
+        "must go from the Frontend Authentication page to Check Your Answers page" in {
+          navigator.nextPage(FrontendAuthenticationPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from the Public Microservice Auth page to Check Your Answers page" in {
+          navigator.nextPage(PublicMicroserviceAuthPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
+        }
+        "must go from Protected Microservice Auth page to Check Your Answers Page" in {
+          navigator.nextPage(ProtectedMicroserviceAuthPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
         }
       }
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
       }
     }
   }

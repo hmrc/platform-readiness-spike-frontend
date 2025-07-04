@@ -1,0 +1,16 @@
+GET        /frontend-authentication                      controllers.security.FrontendAuthenticationController.onPageLoad(mode: Mode = NormalMode)
+POST       /frontend-authentication                      controllers.security.FrontendAuthenticationController.onSubmit(mode: Mode = NormalMode)
+GET        /change-frontend-authentication               controllers.security.FrontendAuthenticationController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-frontend-authentication               controllers.security.FrontendAuthenticationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /public-microservice-auth                     controllers.security.PublicMicroserviceAuthController.onPageLoad(mode: Mode = NormalMode)
+POST       /public-microservice-auth                     controllers.security.PublicMicroserviceAuthController.onSubmit(mode: Mode = NormalMode)
+GET        /change-public-microservice-auth              controllers.security.PublicMicroserviceAuthController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-public-microservice-auth              controllers.security.PublicMicroserviceAuthController.onSubmit(mode: Mode = CheckMode)
+
+GET        /protected-microservice-auth                  controllers.security.ProtectedMicroserviceAuthController.onPageLoad(mode: Mode = NormalMode)
+POST       /protected-microservice-auth                  controllers.security.ProtectedMicroserviceAuthController.onSubmit(mode: Mode = NormalMode)
+GET        /change-protected-microservice-auth           controllers.security.ProtectedMicroserviceAuthController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-protected-microservice-auth           controllers.security.ProtectedMicroserviceAuthController.onSubmit(mode: Mode = CheckMode)
+
+GET        /check-your-answers                           controllers.security.CheckYourAnswersController.onPageLoad()

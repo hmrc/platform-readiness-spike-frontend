@@ -14,27 +14,33 @@
  * limitations under the License.
  *@
 
-@import controllers.security.routes as securityRoutes
-
 @this(
     layout: templates.Layout,
-    govukSummaryList: GovukSummaryList,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukRadios: GovukRadios,
     govukButton: GovukButton
 )
 
-@(list: SummaryList)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
+@layout(pageTitle = title(form, messages("publicMicroserviceAuth.title"))) {
 
-    <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
+    @formHelper(action = controllers.security.routes.PublicMicroserviceAuthController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
-    @govukSummaryList(list)
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
 
-    <div>
+        @govukRadios(
+            RadiosViewModel.yesNo(
+                field = form("value"),
+                legend = LegendViewModel(messages("publicMicroserviceAuth.heading")).asPageHeading()
+            )
+        )
+
         @govukButton(
             ButtonViewModel(messages("site.continue"))
-                .withAttribute("id","continue")
-                .asLink(securityRoutes.FrontendAuthenticationController.onPageLoad(NormalMode).url)
         )
-    </div>
+    }
 }

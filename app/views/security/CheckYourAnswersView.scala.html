@@ -14,12 +14,9 @@
  * limitations under the License.
  *@
 
-@import controllers.security.routes as securityRoutes
-
 @this(
     layout: templates.Layout,
     govukSummaryList: GovukSummaryList,
-    govukButton: GovukButton
 )
 
 @(list: SummaryList)(implicit request: Request[_], messages: Messages)
@@ -30,11 +27,4 @@
 
     @govukSummaryList(list)
 
-    <div>
-        @govukButton(
-            ButtonViewModel(messages("site.continue"))
-                .withAttribute("id","continue")
-                .asLink(securityRoutes.FrontendAuthenticationController.onPageLoad(NormalMode).url)
-        )
-    </div>
 }
