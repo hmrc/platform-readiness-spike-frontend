@@ -190,3 +190,25 @@ notifyDependantServices.hint6 = EACD
 notifyDependantServices.hint7 = The rule of thumb here is that your service going into production and putting load (however big) onto your dependencies should
 notifyDependantServices.hint8 = not
 notifyDependantServices.hint9 = be a surprise to them.
+
+#========================================
+#               Security
+#========================================
+
+frontendAuthentication.title = frontendAuthentication
+frontendAuthentication.heading = frontendAuthentication
+frontendAuthentication.checkYourAnswersLabel = frontendAuthentication
+frontendAuthentication.error.required = Select yes if frontendAuthentication
+frontendAuthentication.change.hidden = FrontendAuthentication
+
+publicMicroserviceAuth.title = publicMicroserviceAuth
+publicMicroserviceAuth.heading = publicMicroserviceAuth
+publicMicroserviceAuth.checkYourAnswersLabel = publicMicroserviceAuth
+publicMicroserviceAuth.error.required = Select yes if publicMicroserviceAuth
+publicMicroserviceAuth.change.hidden = PublicMicroserviceAuth
+
+protectedMicroserviceAuth.title = protectedMicroserviceAuth
+protectedMicroserviceAuth.heading = protectedMicroserviceAuth
+protectedMicroserviceAuth.checkYourAnswersLabel = protectedMicroserviceAuth
+protectedMicroserviceAuth.error.required = Select yes if protectedMicroserviceAuth
+protectedMicroserviceAuth.change.hidden = ProtectedMicroserviceAuth
