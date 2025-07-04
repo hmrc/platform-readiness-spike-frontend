@@ -14,12 +14,9 @@
  * limitations under the License.
  *@
 
-@import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
-
 @this(
     layout: templates.Layout,
-    govukSummaryList: GovukSummaryList,
-    govukButton: GovukButton
+    govukSummaryList: GovukSummaryList
 )
 
 @(list: SummaryList)(implicit request: Request[_], messages: Messages)
@@ -29,12 +26,4 @@
     <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
 
     @govukSummaryList(list)
-
-    <div>
-        @govukButton(
-            ButtonViewModel(messages("site.continue"))
-                .withAttribute("id","continue")
-                .asLink(commonServiceUsageRoutes.IntegrationCheckController.onPageLoad(NormalMode).url)
-        )
-    </div>
 }

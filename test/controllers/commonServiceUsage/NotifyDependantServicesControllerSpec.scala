@@ -17,47 +17,47 @@
 package controllers.commonServiceUsage
 
 import controllers.routes
-import controllers.commonServiceUsage.routes as commonServiceRoutes
+import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
 
 import base.SpecBase
-import forms.commonServiceUsage.IntergrationCheckFormProvider
+import forms.commonServiceUsage.NotifyDependantServicesFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.commonServiceUsage.IntergrationCheckPage
+import pages.commonServiceUsage.NotifyDependantServicesPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SessionService
 import play.api.mvc.Results.NoContent
-import views.html.commonServiceUsage.IntergrationCheckView
+import views.html.commonServiceUsage.NotifyDependantServicesView
 
 import scala.concurrent.Future
 
-class IntergrationCheckControllerSpec extends SpecBase with MockitoSugar {
+class NotifyDependantServicesControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new IntergrationCheckFormProvider()
+  val formProvider = new NotifyDependantServicesFormProvider()
   val form = formProvider()
 
-  lazy val intergrationCheckRoute = commonServiceRoutes.IntergrationCheckController.onPageLoad(NormalMode).url
+  lazy val notifyDependantServicesRoute = commonServiceUsageRoutes.NotifyDependantServicesController.onPageLoad(NormalMode).url
 
-  "IntergrationCheck Controller" - {
+  "NotifyDependantServices Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, intergrationCheckRoute)
+        val request = FakeRequest(GET, notifyDependantServicesRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[IntergrationCheckView]
+        val view = application.injector.instanceOf[NotifyDependantServicesView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
@@ -66,14 +66,14 @@ class IntergrationCheckControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(IntergrationCheckPage, true).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(NotifyDependantServicesPage, true).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, intergrationCheckRoute)
+        val request = FakeRequest(GET, notifyDependantServicesRoute)
 
-        val view = application.injector.instanceOf[IntergrationCheckView]
+        val view = application.injector.instanceOf[NotifyDependantServicesView]
 
         val result = route(application, request).value
 
@@ -98,7 +98,7 @@ class IntergrationCheckControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, intergrationCheckRoute)
+          FakeRequest(POST, notifyDependantServicesRoute)
             .withFormUrlEncodedBody(("value", "true"))
 
         val result = route(application, request).value
@@ -114,12 +114,12 @@ class IntergrationCheckControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, intergrationCheckRoute)
+          FakeRequest(POST, notifyDependantServicesRoute)
             .withFormUrlEncodedBody(("value", ""))
 
         val boundForm = form.bind(Map("value" -> ""))
 
-        val view = application.injector.instanceOf[IntergrationCheckView]
+        val view = application.injector.instanceOf[NotifyDependantServicesView]
 
         val result = route(application, request).value
 
@@ -133,7 +133,7 @@ class IntergrationCheckControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, intergrationCheckRoute)
+        val request = FakeRequest(GET, notifyDependantServicesRoute)
 
         val result = route(application, request).value
 
@@ -148,7 +148,7 @@ class IntergrationCheckControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, intergrationCheckRoute)
+          FakeRequest(POST, notifyDependantServicesRoute)
             .withFormUrlEncodedBody(("value", "true"))
 
         val result = route(application, request).value

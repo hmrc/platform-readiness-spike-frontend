@@ -24,9 +24,9 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("intergrationCheck.title"))) {
+@layout(pageTitle = title(form, messages("integrationCheck.title"))) {
 
-    @formHelper(action = controllers.commonServiceUsage.routes.IntergrationCheckController.onSubmit(mode), Symbol("autoComplete") -> "off") {
+    @formHelper(action = controllers.commonServiceUsage.routes.IntegrationCheckController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -35,7 +35,7 @@
         @govukRadios(
             RadiosViewModel.yesNo(
                 field = form("value"),
-                legend = LegendViewModel(messages("intergrationCheck.heading")).asPageHeading()
+                legend = LegendViewModel(messages("integrationCheck.heading")).asPageHeading()
             )
         )
 

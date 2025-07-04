@@ -1,4 +1,11 @@
-GET        /intergrationCheck                        controllers.commonServiceUsage.IntergrationCheckController.onPageLoad(mode: Mode = NormalMode)
-POST       /intergrationCheck                        controllers.commonServiceUsage.IntergrationCheckController.onSubmit(mode: Mode = NormalMode)
-GET        /changeIntergrationCheck                  controllers.commonServiceUsage.IntergrationCheckController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeIntergrationCheck                  controllers.commonServiceUsage.IntergrationCheckController.onSubmit(mode: Mode = CheckMode)
+GET        /integration-check                            controllers.commonServiceUsage.IntegrationCheckController.onPageLoad(mode: Mode = NormalMode)
+POST       /integration-check                            controllers.commonServiceUsage.IntegrationCheckController.onSubmit(mode: Mode = NormalMode)
+GET        /change-integration-check                     controllers.commonServiceUsage.IntegrationCheckController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-integration-check                     controllers.commonServiceUsage.IntegrationCheckController.onSubmit(mode: Mode = CheckMode)
+
+GET        /notify-dependant-services                    controllers.commonServiceUsage.NotifyDependantServicesController.onPageLoad(mode: Mode = NormalMode)
+POST       /notify-dependant-services                    controllers.commonServiceUsage.NotifyDependantServicesController.onSubmit(mode: Mode = NormalMode)
+GET        /change-notify-dependant-services             controllers.commonServiceUsage.NotifyDependantServicesController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-notify-dependant-services             controllers.commonServiceUsage.NotifyDependantServicesController.onSubmit(mode: Mode = CheckMode)
+
+GET         /check-your-answers                          controllers.commonServiceUsage.CheckYourAnswersController.onPageLoad()

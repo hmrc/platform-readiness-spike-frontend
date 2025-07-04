@@ -16,12 +16,14 @@
 
 package navigation
 
-import controllers.buildResilience.routes as buildRoutes
-import controllers.dataPersistence.routes as dataRoutes
+import controllers.buildResilience.routes as buildResilienceRoutes
+import controllers.dataPersistence.routes as dataPersistenceRoutes
+import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
 import controllers.routes
 import models.*
 import pages.*
 import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
+import pages.commonServiceUsage.{IntegrationCheckPage, NotifyDependantServicesPage}
 import pages.dataPersistence.{CorrectRetentionPeriodPage, FieldLevelEncryptionPage, MongoTestedWithIndexingPage, ProtectedMongoTTLPage, PublicMongoTTLPage, ResilientRecycleMongoPage, UsingMongoPage, UsingObjectStorePage}
 import play.api.mvc.Call
 
@@ -37,27 +39,27 @@ class Navigator @Inject()() {
     
     #######################################################*/
 
-    case IndexPage => _ => buildRoutes.ServiceURLController.onPageLoad(NormalMode)
+    case IndexPage => _ => buildResilienceRoutes.ServiceURLController.onPageLoad(NormalMode)
 
-    case ServiceURLPage => _ => buildRoutes.DoesNonstandardPatternController.onPageLoad(NormalMode)
+    case ServiceURLPage => _ => buildResilienceRoutes.DoesNonstandardPatternController.onPageLoad(NormalMode)
 
     case DoesNonstandardPatternPage => userAnswers =>
       userAnswers.get(DoesNonstandardPatternPage) match {
-        case Some(true) => buildRoutes.NonstandardPatternController.onPageLoad(NormalMode)
-        case _ => buildRoutes.BreakBobbyRulesController.onPageLoad(NormalMode)
+        case Some(true) => buildResilienceRoutes.NonstandardPatternController.onPageLoad(NormalMode)
+        case _ => buildResilienceRoutes.BreakBobbyRulesController.onPageLoad(NormalMode)
       }
 
-    case NonstandardPatternPage => _ => buildRoutes.BreakBobbyRulesController.onPageLoad(NormalMode)
+    case NonstandardPatternPage => _ => buildResilienceRoutes.BreakBobbyRulesController.onPageLoad(NormalMode)
 
-    case BreakBobbyRulesPage => _ => buildRoutes.DeprecatedLibrariesController.onPageLoad(NormalMode)
+    case BreakBobbyRulesPage => _ => buildResilienceRoutes.DeprecatedLibrariesController.onPageLoad(NormalMode)
 
-    case DeprecatedLibrariesPage => _ => buildRoutes.UsingHTTPVerbsController.onPageLoad(NormalMode)
+    case DeprecatedLibrariesPage => _ => buildResilienceRoutes.UsingHTTPVerbsController.onPageLoad(NormalMode)
 
-    case UsingHTTPVerbsPage => _ => buildRoutes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
+    case UsingHTTPVerbsPage => _ => buildResilienceRoutes.ReadMeFitForPurposeController.onPageLoad(NormalMode)
 
-    case ReadMeFitForPurposePage => _ => buildRoutes.AppropriateTimeoutsController.onPageLoad(NormalMode)
+    case ReadMeFitForPurposePage => _ => buildResilienceRoutes.AppropriateTimeoutsController.onPageLoad(NormalMode)
 
-    case AppropriateTimeoutsPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case AppropriateTimeoutsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
     /*######################################################
 
@@ -65,27 +67,31 @@ class Navigator @Inject()() {
 
     #######################################################*/
 
-    case UsingMongoPage => _ => dataRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+    case UsingMongoPage => _ => dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
 
-    case ResilientRecycleMongoPage => _ => dataRoutes.PublicMongoTTLController.onPageLoad(NormalMode)
+    case ResilientRecycleMongoPage => _ => dataPersistenceRoutes.PublicMongoTTLController.onPageLoad(NormalMode)
 
-    case PublicMongoTTLPage => _ => dataRoutes.FieldLevelEncryptionController.onPageLoad(NormalMode)
+    case PublicMongoTTLPage => _ => dataPersistenceRoutes.FieldLevelEncryptionController.onPageLoad(NormalMode)
 
-    case FieldLevelEncryptionPage => _ => dataRoutes.ProtectedMongoTTLController.onPageLoad(NormalMode)
+    case FieldLevelEncryptionPage => _ => dataPersistenceRoutes.ProtectedMongoTTLController.onPageLoad(NormalMode)
 
-    case ProtectedMongoTTLPage => _ => dataRoutes.MongoTestedWithIndexingController.onPageLoad(NormalMode)
+    case ProtectedMongoTTLPage => _ => dataPersistenceRoutes.MongoTestedWithIndexingController.onPageLoad(NormalMode)
 
-    case MongoTestedWithIndexingPage => _ => dataRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
+    case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
 
-    case UsingObjectStorePage => _ => dataRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
+    case UsingObjectStorePage => _ => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
 
-    case CorrectRetentionPeriodPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
     /*######################################################
 
                     COMMON SERVICE USAGE
 
     #######################################################*/
+
+    case IntegrationCheckPage => _ => commonServiceUsageRoutes.NotifyDependantServicesController.onPageLoad(NormalMode)
+
+    case NotifyDependantServicesPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
 
     case _ => _ => routes.IndexController.onPageLoad()
   }
@@ -98,25 +104,25 @@ class Navigator @Inject()() {
     
     #######################################################*/
 
-    case ServiceURLPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case ServiceURLPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
     
     case DoesNonstandardPatternPage => userAnswers =>
       userAnswers.get(DoesNonstandardPatternPage) match {
-        case Some(true) => buildRoutes.NonstandardPatternController.onPageLoad(CheckMode)
-        case _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+        case Some(true) => buildResilienceRoutes.NonstandardPatternController.onPageLoad(CheckMode)
+        case _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
       }
 
-    case NonstandardPatternPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case NonstandardPatternPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case BreakBobbyRulesPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case BreakBobbyRulesPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case DeprecatedLibrariesPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case DeprecatedLibrariesPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case UsingHTTPVerbsPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case UsingHTTPVerbsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case ReadMeFitForPurposePage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case ReadMeFitForPurposePage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case AppropriateTimeoutsPage => _ => buildRoutes.CheckYourAnswersController.onPageLoad()
+    case AppropriateTimeoutsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
     /*######################################################
 
@@ -124,21 +130,21 @@ class Navigator @Inject()() {
 
     #######################################################*/
 
-    case UsingMongoPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case UsingMongoPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case ResilientRecycleMongoPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case ResilientRecycleMongoPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case PublicMongoTTLPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case PublicMongoTTLPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case FieldLevelEncryptionPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case FieldLevelEncryptionPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case ProtectedMongoTTLPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case ProtectedMongoTTLPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case MongoTestedWithIndexingPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case UsingObjectStorePage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case UsingObjectStorePage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case CorrectRetentionPeriodPage => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
     /*######################################################
 
@@ -146,7 +152,11 @@ class Navigator @Inject()() {
 
     #######################################################*/
 
-    case _ => _ => dataRoutes.CheckYourAnswersController.onPageLoad()
+    case IntegrationCheckPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
+
+    case NotifyDependantServicesPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
+
+    case _ => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
