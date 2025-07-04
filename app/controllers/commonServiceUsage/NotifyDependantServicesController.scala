@@ -17,29 +17,29 @@
 package controllers.commonServiceUsage
 
 import controllers.actions._
-import forms.commonServiceUsage.IntergrationCheckFormProvider
+import forms.commonServiceUsage.NotifyDependantServicesFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.commonServiceUsage.IntergrationCheckPage
+import pages.commonServiceUsage.NotifyDependantServicesPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.commonServiceUsage.IntergrationCheckView
+import views.html.commonServiceUsage.NotifyDependantServicesView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IntergrationCheckController @Inject()(
+class NotifyDependantServicesController @Inject()(
                                          override val messagesApi: MessagesApi,
                                          sessionService: SessionService,
                                          navigator: Navigator,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
-                                         formProvider: IntergrationCheckFormProvider,
+                                         formProvider: NotifyDependantServicesFormProvider,
                                          val controllerComponents: MessagesControllerComponents,
-                                         view: IntergrationCheckView
+                                         view: NotifyDependantServicesView
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -47,7 +47,7 @@ class IntergrationCheckController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(IntergrationCheckPage) match {
+      val preparedForm = request.userAnswers.get(NotifyDependantServicesPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -64,9 +64,9 @@ class IntergrationCheckController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(IntergrationCheckPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(NotifyDependantServicesPage, value))
             _              <- sessionService.setUserAnswers(updatedAnswers)
-          } yield Redirect(navigator.nextPage(IntergrationCheckPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(NotifyDependantServicesPage, mode, updatedAnswers))
       )
   }
 }

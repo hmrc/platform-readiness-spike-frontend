@@ -170,8 +170,14 @@ correctRetentionPeriod.change.hidden = CorrectRetentionPeriod
 #          Common Service Usage
 #========================================
 
-intergrationCheck.title = intergrationCheck
-intergrationCheck.heading = intergrationCheck
-intergrationCheck.checkYourAnswersLabel = intergrationCheck
-intergrationCheck.error.required = Select yes if intergrationCheck
-intergrationCheck.change.hidden = IntergrationCheck
+integrationCheck.title = Have you checked the integration with any dependent services in QA and that you are not overloading them?
+integrationCheck.heading = Have you checked the integration with any dependent services in QA and that you are not overloading them?
+integrationCheck.checkYourAnswersLabel = Have you checked the integration with any dependent services in QA and that you are not overloading them?
+integrationCheck.error.required = Select yes if you have checked the integration with any dependent services in QA and that you are not overloading them?
+integrationCheck.change.hidden = IntegrationCheck
+
+notifyDependantServices.title = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
+notifyDependantServices.heading = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
+notifyDependantServices.checkYourAnswersLabel = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
+notifyDependantServices.error.required = Select yes if we have notified our dependent services (both on and off Platform) as to expected load from our service?
+notifyDependantServices.change.hidden = NotifyDependantServices

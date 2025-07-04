@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.dataPersistence.routes as dataRoutes
+@import controllers.dataPersistence.routes as dataPersistenceRoutes
 
 @this(
     layout: templates.Layout,
@@ -34,7 +34,7 @@
         @govukButton(
             ButtonViewModel(messages("site.continue"))
                 .withAttribute("id","continue")
-                .asLink(dataRoutes.UsingMongoController.onPageLoad(NormalMode).url)
+                .asLink(dataPersistenceRoutes.UsingMongoController.onPageLoad(NormalMode).url)
         )
     </div>
 }

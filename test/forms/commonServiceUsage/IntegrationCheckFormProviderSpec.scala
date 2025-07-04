@@ -19,12 +19,12 @@ package forms.commonServiceUsage
 import forms.behaviours.BooleanFieldBehaviours
 import play.api.data.FormError
 
-class IntergrationCheckFormProviderSpec extends BooleanFieldBehaviours {
+class IntegrationCheckFormProviderSpec extends BooleanFieldBehaviours {
 
-  val requiredKey = "intergrationCheck.error.required"
+  val requiredKey = "integrationCheck.error.required"
   val invalidKey = "error.boolean"
 
-  val form = new IntergrationCheckFormProvider()()
+  val form = new IntegrationCheckFormProvider()()
 
   ".value" - {
 

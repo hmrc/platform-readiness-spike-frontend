@@ -18,26 +18,26 @@ package viewmodels.checkAnswers.commonServiceUsage
 
 import controllers.commonServiceUsage.routes
 import models.{CheckMode, UserAnswers}
-import pages.commonServiceUsage.IntergrationCheckPage
+import pages.commonServiceUsage.IntegrationCheckPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object IntergrationCheckSummary  {
+object IntegrationCheckSummary  {
 
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(IntergrationCheckPage).map {
+    answers.get(IntegrationCheckPage).map {
       answer =>
 
         val value = if (answer) "site.yes" else "site.no"
 
         SummaryListRowViewModel(
-          key     = "intergrationCheck.checkYourAnswersLabel",
+          key     = "integrationCheck.checkYourAnswersLabel",
           value   = ValueViewModel(value),
           actions = Seq(
-            ActionItemViewModel("site.change", routes.IntergrationCheckController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("intergrationCheck.change.hidden"))
+            ActionItemViewModel("site.change", routes.IntegrationCheckController.onPageLoad(CheckMode).url)
+              .withVisuallyHiddenText(messages("integrationCheck.change.hidden"))
           )
         )
     }

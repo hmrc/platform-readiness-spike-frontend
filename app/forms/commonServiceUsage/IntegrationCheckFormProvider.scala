@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package pages.commonServiceUsage
+package forms.commonServiceUsage
 
-import pages.QuestionPage
-import play.api.libs.json.JsPath
+import javax.inject.Inject
 
-case object IntergrationCheckPage extends QuestionPage[Boolean] {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  override def path: JsPath = JsPath \ toString
+class IntegrationCheckFormProvider @Inject() extends Mappings {
 
-  override def toString: String = "intergrationCheck"
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("integrationCheck.error.required")
+    )
 }
