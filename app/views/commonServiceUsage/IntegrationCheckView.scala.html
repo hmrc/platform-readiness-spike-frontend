@@ -24,6 +24,21 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
+@hintPanel() = {
+<div>
+    <p class="govuk-body">@messages("integrationCheck.hint")
+        <ol class="govuk-body">
+            <li>@messages("integrationCheck.hint2")</li>
+            <li>@messages("integrationCheck.hint3")</li>
+            <li>@messages("integrationCheck.hint4")</li>
+            <li>@messages("integrationCheck.hint5")</li>
+            <li>@messages("integrationCheck.hint6")</li>
+        </ol>
+    </p>
+    <p class="govuk-body">@messages("integrationCheck.hint7") <strong>@messages("integrationCheck.hint8")</strong> @messages("integrationCheck.hint9")</p>
+</div>
+}
+
 @layout(pageTitle = title(form, messages("integrationCheck.title"))) {
 
     @formHelper(action = controllers.commonServiceUsage.routes.IntegrationCheckController.onSubmit(mode), Symbol("autoComplete") -> "off") {
@@ -36,7 +51,7 @@
             RadiosViewModel.yesNo(
                 field = form("value"),
                 legend = LegendViewModel(messages("integrationCheck.heading")).asPageHeading()
-            )
+            ).withHint(Hint(content = HtmlContent(hintPanel())))
         )
 
         @govukButton(
