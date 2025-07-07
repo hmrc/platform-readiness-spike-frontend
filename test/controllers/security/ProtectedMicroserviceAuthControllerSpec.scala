@@ -22,7 +22,7 @@ import controllers.security.routes as securityRoutes
 import base.SpecBase
 import forms.security.ProtectedMicroserviceAuthFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeNavigator, Navigator}
+import navigation.{FakeSecurityNavigator, SecurityNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -91,7 +91,7 @@ class ProtectedMicroserviceAuthControllerSpec extends SpecBase with MockitoSugar
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[SecurityNavigator].toInstance(new FakeSecurityNavigator(onwardRoute)),
             bind[SessionService].toInstance(mockSessionService)
           )
           .build()

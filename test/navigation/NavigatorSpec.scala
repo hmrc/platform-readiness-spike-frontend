@@ -127,19 +127,6 @@ class NavigatorSpec extends SpecBase {
           navigator.nextPage(NotifyDependantServicesPage, NormalMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
         }
       }
-
-      "in Security" - {
-
-        "must go from the Frontend Authentication page to Public Microservice Auth page" in {
-          navigator.nextPage(FrontendAuthenticationPage, NormalMode, UserAnswers("id")) mustBe securityRoutes.PublicMicroserviceAuthController.onPageLoad(NormalMode)
-        }
-        "must go from the Public Microservice Auth page to Protected Microservice Auth page" in {
-          navigator.nextPage(PublicMicroserviceAuthPage, NormalMode, UserAnswers("id")) mustBe securityRoutes.ProtectedMicroserviceAuthController.onPageLoad(NormalMode)
-        }
-        "must go from Protected Microservice Auth page to Check Your Answers Page" in {
-          navigator.nextPage(ProtectedMicroserviceAuthPage, NormalMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
-        }
-      }
     }
 
     "in Check mode" - {
@@ -223,19 +210,6 @@ class NavigatorSpec extends SpecBase {
         }
         "must go from the Notify Dependant Services page to Check Your Answers page" in {
           navigator.nextPage(NotifyDependantServicesPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
-        }
-      }
-
-      "in Security" - {
-
-        "must go from the Frontend Authentication page to Check Your Answers page" in {
-          navigator.nextPage(FrontendAuthenticationPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
-        }
-        "must go from the Public Microservice Auth page to Check Your Answers page" in {
-          navigator.nextPage(PublicMicroserviceAuthPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
-        }
-        "must go from Protected Microservice Auth page to Check Your Answers Page" in {
-          navigator.nextPage(ProtectedMicroserviceAuthPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
         }
       }
 
