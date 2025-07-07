@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.security.FrontendAuthenticationFormProvider
 import javax.inject.Inject
 import models.Mode
-import navigation.Navigator
+import navigation.SecurityNavigator
 import pages.security.FrontendAuthenticationPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class FrontendAuthenticationController @Inject()(
                                          override val messagesApi: MessagesApi,
                                          sessionService: SessionService,
-                                         navigator: Navigator,
+                                         navigator: SecurityNavigator,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,

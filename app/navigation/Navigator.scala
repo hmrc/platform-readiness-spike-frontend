@@ -26,7 +26,6 @@ import pages.*
 import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
 import pages.commonServiceUsage.{IntegrationCheckPage, NotifyDependantServicesPage}
 import pages.dataPersistence.{CorrectRetentionPeriodPage, FieldLevelEncryptionPage, MongoTestedWithIndexingPage, ProtectedMongoTTLPage, PublicMongoTTLPage, ResilientRecycleMongoPage, UsingMongoPage, UsingObjectStorePage}
-import pages.security.{FrontendAuthenticationPage, ProtectedMicroserviceAuthPage, PublicMicroserviceAuthPage}
 import play.api.mvc.Call
 
 import javax.inject.{Inject, Singleton}
@@ -95,18 +94,6 @@ class Navigator @Inject()() {
 
     case NotifyDependantServicesPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
 
-    /*######################################################
-
-                            SECURITY
-
-    #######################################################*/
-
-    case FrontendAuthenticationPage => _ => securityRoutes.PublicMicroserviceAuthController.onPageLoad(NormalMode)
-
-    case PublicMicroserviceAuthPage => _ => securityRoutes.ProtectedMicroserviceAuthController.onPageLoad(NormalMode)
-
-    case ProtectedMicroserviceAuthPage => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
-
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
@@ -169,18 +156,6 @@ class Navigator @Inject()() {
     case IntegrationCheckPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
 
     case NotifyDependantServicesPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
-
-    /*######################################################
-
-                            SECURITY
-
-    #######################################################*/
-
-    case FrontendAuthenticationPage => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
-
-    case PublicMicroserviceAuthPage => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
-    
-    case ProtectedMicroserviceAuthPage => _ => securityRoutes.CheckYourAnswersController.onPageLoad() 
 
     case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
   }
