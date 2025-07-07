@@ -190,3 +190,29 @@ notifyDependantServices.hint6 = EACD
 notifyDependantServices.hint7 = The rule of thumb here is that your service going into production and putting load (however big) onto your dependencies should
 notifyDependantServices.hint8 = not
 notifyDependantServices.hint9 = be a surprise to them.
+
+#========================================
+#               Security
+#========================================
+
+frontendAuthentication.title = Has your service gone through Security Integration?
+frontendAuthentication.heading = Has your service gone through Security Integration?
+frontendAuthentication.checkYourAnswersLabel = Has your service gone through Security Integration?
+frontendAuthentication.error.required = Select yes if your service has been through Security Integration
+frontendAuthentication.change.hidden = FrontendAuthentication
+frontendAuthentication.hint = We authenticate users via
+frontendAuthentication.hintAnchor = Security Integration Services
+frontendAuthentication.hint2 = when necessary
+
+publicMicroserviceAuth.title = Public Microservices should be authenticated and authorised by default.
+publicMicroserviceAuth.heading = Public Microservices should be authenticated and authorised by default.
+publicMicroserviceAuth.checkYourAnswersLabel = Public Microservices should be authenticated and authorised by default.
+publicMicroserviceAuth.error.required = Select yes if Public Microservices are being authenticated and authorised by default.
+publicMicroserviceAuth.change.hidden = PublicMicroserviceAuth
+
+protectedMicroserviceAuth.title =  Protected Microservices should be authenticated and authorised by default.
+protectedMicroserviceAuth.heading =  Protected Microservices should be authenticated and authorised by default.
+protectedMicroserviceAuth.checkYourAnswersLabel =  Protected Microservices should be authenticated and authorised by default.
+protectedMicroserviceAuth.error.required = Select yes if  Protected Microservices are being authenticated and authorised by default.
+protectedMicroserviceAuth.change.hidden = ProtectedMicroserviceAuth
+protectedMicroserviceAuth.hint = Internal Auth is an option for service-to-service authentication.
