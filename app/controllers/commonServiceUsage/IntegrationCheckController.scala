@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.commonServiceUsage.IntegrationCheckFormProvider
 import javax.inject.Inject
 import models.Mode
-import navigation.Navigator
+import navigation.CommonServiceUsageNavigator
 import pages.commonServiceUsage.IntegrationCheckPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class IntegrationCheckController @Inject()(
                                          override val messagesApi: MessagesApi,
                                          sessionService: SessionService,
-                                         navigator: Navigator,
+                                         navigator: CommonServiceUsageNavigator,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,

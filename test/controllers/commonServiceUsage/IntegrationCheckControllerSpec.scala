@@ -22,7 +22,7 @@ import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
 import base.SpecBase
 import forms.commonServiceUsage.IntegrationCheckFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeNavigator, Navigator}
+import navigation.{FakeCommonServiceUsageNavigator, CommonServiceUsageNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -91,7 +91,7 @@ class IntegrationCheckControllerSpec extends SpecBase with MockitoSugar {
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[CommonServiceUsageNavigator].toInstance(new FakeCommonServiceUsageNavigator(onwardRoute)),
             bind[SessionService].toInstance(mockSessionService)
           )
           .build()

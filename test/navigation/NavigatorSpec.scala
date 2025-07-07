@@ -20,14 +20,11 @@ import base.SpecBase
 import controllers.routes
 import controllers.buildResilience.routes as buildResilienceRoutes
 import controllers.dataPersistence.routes as dataPersistenceRoutes
-import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
 import controllers.security.routes as securityRoutes
 import models.*
 import pages.*
 import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
-import pages.commonServiceUsage.{IntegrationCheckPage, NotifyDependantServicesPage}
 import pages.dataPersistence.{CorrectRetentionPeriodPage, FieldLevelEncryptionPage, MongoTestedWithIndexingPage, ProtectedMongoTTLPage, PublicMongoTTLPage, ResilientRecycleMongoPage, UsingMongoPage, UsingObjectStorePage}
-import pages.security.{FrontendAuthenticationPage, ProtectedMicroserviceAuthPage, PublicMicroserviceAuthPage}
 
 class NavigatorSpec extends SpecBase {
 
@@ -117,16 +114,6 @@ class NavigatorSpec extends SpecBase {
           navigator.nextPage(CorrectRetentionPeriodPage, NormalMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
         }
       }
-
-      "in Common Service Usage" - {
-
-        "must go from the Integration Check page to Notify Dependant Services page" in {
-          navigator.nextPage(IntegrationCheckPage, NormalMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.NotifyDependantServicesController.onPageLoad(NormalMode)
-        }
-        "must go from the Notify Dependant Services page to Check Your Answers page" in {
-          navigator.nextPage(NotifyDependantServicesPage, NormalMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
-        }
-      }
     }
 
     "in Check mode" - {
@@ -200,16 +187,6 @@ class NavigatorSpec extends SpecBase {
         }
         "must go from the Correct Retention Period page to the Check Your Answers page" in {
           navigator.nextPage(CorrectRetentionPeriodPage, CheckMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-        }
-      }
-
-      "in Common Service Usage" - {
-
-        "must go from the Integration Check page to Check Your Answers page" in {
-          navigator.nextPage(IntegrationCheckPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
-        }
-        "must go from the Notify Dependant Services page to Check Your Answers page" in {
-          navigator.nextPage(NotifyDependantServicesPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
         }
       }
 

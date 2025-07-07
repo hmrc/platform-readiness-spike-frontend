@@ -18,13 +18,11 @@ package navigation
 
 import controllers.buildResilience.routes as buildResilienceRoutes
 import controllers.dataPersistence.routes as dataPersistenceRoutes
-import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
 import controllers.security.routes as securityRoutes
 import controllers.routes
 import models.*
 import pages.*
 import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
-import pages.commonServiceUsage.{IntegrationCheckPage, NotifyDependantServicesPage}
 import pages.dataPersistence.{CorrectRetentionPeriodPage, FieldLevelEncryptionPage, MongoTestedWithIndexingPage, ProtectedMongoTTLPage, PublicMongoTTLPage, ResilientRecycleMongoPage, UsingMongoPage, UsingObjectStorePage}
 import play.api.mvc.Call
 
@@ -84,16 +82,6 @@ class Navigator @Inject()() {
 
     case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    /*######################################################
-
-                    COMMON SERVICE USAGE
-
-    #######################################################*/
-
-    case IntegrationCheckPage => _ => commonServiceUsageRoutes.NotifyDependantServicesController.onPageLoad(NormalMode)
-
-    case NotifyDependantServicesPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
-
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
@@ -146,16 +134,6 @@ class Navigator @Inject()() {
     case UsingObjectStorePage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
     case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    /*######################################################
-
-                    COMMON SERVICE USAGE
-
-    #######################################################*/
-
-    case IntegrationCheckPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
-
-    case NotifyDependantServicesPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
 
     case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
   }
