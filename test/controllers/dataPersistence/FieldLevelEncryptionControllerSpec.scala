@@ -21,7 +21,7 @@ import controllers.routes
 import controllers.dataPersistence.routes as dataRoutes
 import forms.dataPersistence.FieldLevelEncryptionFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeNavigator, Navigator}
+import navigation.{FakeDataPersistenceNavigator, DataPersistenceNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -90,7 +90,7 @@ class FieldLevelEncryptionControllerSpec extends SpecBase with MockitoSugar {
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[DataPersistenceNavigator].toInstance(new FakeDataPersistenceNavigator(onwardRoute)),
             bind[SessionService].toInstance(mockSessionService)
           )
           .build()
