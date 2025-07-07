@@ -19,7 +19,7 @@ package controllers.dataPersistence
 import controllers.actions.*
 import forms.dataPersistence.PublicMongoTTLFormProvider
 import models.Mode
-import navigation.Navigator
+import navigation.DataPersistenceNavigator
 import pages.dataPersistence.PublicMongoTTLPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class PublicMongoTTLController @Inject()(
                                          override val messagesApi: MessagesApi,
                                          sessionService: SessionService,
-                                         navigator: Navigator,
+                                         navigator: DataPersistenceNavigator,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,

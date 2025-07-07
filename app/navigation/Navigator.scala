@@ -17,13 +17,11 @@
 package navigation
 
 import controllers.buildResilience.routes as buildResilienceRoutes
-import controllers.dataPersistence.routes as dataPersistenceRoutes
 import controllers.security.routes as securityRoutes
 import controllers.routes
 import models.*
 import pages.*
 import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
-import pages.dataPersistence.{CorrectRetentionPeriodPage, FieldLevelEncryptionPage, MongoTestedWithIndexingPage, ProtectedMongoTTLPage, PublicMongoTTLPage, ResilientRecycleMongoPage, UsingMongoPage, UsingObjectStorePage}
 import play.api.mvc.Call
 
 import javax.inject.{Inject, Singleton}
@@ -60,28 +58,6 @@ class Navigator @Inject()() {
 
     case AppropriateTimeoutsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
-    /*######################################################
-
-                      DATA PERSISTENCE
-
-    #######################################################*/
-
-    case UsingMongoPage => _ => dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
-
-    case ResilientRecycleMongoPage => _ => dataPersistenceRoutes.PublicMongoTTLController.onPageLoad(NormalMode)
-
-    case PublicMongoTTLPage => _ => dataPersistenceRoutes.FieldLevelEncryptionController.onPageLoad(NormalMode)
-
-    case FieldLevelEncryptionPage => _ => dataPersistenceRoutes.ProtectedMongoTTLController.onPageLoad(NormalMode)
-
-    case ProtectedMongoTTLPage => _ => dataPersistenceRoutes.MongoTestedWithIndexingController.onPageLoad(NormalMode)
-
-    case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
-
-    case UsingObjectStorePage => _ => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
-
-    case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
@@ -112,28 +88,6 @@ class Navigator @Inject()() {
     case ReadMeFitForPurposePage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
     case AppropriateTimeoutsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
-
-    /*######################################################
-
-                      DATA PERSISTENCE
-
-    #######################################################*/
-
-    case UsingMongoPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case ResilientRecycleMongoPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case PublicMongoTTLPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case FieldLevelEncryptionPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case ProtectedMongoTTLPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case UsingObjectStorePage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
     case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
   }
