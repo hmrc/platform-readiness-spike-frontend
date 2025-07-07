@@ -195,20 +195,24 @@ notifyDependantServices.hint9 = be a surprise to them.
 #               Security
 #========================================
 
-frontendAuthentication.title = frontendAuthentication
-frontendAuthentication.heading = frontendAuthentication
-frontendAuthentication.checkYourAnswersLabel = frontendAuthentication
-frontendAuthentication.error.required = Select yes if frontendAuthentication
+frontendAuthentication.title = Has your service gone through Security Integration?
+frontendAuthentication.heading = Has your service gone through Security Integration?
+frontendAuthentication.checkYourAnswersLabel = Has your service gone through Security Integration?
+frontendAuthentication.error.required = Select yes if your service has been through Security Integration
 frontendAuthentication.change.hidden = FrontendAuthentication
+frontendAuthentication.hint = We authenticate users via
+frontendAuthentication.hintAnchor = Security Integration Services
+frontendAuthentication.hint2 = when necessary
 
-publicMicroserviceAuth.title = publicMicroserviceAuth
-publicMicroserviceAuth.heading = publicMicroserviceAuth
-publicMicroserviceAuth.checkYourAnswersLabel = publicMicroserviceAuth
-publicMicroserviceAuth.error.required = Select yes if publicMicroserviceAuth
+publicMicroserviceAuth.title = Public Microservices should be authenticated and authorised by default.
+publicMicroserviceAuth.heading = Public Microservices should be authenticated and authorised by default.
+publicMicroserviceAuth.checkYourAnswersLabel = Public Microservices should be authenticated and authorised by default.
+publicMicroserviceAuth.error.required = Select yes if Public Microservices are being authenticated and authorised by default.
 publicMicroserviceAuth.change.hidden = PublicMicroserviceAuth
 
-protectedMicroserviceAuth.title = protectedMicroserviceAuth
-protectedMicroserviceAuth.heading = protectedMicroserviceAuth
-protectedMicroserviceAuth.checkYourAnswersLabel = protectedMicroserviceAuth
-protectedMicroserviceAuth.error.required = Select yes if protectedMicroserviceAuth
+protectedMicroserviceAuth.title =  Protected Microservices should be authenticated and authorised by default.
+protectedMicroserviceAuth.heading =  Protected Microservices should be authenticated and authorised by default.
+protectedMicroserviceAuth.checkYourAnswersLabel =  Protected Microservices should be authenticated and authorised by default.
+protectedMicroserviceAuth.error.required = Select yes if  Protected Microservices are being authenticated and authorised by default.
 protectedMicroserviceAuth.change.hidden = ProtectedMicroserviceAuth
+protectedMicroserviceAuth.hint = Internal Auth is an option for service-to-service authentication.
