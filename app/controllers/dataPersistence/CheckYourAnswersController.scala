@@ -18,6 +18,7 @@ package controllers.dataPersistence
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import pages.dataPersistence.{UsingMongoPage, UsingObjectStorePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -37,15 +38,39 @@ class CheckYourAnswersController @Inject()(
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       
+      val resilientRecycleMongoSummaryRow  =
+        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then ResilientRecycleMongoSummary.row(request.userAnswers)
+        else None
+
+      val publicMongoTTLSummaryRow =
+        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then PublicMongoTTLSummary.row(request.userAnswers)
+        else None
+
+      val fieldLevelEncryptionSummaryRow =
+        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then FieldLevelEncryptionSummary.row(request.userAnswers)
+        else None
+
+      val protectedMongoTTLSummaryRow =
+        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then ProtectedMongoTTLSummary.row(request.userAnswers)
+        else None
+
+      val mongoTestedWithIndexingSummaryRow =
+        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then MongoTestedWithIndexingSummary.row(request.userAnswers)
+        else None
+      
+      val correctRetentionPeriodSummaryRow  =
+        if request.userAnswers.get(UsingObjectStorePage).getOrElse(false) then CorrectRetentionPeriodSummary.row(request.userAnswers)
+        else None
+
       val list = SummaryListViewModel(
         rows = Seq(UsingMongoSummary.row(request.userAnswers),
-          ResilientRecycleMongoSummary.row(request.userAnswers),
-          PublicMongoTTLSummary.row(request.userAnswers),
-          FieldLevelEncryptionSummary.row(request.userAnswers),
-          ProtectedMongoTTLSummary.row(request.userAnswers),
-          MongoTestedWithIndexingSummary.row(request.userAnswers),
+          resilientRecycleMongoSummaryRow,
+          publicMongoTTLSummaryRow,
+          fieldLevelEncryptionSummaryRow,
+          protectedMongoTTLSummaryRow,
+          mongoTestedWithIndexingSummaryRow,
           UsingObjectStoreSummary.row(request.userAnswers),
-          CorrectRetentionPeriodSummary.row(request.userAnswers)
+          correctRetentionPeriodSummaryRow
         ).flatten
       )
 

@@ -31,7 +31,11 @@ class DataPersistenceNavigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
-    case UsingMongoPage => _ => dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+    case UsingMongoPage => userAnswers =>
+      userAnswers.get(UsingMongoPage) match {
+        case Some(true) => dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+        case _ => dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
+      }
 
     case ResilientRecycleMongoPage => _ => dataPersistenceRoutes.PublicMongoTTLController.onPageLoad(NormalMode)
 
@@ -43,7 +47,11 @@ class DataPersistenceNavigator @Inject()() {
 
     case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
 
-    case UsingObjectStorePage => _ => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
+    case UsingObjectStorePage => userAnswers =>
+      userAnswers.get(UsingObjectStorePage) match {
+        case Some(true) => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
+        case _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
     case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
@@ -52,7 +60,11 @@ class DataPersistenceNavigator @Inject()() {
 
   private val checkRouteMap: Page => UserAnswers => Call = {
 
-    case UsingMongoPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+    case UsingMongoPage => userAnswers =>
+      userAnswers.get(UsingMongoPage) match {
+        case Some(true) => dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+        case _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
     case ResilientRecycleMongoPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
@@ -64,8 +76,11 @@ class DataPersistenceNavigator @Inject()() {
 
     case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case UsingObjectStorePage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
+    case UsingObjectStorePage => userAnswers =>
+      userAnswers.get(UsingObjectStorePage) match {
+        case Some(true) => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(CheckMode)
+        case _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
     case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
     case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()

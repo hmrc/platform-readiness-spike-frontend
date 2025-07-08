@@ -31,10 +31,17 @@ class DataPersistenceNavigatorSpec extends SpecBase {
 
     "in Normal mode" - {
 
-      "must go from the Using Mongo page to the Resilient Recycling Mongo page" in {
-        navigator.nextPage(UsingMongoPage, NormalMode, UserAnswers("id")) mustBe dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+      "NORMALMODE must go from the Using Mongo page to the Resilient Recycling Mongo WHEN answer is YES" in {
+        UserAnswers("id").set(UsingMongoPage, true).foreach { userAnswers =>
+          navigator.nextPage(UsingMongoPage, NormalMode, userAnswers) mustBe dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+        }
       }
-      "must go from the UResilient Recycling Mongo page to the Public Mongo TTL page" in {
+      "NORMALMODE must go from the Using Mongo Page to Using Object Store page WHEN answer is NO" in {
+        UserAnswers("id").set(UsingMongoPage, false).foreach { userAnswers =>
+          navigator.nextPage(UsingMongoPage, NormalMode, userAnswers) mustBe dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
+        }
+      }
+      "must go from the Resilient Recycling Mongo page to the Public Mongo TTL page" in {
         navigator.nextPage(ResilientRecycleMongoPage, NormalMode, UserAnswers("id")) mustBe dataPersistenceRoutes.PublicMongoTTLController.onPageLoad(NormalMode)
       }
       "must go from the Public Mongo TTL page to the Field Level Encryption page" in {
@@ -49,8 +56,15 @@ class DataPersistenceNavigatorSpec extends SpecBase {
       "must go from the Mongo Tested With Indexing page to the Using Object Store page" in {
         navigator.nextPage(MongoTestedWithIndexingPage, NormalMode, UserAnswers("id")) mustBe dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
       }
-      "must go from the Object Store page to the Correct Retention Period page" in {
-        navigator.nextPage(UsingObjectStorePage, NormalMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
+      "NORMALMODE must go from the Using Object Store page to Correct Retention Period page WHEN answer is YES" in {
+        UserAnswers("id").set(UsingObjectStorePage, true).foreach { userAnswers =>
+          navigator.nextPage(UsingObjectStorePage, NormalMode, userAnswers) mustBe dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
+        }
+      }
+      "NORMALMODE must go from the Using Object Store page to Check Your Answers page WHEN answer is NO" in {
+        UserAnswers("id").set(UsingObjectStorePage, false).foreach { userAnswers =>
+          navigator.nextPage(UsingObjectStorePage, NormalMode, userAnswers) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+        }
       }
       "must go from the Correct Retention Period page to the Check Your Answers page" in {
         navigator.nextPage(CorrectRetentionPeriodPage, NormalMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
@@ -59,10 +73,17 @@ class DataPersistenceNavigatorSpec extends SpecBase {
 
     "in Check mode" - {
 
-      "must go from the Using Mongo page to the Check Your Answers page" in {
-        navigator.nextPage(UsingMongoPage, CheckMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      "CHECKMODE must go from the Using Mongo page to the Resilient Recycling Mongo WHEN answer is YES" in {
+        UserAnswers("id").set(UsingMongoPage, true).foreach { userAnswers =>
+          navigator.nextPage(UsingMongoPage, CheckMode, userAnswers) mustBe dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+        }
       }
-      "must go from the UResilient Recycling Mongo page to the Check Your Answers page" in {
+      "CHECKMODE must go from the Using Mongo Page to Check Your Answers page WHEN answer is NO" in {
+        UserAnswers("id").set(UsingMongoPage, false).foreach { userAnswers =>
+          navigator.nextPage(UsingMongoPage, CheckMode, userAnswers) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      }
+      "must go from the Resilient Recycling Mongo page to the Check Your Answers page" in {
         navigator.nextPage(ResilientRecycleMongoPage, CheckMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
       }
       "must go from the Public Mongo TTL page to the Check Your Answers page" in {
@@ -77,8 +98,15 @@ class DataPersistenceNavigatorSpec extends SpecBase {
       "must go from the Mongo Tested With Indexing page to the Check Your Answers page" in {
         navigator.nextPage(MongoTestedWithIndexingPage, CheckMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
       }
-      "must go from the Object Store page to the CCheck Your Answers page" in {
-        navigator.nextPage(UsingObjectStorePage, CheckMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      "CHECKMODE must go from the Using Object Store page to Correct Retention Period page WHEN answer is YES" in {
+        UserAnswers("id").set(UsingObjectStorePage, true).foreach { userAnswers =>
+          navigator.nextPage(UsingObjectStorePage, CheckMode, userAnswers) mustBe dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(CheckMode)
+        }
+      }
+      "CHECKMODE must go from the Using Object Store page to Check Your Answers page WHEN answer is NO" in {
+        UserAnswers("id").set(UsingObjectStorePage, false).foreach { userAnswers =>
+          navigator.nextPage(UsingObjectStorePage, CheckMode, userAnswers) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+        }
       }
       "must go from the Correct Retention Period page to the Check Your Answers page" in {
         navigator.nextPage(CorrectRetentionPeriodPage, CheckMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
