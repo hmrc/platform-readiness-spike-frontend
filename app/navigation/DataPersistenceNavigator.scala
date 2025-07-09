@@ -58,38 +58,38 @@ class DataPersistenceNavigator @Inject()() {
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
-  private val checkRouteMap: Page => UserAnswers => Call = {
+  private val checkRouteMap: Page => UserAnswers => Boolean => Call = {
 
-    case UsingMongoPage => userAnswers =>
+    case UsingMongoPage => userAnswers => hasAnswerChanged =>
       userAnswers.get(UsingMongoPage) match {
-        case Some(true) => dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
+        case Some(true) if hasAnswerChanged => dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
         case _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
       }
 
-    case ResilientRecycleMongoPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+    case ResilientRecycleMongoPage => hasAnswerChanged => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case PublicMongoTTLPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+    case PublicMongoTTLPage => hasAnswerChanged => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case FieldLevelEncryptionPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+    case FieldLevelEncryptionPage => hasAnswerChanged => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case ProtectedMongoTTLPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+    case ProtectedMongoTTLPage => hasAnswerChanged => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+    case MongoTestedWithIndexingPage => hasAnswerChanged => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case UsingObjectStorePage => userAnswers =>
+    case UsingObjectStorePage => userAnswers => hasAnswerChanged =>
       userAnswers.get(UsingObjectStorePage) match {
-        case Some(true) => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(CheckMode)
+        case Some(true) if hasAnswerChanged => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(CheckMode)
         case _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
       }
-    case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+    case CorrectRetentionPeriodPage => hasAnswerChanged => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
+    case _ => hasAnswerChanged => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
   }
 
-  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
+  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call = mode match {
     case NormalMode =>
       normalRoutes(page)(userAnswers)
     case CheckMode =>
-      checkRouteMap(page)(userAnswers)
+      checkRouteMap(page)(userAnswers)(hasAnswerChanged)
   }
 }

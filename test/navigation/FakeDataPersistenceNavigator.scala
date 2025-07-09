@@ -22,6 +22,6 @@ import play.api.mvc.Call
 
 class FakeDataPersistenceNavigator(desiredRoute: Call) extends DataPersistenceNavigator {
 
-  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
+  override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, hasAnswerChanged: Boolean = true): Call =
     desiredRoute
 }
