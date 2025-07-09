@@ -18,12 +18,14 @@ package controllers.dataPersistence
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import pages.dataPersistence.{UsingMongoPage, UsingObjectStorePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.checkAnswers.dataPersistence.*
 import viewmodels.govuk.summarylist.*
 import views.html.dataPersistence.CheckYourAnswersView
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.*
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -36,20 +38,38 @@ class CheckYourAnswersController @Inject()(
 
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      
-      val list = SummaryListViewModel(
-        rows = Seq(UsingMongoSummary.row(request.userAnswers),
-          ResilientRecycleMongoSummary.row(request.userAnswers),
-          PublicMongoTTLSummary.row(request.userAnswers),
-          FieldLevelEncryptionSummary.row(request.userAnswers),
-          ProtectedMongoTTLSummary.row(request.userAnswers),
-          MongoTestedWithIndexingSummary.row(request.userAnswers),
-          UsingObjectStoreSummary.row(request.userAnswers),
-          CorrectRetentionPeriodSummary.row(request.userAnswers)
-        ).flatten
-      )
 
-      Ok(view(list))
+      val mongoList =
+        if (request.userAnswers.get(UsingMongoPage).getOrElse(false)) {
+            Seq(
+              UsingMongoSummary.row(request.userAnswers),
+              ResilientRecycleMongoSummary.row(request.userAnswers),
+              PublicMongoTTLSummary.row(request.userAnswers),
+              FieldLevelEncryptionSummary.row(request.userAnswers),
+              ProtectedMongoTTLSummary.row(request.userAnswers),
+              MongoTestedWithIndexingSummary.row(request.userAnswers)
+            )
+        } else {
+            Seq(
+              UsingMongoSummary.row(request.userAnswers)
+            )
+        }
+
+      val objectList =
+        if (request.userAnswers.get(UsingObjectStorePage).getOrElse(false)) {
+            Seq(
+              UsingObjectStoreSummary.row(request.userAnswers),
+              CorrectRetentionPeriodSummary.row(request.userAnswers)
+            )
+        } else {
+            Seq(
+              UsingObjectStoreSummary.row(request.userAnswers)
+            )
+        }
+
+      val dataList:SummaryList = SummaryListViewModel(rows = mongoList.flatten ++ objectList.flatten)
+
+      Ok(view(dataList))
 
   }
 }
