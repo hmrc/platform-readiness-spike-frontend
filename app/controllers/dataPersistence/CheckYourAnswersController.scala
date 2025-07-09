@@ -25,6 +25,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.checkAnswers.dataPersistence.*
 import viewmodels.govuk.summarylist.*
 import views.html.dataPersistence.CheckYourAnswersView
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.*
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -37,44 +38,38 @@ class CheckYourAnswersController @Inject()(
 
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      
-      val resilientRecycleMongoSummaryRow  =
-        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then ResilientRecycleMongoSummary.row(request.userAnswers)
-        else None
 
-      val publicMongoTTLSummaryRow =
-        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then PublicMongoTTLSummary.row(request.userAnswers)
-        else None
+      val mongoList =
+        if (request.userAnswers.get(UsingMongoPage).getOrElse(false)) {
+            Seq(
+              UsingMongoSummary.row(request.userAnswers),
+              ResilientRecycleMongoSummary.row(request.userAnswers),
+              PublicMongoTTLSummary.row(request.userAnswers),
+              FieldLevelEncryptionSummary.row(request.userAnswers),
+              ProtectedMongoTTLSummary.row(request.userAnswers),
+              MongoTestedWithIndexingSummary.row(request.userAnswers)
+            )
+        } else {
+            Seq(
+              UsingMongoSummary.row(request.userAnswers)
+            )
+        }
 
-      val fieldLevelEncryptionSummaryRow =
-        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then FieldLevelEncryptionSummary.row(request.userAnswers)
-        else None
+      val objectList =
+        if (request.userAnswers.get(UsingObjectStorePage).getOrElse(false)) {
+            Seq(
+              UsingObjectStoreSummary.row(request.userAnswers),
+              CorrectRetentionPeriodSummary.row(request.userAnswers)
+            )
+        } else {
+            Seq(
+              UsingObjectStoreSummary.row(request.userAnswers)
+            )
+        }
 
-      val protectedMongoTTLSummaryRow =
-        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then ProtectedMongoTTLSummary.row(request.userAnswers)
-        else None
+      val dataList:SummaryList = SummaryListViewModel(rows = mongoList.flatten ++ objectList.flatten)
 
-      val mongoTestedWithIndexingSummaryRow =
-        if request.userAnswers.get(UsingMongoPage).getOrElse(false) then MongoTestedWithIndexingSummary.row(request.userAnswers)
-        else None
-      
-      val correctRetentionPeriodSummaryRow  =
-        if request.userAnswers.get(UsingObjectStorePage).getOrElse(false) then CorrectRetentionPeriodSummary.row(request.userAnswers)
-        else None
-
-      val list = SummaryListViewModel(
-        rows = Seq(UsingMongoSummary.row(request.userAnswers),
-          resilientRecycleMongoSummaryRow,
-          publicMongoTTLSummaryRow,
-          fieldLevelEncryptionSummaryRow,
-          protectedMongoTTLSummaryRow,
-          mongoTestedWithIndexingSummaryRow,
-          UsingObjectStoreSummary.row(request.userAnswers),
-          correctRetentionPeriodSummaryRow
-        ).flatten
-      )
-
-      Ok(view(list))
+      Ok(view(dataList))
 
   }
 }
