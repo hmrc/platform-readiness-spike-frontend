@@ -57,6 +57,8 @@ class UsingMongoController @Inject()(
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      
+      val oldAnswers = request.userAnswers
 
       form.bindFromRequest().fold(
         formWithErrors =>
@@ -66,7 +68,28 @@ class UsingMongoController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(UsingMongoPage, value))
             _              <- sessionService.setUserAnswers(updatedAnswers)
-          } yield Redirect(navigator.nextPage(UsingMongoPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(UsingMongoPage, mode, updatedAnswers, oldAnswers))
       )
   }
+
+//  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouTheEntity): (List[QuestionPage[_]], Boolean) = {
+//
+//    import RelatesTo._
+//    import AreYouTheEntity._
+//
+//    val oldAnswer = userAnswers.get(AreYouTheEntityPage)
+//
+//    val answerHasChanged = Some(newAnswer) != oldAnswer
+//    val isIndividual = userAnswers.get(RelatesToPage).getOrElse(AnIndividual) == AnIndividual
+//
+//    val pagesToClear = (oldAnswer, newAnswer) match {
+//      case _ if !answerHasChanged => Nil
+//      case (_, YesIAm) if isIndividual => aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages
+//      case (Some(YesIAm), _) if isIndividual => aboutYouPages
+//      case (Some(IAmAnAccountantOrTaxAgent), _) => areYouTheOrganisationPages
+//      case _ => Nil
+//    }
+//    (pagesToClear, answerHasChanged)
+//
+//  }
 }
