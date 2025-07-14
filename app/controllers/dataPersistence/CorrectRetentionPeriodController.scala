@@ -18,7 +18,7 @@ package controllers.dataPersistence
 
 import controllers.actions.*
 import forms.dataPersistence.CorrectRetentionPeriodFormProvider
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.DataPersistenceNavigator
 import pages.dataPersistence.CorrectRetentionPeriodPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -58,6 +58,8 @@ class CorrectRetentionPeriodController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val oldAnswers = request.userAnswers
+
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
@@ -66,7 +68,7 @@ class CorrectRetentionPeriodController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(CorrectRetentionPeriodPage, value))
             _              <- sessionService.setUserAnswers(updatedAnswers)
-          } yield Redirect(navigator.nextPage(CorrectRetentionPeriodPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(CorrectRetentionPeriodPage, mode, updatedAnswers, oldAnswers))
       )
   }
 }

@@ -58,6 +58,8 @@ class ResilientRecycleMongoController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
+      val oldAnswers = request.userAnswers
+
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
@@ -66,7 +68,7 @@ class ResilientRecycleMongoController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ResilientRecycleMongoPage, value))
             _              <- sessionService.setUserAnswers(updatedAnswers)
-          } yield Redirect(navigator.nextPage(ResilientRecycleMongoPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(ResilientRecycleMongoPage, mode, updatedAnswers, oldAnswers))
       )
   }
 }

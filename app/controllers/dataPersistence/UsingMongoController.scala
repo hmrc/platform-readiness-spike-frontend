@@ -57,6 +57,8 @@ class UsingMongoController @Inject()(
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      
+      val oldAnswers = request.userAnswers
 
       form.bindFromRequest().fold(
         formWithErrors =>
@@ -66,7 +68,7 @@ class UsingMongoController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(UsingMongoPage, value))
             _              <- sessionService.setUserAnswers(updatedAnswers)
-          } yield Redirect(navigator.nextPage(UsingMongoPage, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(UsingMongoPage, mode, updatedAnswers, oldAnswers))
       )
   }
 }
