@@ -71,25 +71,4 @@ class UsingMongoController @Inject()(
           } yield Redirect(navigator.nextPage(UsingMongoPage, mode, updatedAnswers, oldAnswers))
       )
   }
-
-//  def changedPages(userAnswers: UserAnswers, newAnswer: AreYouTheEntity): (List[QuestionPage[_]], Boolean) = {
-//
-//    import RelatesTo._
-//    import AreYouTheEntity._
-//
-//    val oldAnswer = userAnswers.get(AreYouTheEntityPage)
-//
-//    val answerHasChanged = Some(newAnswer) != oldAnswer
-//    val isIndividual = userAnswers.get(RelatesToPage).getOrElse(AnIndividual) == AnIndividual
-//
-//    val pagesToClear = (oldAnswer, newAnswer) match {
-//      case _ if !answerHasChanged => Nil
-//      case (_, YesIAm) if isIndividual => aboutYouPages ::: aboutIndividualPages ::: areYouTheOrganisationPages
-//      case (Some(YesIAm), _) if isIndividual => aboutYouPages
-//      case (Some(IAmAnAccountantOrTaxAgent), _) => areYouTheOrganisationPages
-//      case _ => Nil
-//    }
-//    (pagesToClear, answerHasChanged)
-//
-//  }
 }
