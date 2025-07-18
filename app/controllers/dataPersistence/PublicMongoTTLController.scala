@@ -57,9 +57,7 @@ class PublicMongoTTLController @Inject()(
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      val oldAnswers = request.userAnswers
-
+      
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
@@ -68,7 +66,7 @@ class PublicMongoTTLController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PublicMongoTTLPage, value))
             _              <- sessionService.setUserAnswers(updatedAnswers)
-          } yield Redirect(navigator.nextPage(PublicMongoTTLPage, mode, updatedAnswers, oldAnswers))
+          } yield Redirect(navigator.nextPage(PublicMongoTTLPage, mode, updatedAnswers))
       )
   }
 }

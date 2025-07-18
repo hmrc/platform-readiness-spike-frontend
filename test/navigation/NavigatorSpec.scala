@@ -19,13 +19,10 @@ package navigation
 import base.SpecBase
 import controllers.routes
 import controllers.buildResilience.routes as buildResilienceRoutes
-import controllers.dataPersistence.routes as dataPersistenceRoutes
 import controllers.security.routes as securityRoutes
 import models.*
 import pages.*
 import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
-import pages.dataPersistence.{CorrectRetentionPeriodPage, FieldLevelEncryptionPage, MongoTestedWithIndexingPage, ProtectedMongoTTLPage, PublicMongoTTLPage, ResilientRecycleMongoPage, UsingMongoPage, UsingObjectStorePage}
-
 class NavigatorSpec extends SpecBase {
 
   val navigator = new Navigator

@@ -16,12 +16,27 @@
 
 package pages.dataPersistence
 
+import models.UserAnswers
 import pages.QuestionPage
 import play.api.libs.json.JsPath
+
+import scala.util.{Success, Try}
 
 case object UsingObjectStorePage extends QuestionPage[Boolean] {
 
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "usingObjectStore"
+
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    val objectPages: List[QuestionPage[_]] = List(
+      CorrectRetentionPeriodPage
+    )
+
+    value match {
+      case Some(false) => userAnswers.removeList(objectPages)
+      case _ => Success(userAnswers)
+    }
+  }
 }

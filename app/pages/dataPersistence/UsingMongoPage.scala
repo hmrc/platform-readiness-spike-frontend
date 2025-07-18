@@ -16,12 +16,31 @@
 
 package pages.dataPersistence
 
+import models.UserAnswers
 import pages.QuestionPage
 import play.api.libs.json.JsPath
+
+import scala.util.{Success, Try}
 
 case object UsingMongoPage extends QuestionPage[Boolean] {
 
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "usingMongo"
+
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    val mongoPages: List[QuestionPage[_]] = List(
+      ResilientRecycleMongoPage,
+      PublicMongoTTLPage,
+      FieldLevelEncryptionPage,
+      ProtectedMongoTTLPage,
+      MongoTestedWithIndexingPage
+    )
+
+    value match {
+      case Some(false)  => userAnswers.removeList(mongoPages)
+      case _ => Success(userAnswers)
+    }
+  }
 }

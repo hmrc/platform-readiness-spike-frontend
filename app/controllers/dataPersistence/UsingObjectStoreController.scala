@@ -40,7 +40,7 @@ class UsingObjectStoreController @Inject()(
                                          formProvider: UsingObjectStoreFormProvider,
                                          val controllerComponents: MessagesControllerComponents,
                                          view: UsingObjectStoreView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
@@ -57,9 +57,7 @@ class UsingObjectStoreController @Inject()(
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      val oldAnswers = request.userAnswers
-
+      
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
@@ -68,7 +66,7 @@ class UsingObjectStoreController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(UsingObjectStorePage, value))
             _              <- sessionService.setUserAnswers(updatedAnswers)
-          } yield Redirect(navigator.nextPage(UsingObjectStorePage, mode, updatedAnswers, oldAnswers))
+          } yield Redirect(navigator.nextPage(UsingObjectStorePage, mode, updatedAnswers))
       )
   }
 }
