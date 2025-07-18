@@ -19,78 +19,48 @@ package pages.dataPersistence
 import base.SpecBase
 import models.UserAnswers
 
-import scala.util.Try
-
 class UsingObjectStorePageSpec extends SpecBase {
 
   "UsingObjectStorePage" - {
 
     "Must Clear Object Pages when answer is changed from YES to NO" in {
-      //step 1 data set up
-      //set up user answers which contains each mongo page
       val userAnswersWithObjectPages = for {
         withObject <- UserAnswers("id").set(UsingObjectStorePage, true)
         withRetention <- withObject.set(CorrectRetentionPeriodPage, false)
       } yield withRetention
 
-
-      //step 2 call code in test /trigger test
-      //
       val actual = userAnswersWithObjectPages.flatMap(_.set(UsingObjectStorePage, false))
 
-      //step 3 check outcome is expected
-      //
       actual.foreach(_.get(CorrectRetentionPeriodPage) mustBe None)
     }
     "Must Not Clear Object Pages when Answer is changed from NO to YES" in {
-      //step 1 data set up
-      //set up user answers which contains each mongo page
       val userAnswersWithObjectPages = for {
         withObject <- UserAnswers("id").set(UsingObjectStorePage, false)
         withRetention <- withObject.set(CorrectRetentionPeriodPage, false)
       } yield withRetention
 
-
-      //step 2 call code in test /trigger test
-      //
       val actual = userAnswersWithObjectPages.flatMap(_.set(UsingObjectStorePage, true))
 
-      //step 3 check outcome is expected
-      //
       actual.foreach(_.get(CorrectRetentionPeriodPage) mustBe Some(false))
     }
     "Must Clear Object Pages when Answer is unchanged and Answer is NO" in {
-      //step 1 data set up
-      //set up user answers which contains each mongo page
       val userAnswersWithObjectPages = for {
         withObject <- UserAnswers("id").set(UsingObjectStorePage, false)
         withRetention <- withObject.set(CorrectRetentionPeriodPage, false)
       } yield withRetention
 
-
-      //step 2 call code in test /trigger test
-      //
       val actual = userAnswersWithObjectPages.flatMap(_.set(UsingObjectStorePage, false))
 
-      //step 3 check outcome is expected
-      //
       actual.foreach(_.get(CorrectRetentionPeriodPage) mustBe None)
     }
     "Must not do anything when Answer is unchanged and Answer is YES" in {
-      //step 1 data set up
-      //set up user answers which contains each mongo page
       val userAnswersWithObjectPages = for {
         withObject <- UserAnswers("id").set(UsingObjectStorePage, true)
         withRetention <- withObject.set(CorrectRetentionPeriodPage, false)
       } yield withRetention
-
-
-      //step 2 call code in test /trigger test
-      //
+      
       val actual = userAnswersWithObjectPages.flatMap(_.set(UsingObjectStorePage, true))
-
-      //step 3 check outcome is expected
-      //
+      
       actual.foreach(_.get(CorrectRetentionPeriodPage) mustBe Some(false))
     }
   }

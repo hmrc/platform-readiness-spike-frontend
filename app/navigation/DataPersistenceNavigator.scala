@@ -30,15 +30,7 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class DataPersistenceNavigator @Inject()() {
-
-//  private def previousAnswerHasChanged[A](oldAnswers: UserAnswers, userAnswers: UserAnswers, page: Gettable[A])(implicit rds: Reads[A]): Boolean = {
-//    
-//    (oldAnswers.get(page), userAnswers.get(page)) match {
-//      case (Some(old), Some(current)) => old != current
-//      case _ => false
-//    }
-//  }
-
+  
   private val normalRoutes: Page => UserAnswers => Call = {
 
     case UsingMongoPage => userAnswers =>

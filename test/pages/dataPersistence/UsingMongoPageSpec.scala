@@ -19,15 +19,11 @@ package pages.dataPersistence
 import base.SpecBase
 import models.UserAnswers
 
-import scala.util.Try
-
 class UsingMongoPageSpec extends SpecBase {
 
   "UsingMongoPage" - {
 
     "Must Clear Mongo Pages when answer is changed from YES to NO" in {
-      //step 1 data set up
-      //set up user answers which contains each mongo page
       val userAnswersWithMongoPages = for {
         withMongo <- UserAnswers("id").set(UsingMongoPage, true)
         withResilient <- withMongo.set(ResilientRecycleMongoPage, false)
@@ -37,13 +33,8 @@ class UsingMongoPageSpec extends SpecBase {
         withTestedIndex <- withProtected.set(MongoTestedWithIndexingPage, false)
       } yield withTestedIndex
 
-
-      //step 2 call code in test /trigger test
-      //
       val actual = userAnswersWithMongoPages.flatMap(_.set(UsingMongoPage, false))
 
-      //step 3 check outcome is expected
-      //
       actual.foreach(_.get(ResilientRecycleMongoPage) mustBe None)
       actual.foreach(_.get(PublicMongoTTLPage) mustBe None)
       actual.foreach(_.get(FieldLevelEncryptionPage) mustBe None)
@@ -52,8 +43,6 @@ class UsingMongoPageSpec extends SpecBase {
 
     }
     "Must Not Clear Mongo Pages when Answer is changed from NO to YES" in {
-      //step 1 data set up
-      //set up user answers which contains each mongo page
       val userAnswersWithMongoPages = for {
         withMongo <- UserAnswers("id").set(UsingMongoPage, false)
         withResilient <- withMongo.set(ResilientRecycleMongoPage, false)
@@ -63,13 +52,8 @@ class UsingMongoPageSpec extends SpecBase {
         withTestedIndex <- withProtected.set(MongoTestedWithIndexingPage, false)
       } yield withTestedIndex
 
-
-      //step 2 call code in test /trigger test
-      //
       val actual = userAnswersWithMongoPages.flatMap(_.set(UsingMongoPage, true))
 
-      //step 3 check outcome is expected
-      //
       actual.foreach(_.get(ResilientRecycleMongoPage) mustBe Some(false))
       actual.foreach(_.get(PublicMongoTTLPage) mustBe Some(false))
       actual.foreach(_.get(FieldLevelEncryptionPage) mustBe Some(false))
@@ -77,8 +61,6 @@ class UsingMongoPageSpec extends SpecBase {
       actual.foreach(_.get(MongoTestedWithIndexingPage) mustBe Some(false))
     }
     "Must Clear Mongo Pages when Answer is unchanged and Answer is NO" in {
-      //step 1 data set up
-      //set up user answers which contains each mongo page
       val userAnswersWithMongoPages = for {
         withMongo <- UserAnswers("id").set(UsingMongoPage, false)
         withResilient <- withMongo.set(ResilientRecycleMongoPage, false)
@@ -88,13 +70,8 @@ class UsingMongoPageSpec extends SpecBase {
         withTestedIndex <- withProtected.set(MongoTestedWithIndexingPage, false)
       } yield withTestedIndex
 
-
-      //step 2 call code in test /trigger test
-      //
       val actual = userAnswersWithMongoPages.flatMap(_.set(UsingMongoPage, false))
 
-      //step 3 check outcome is expected
-      //
       actual.foreach(_.get(ResilientRecycleMongoPage) mustBe None)
       actual.foreach(_.get(PublicMongoTTLPage) mustBe None)
       actual.foreach(_.get(FieldLevelEncryptionPage) mustBe None)
@@ -102,8 +79,6 @@ class UsingMongoPageSpec extends SpecBase {
       actual.foreach(_.get(MongoTestedWithIndexingPage) mustBe None)
     }
     "Must not do anything when Answer is unchanged and Answer is YES" in {
-      //step 1 data set up
-      //set up user answers which contains each mongo page
       val userAnswersWithMongoPages = for {
         withMongo <- UserAnswers("id").set(UsingMongoPage, true)
         withResilient <- withMongo.set(ResilientRecycleMongoPage, false)
@@ -113,13 +88,8 @@ class UsingMongoPageSpec extends SpecBase {
         withTestedIndex <- withProtected.set(MongoTestedWithIndexingPage, false)
       } yield withTestedIndex
 
-
-      //step 2 call code in test /trigger test
-      //
       val actual = userAnswersWithMongoPages.flatMap(_.set(UsingMongoPage, true))
 
-      //step 3 check outcome is expected
-      //
       actual.foreach(_.get(ResilientRecycleMongoPage) mustBe Some(false))
       actual.foreach(_.get(PublicMongoTTLPage) mustBe Some(false))
       actual.foreach(_.get(FieldLevelEncryptionPage) mustBe Some(false))
@@ -127,5 +97,4 @@ class UsingMongoPageSpec extends SpecBase {
       actual.foreach(_.get(MongoTestedWithIndexingPage) mustBe Some(false))
     }
   }
-
 }
