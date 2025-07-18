@@ -31,81 +31,106 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class DataPersistenceNavigator @Inject()() {
 
-  private def previousAnswerHasChanged[A](oldAnswers: UserAnswers, userAnswers: UserAnswers, page: Gettable[A])(implicit rds: Reads[A]): Boolean = {
-    
-    (oldAnswers.get(page), userAnswers.get(page)) match {
-      case (Some(old), Some(current)) => old != current
-      case _ => false
-    }
-  }
+//  private def previousAnswerHasChanged[A](oldAnswers: UserAnswers, userAnswers: UserAnswers, page: Gettable[A])(implicit rds: Reads[A]): Boolean = {
+//    
+//    (oldAnswers.get(page), userAnswers.get(page)) match {
+//      case (Some(old), Some(current)) => old != current
+//      case _ => false
+//    }
+//  }
 
-  private val normalRoutes: Page => UserAnswers => UserAnswers => Call = {
+  private val normalRoutes: Page => UserAnswers => Call = {
 
-    case UsingMongoPage => userAnswers => _ =>
+    case UsingMongoPage => userAnswers =>
       userAnswers.get(UsingMongoPage) match {
         case Some(true) => dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
         case _ => dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
       }
 
-    case ResilientRecycleMongoPage => _ => _ => dataPersistenceRoutes.PublicMongoTTLController.onPageLoad(NormalMode)
+    case ResilientRecycleMongoPage => _ => dataPersistenceRoutes.PublicMongoTTLController.onPageLoad(NormalMode)
 
-    case PublicMongoTTLPage => _ => _ => dataPersistenceRoutes.FieldLevelEncryptionController.onPageLoad(NormalMode)
+    case PublicMongoTTLPage => _ => dataPersistenceRoutes.FieldLevelEncryptionController.onPageLoad(NormalMode)
 
-    case FieldLevelEncryptionPage => _ => _ => dataPersistenceRoutes.ProtectedMongoTTLController.onPageLoad(NormalMode)
+    case FieldLevelEncryptionPage => _ => dataPersistenceRoutes.ProtectedMongoTTLController.onPageLoad(NormalMode)
 
-    case ProtectedMongoTTLPage => _ => _ => dataPersistenceRoutes.MongoTestedWithIndexingController.onPageLoad(NormalMode)
+    case ProtectedMongoTTLPage => _ => dataPersistenceRoutes.MongoTestedWithIndexingController.onPageLoad(NormalMode)
 
-    case MongoTestedWithIndexingPage => _ => _ => dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
+    case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.UsingObjectStoreController.onPageLoad(NormalMode)
 
     case UsingObjectStorePage => userAnswers =>
       userAnswers.get(UsingObjectStorePage) match {
-        case Some(true) => _ => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
-        case _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-      }
-
-    case CorrectRetentionPeriodPage => _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case _ => _ => _ => routes.IndexController.onPageLoad()
-  }
-
-  private val checkRouteMap: Page => UserAnswers => UserAnswers => Call = {
-
-    case UsingMongoPage => userAnswers => oldAnswers =>
-
-      userAnswers.get(UsingMongoPage) match {
-        case Some(true) =>
-          if(previousAnswerHasChanged(oldAnswers, userAnswers, UsingMongoPage)) {
-            dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(NormalMode)
-          } else {
-            dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-          }
+        case Some(true) => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(NormalMode)
         case _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
       }
 
-    case ResilientRecycleMongoPage => _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+    case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case PublicMongoTTLPage => _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case FieldLevelEncryptionPage => _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case ProtectedMongoTTLPage => _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case MongoTestedWithIndexingPage => _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case UsingObjectStorePage => userAnswers => _ =>
-      userAnswers.get(UsingObjectStorePage) match {
-        case Some(true) => dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(CheckMode)
-        case _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-      }
-    case CorrectRetentionPeriodPage => _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
-    case _ => _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
+    case _ => _ => routes.IndexController.onPageLoad()
   }
 
-  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers , oldAnswers: UserAnswers): Call = mode match {
+  private val checkRouteMap: Page => UserAnswers => Call = {
+
+    case UsingMongoPage => userAnswers =>
+      if (userAnswers.get(ResilientRecycleMongoPage).isEmpty) {
+        if (userAnswers.get(UsingMongoPage).contains(true)) {
+          dataPersistenceRoutes.ResilientRecycleMongoController.onPageLoad(CheckMode)
+        } else {
+          dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      } else {
+        dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
+
+    case ResilientRecycleMongoPage => userAnswers =>
+      if (userAnswers.get(PublicMongoTTLPage).isEmpty) {
+        dataPersistenceRoutes.PublicMongoTTLController.onPageLoad(CheckMode)
+      } else {
+        dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
+
+    case PublicMongoTTLPage => userAnswers =>
+      if(userAnswers.get(FieldLevelEncryptionPage).isEmpty) {
+        dataPersistenceRoutes.FieldLevelEncryptionController.onPageLoad(CheckMode)
+      } else {
+        dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
+    
+    case FieldLevelEncryptionPage => userAnswers =>
+      if(userAnswers.get(ProtectedMongoTTLPage).isEmpty) {
+        dataPersistenceRoutes.ProtectedMongoTTLController.onPageLoad(CheckMode)
+      } else {
+        dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
+
+    case ProtectedMongoTTLPage => userAnswers =>
+      if(userAnswers.get(MongoTestedWithIndexingPage).isEmpty) {
+        dataPersistenceRoutes.MongoTestedWithIndexingController.onPageLoad(CheckMode)
+      } else {
+        dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
+
+    case MongoTestedWithIndexingPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+
+    case UsingObjectStorePage => userAnswers =>
+      if (userAnswers.get(CorrectRetentionPeriodPage).isEmpty) {
+        if (userAnswers.get(UsingObjectStorePage).contains(true)) {
+          dataPersistenceRoutes.CorrectRetentionPeriodController.onPageLoad(CheckMode)
+        } else {
+          dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      } else {
+        dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+      }
+      
+    case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
+
+    case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
+  }
+
+    def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
     case NormalMode =>
-      normalRoutes(page)(userAnswers)(oldAnswers)
+      normalRoutes(page)(userAnswers)
     case CheckMode =>
-      checkRouteMap(page)(userAnswers)(oldAnswers)
+      checkRouteMap(page)(userAnswers)
   }
 }
