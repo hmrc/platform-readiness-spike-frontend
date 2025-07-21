@@ -21,7 +21,7 @@ import controllers.routes
 import controllers.dataPersistence.routes as dataRoutes
 import forms.dataPersistence.UsingObjectStoreFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeDataPersistenceNavigator, DataPersistenceNavigator}
+import navigation.{DataPersistenceNavigator, FakeDataPersistenceNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar

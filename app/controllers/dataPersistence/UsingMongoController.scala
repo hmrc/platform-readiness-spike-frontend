@@ -44,8 +44,8 @@ class UsingMongoController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData){
+      implicit request =>
 
       val preparedForm = request.userAnswers.get(UsingMongoPage) match {
         case None => form
@@ -58,8 +58,6 @@ class UsingMongoController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       
-      val oldAnswers = request.userAnswers
-
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
@@ -68,7 +66,7 @@ class UsingMongoController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(UsingMongoPage, value))
             _              <- sessionService.setUserAnswers(updatedAnswers)
-          } yield Redirect(navigator.nextPage(UsingMongoPage, mode, updatedAnswers, oldAnswers))
+          } yield Redirect(navigator.nextPage(UsingMongoPage, mode, updatedAnswers))
       )
   }
 }
