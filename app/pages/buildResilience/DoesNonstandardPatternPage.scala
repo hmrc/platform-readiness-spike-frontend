@@ -16,12 +16,27 @@
 
 package pages.buildResilience
 
+import models.UserAnswers
 import pages.QuestionPage
 import play.api.libs.json.JsPath
+
+import scala.util.{Success, Try}
 
 case object DoesNonstandardPatternPage extends QuestionPage[Boolean] {
 
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "doesNonstandardPattern"
+
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
+
+    val nonStandardPages: List[QuestionPage[_]] = List(
+      NonstandardPatternPage
+    )
+
+    value match {
+      case Some(false) => userAnswers.removeList(nonStandardPages)
+      case _ => Success(userAnswers)
+    }
+  }
 }
