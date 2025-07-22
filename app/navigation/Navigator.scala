@@ -30,11 +30,6 @@ import javax.inject.{Inject, Singleton}
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    /*######################################################
-    
-                       BUILD & RESILIENCE
-    
-    #######################################################*/
 
     case IndexPage => _ => buildResilienceRoutes.ServiceURLController.onPageLoad(NormalMode)
 
@@ -63,30 +58,59 @@ class Navigator @Inject()() {
 
   private val checkRouteMap: Page => UserAnswers => Call = {
 
-    /*######################################################
-    
-                       BUILD & RESILIENCE
-    
-    #######################################################*/
-
-    case ServiceURLPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
-    
-    case DoesNonstandardPatternPage => userAnswers =>
-      userAnswers.get(DoesNonstandardPatternPage) match {
-        case Some(true) => buildResilienceRoutes.NonstandardPatternController.onPageLoad(CheckMode)
-        case _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+    case ServiceURLPage => userAnswers =>
+      if (userAnswers.get(DoesNonstandardPatternPage).isEmpty) {
+        buildResilienceRoutes.DoesNonstandardPatternController.onPageLoad(CheckMode)
+      } else {
+        buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
       }
 
-    case NonstandardPatternPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+    case DoesNonstandardPatternPage => userAnswers =>
+      if (userAnswers.get(NonstandardPatternPage).isEmpty) {
+        if (userAnswers.get(DoesNonstandardPatternPage).contains(true)) {
+          buildResilienceRoutes.NonstandardPatternController.onPageLoad(CheckMode)
+        } else {
+          buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      } else {
+        buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
-    case BreakBobbyRulesPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+    case NonstandardPatternPage => userAnswers =>
+      if (userAnswers.get(BreakBobbyRulesPage).isEmpty) {
+        buildResilienceRoutes.BreakBobbyRulesController.onPageLoad(CheckMode)
+      } else {
+        buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
-    case DeprecatedLibrariesPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+    case BreakBobbyRulesPage => userAnswers =>
+      if (userAnswers.get(DeprecatedLibrariesPage).isEmpty) {
+        buildResilienceRoutes.DeprecatedLibrariesController.onPageLoad(CheckMode)
+      } else {
+        buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
-    case UsingHTTPVerbsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+    case DeprecatedLibrariesPage => userAnswers =>
+      if (userAnswers.get(UsingHTTPVerbsPage).isEmpty) {
+        buildResilienceRoutes.UsingHTTPVerbsController.onPageLoad(CheckMode)
+      } else {
+        buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
-    case ReadMeFitForPurposePage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+    case UsingHTTPVerbsPage => userAnswers =>
+      if (userAnswers.get(ReadMeFitForPurposePage).isEmpty) {
+        buildResilienceRoutes.ReadMeFitForPurposeController.onPageLoad(CheckMode)
+      } else {
+        buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
+    case ReadMeFitForPurposePage => userAnswers =>
+      if (userAnswers.get(AppropriateTimeoutsPage).isEmpty) {
+        buildResilienceRoutes.AppropriateTimeoutsController.onPageLoad(CheckMode)
+      } else {
+        buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
+      }
+      
     case AppropriateTimeoutsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
     case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
