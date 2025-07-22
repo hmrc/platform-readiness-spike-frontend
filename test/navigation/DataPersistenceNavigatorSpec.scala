@@ -18,7 +18,7 @@ package navigation
 
 import base.SpecBase
 import controllers.dataPersistence.routes as dataPersistenceRoutes
-import controllers.security.routes as securityRoutes
+import controllers.routes
 import models.*
 import pages.*
 import pages.dataPersistence.*
@@ -30,6 +30,11 @@ class DataPersistenceNavigatorSpec extends SpecBase {
   "Navigator" - {
 
     "in Normal mode" - {
+
+      "must go from a page that doesn't exist in the route map to Index" in {
+        case object UnknownPage extends Page
+        navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad()
+      }
 
       "must go from the Using Mongo page to the Resilient Recycling Mongo WHEN answer is YES" in {
         UserAnswers("id").set(UsingMongoPage, true).foreach { userAnswers =>
@@ -171,7 +176,7 @@ class DataPersistenceNavigatorSpec extends SpecBase {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
       }
     }
   }

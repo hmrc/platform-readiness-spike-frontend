@@ -20,13 +20,13 @@ import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
 import controllers.routes
 import models.*
 import pages.*
-import pages.commonServiceUsage.{IntegrationCheckPage, NotifyDependantServicesPage}
+import pages.commonServiceUsage.*
 import play.api.mvc.Call
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class CommonServiceUsageNavigator @Inject()() {
+class CommonServiceUsageNavigator @Inject() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
@@ -39,7 +39,12 @@ class CommonServiceUsageNavigator @Inject()() {
 
   private val checkRouteMap: Page => UserAnswers => Call = {
 
-    case IntegrationCheckPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
+    case IntegrationCheckPage => userAnswers =>
+      if (userAnswers.get(NotifyDependantServicesPage).isEmpty) {
+        commonServiceUsageRoutes.NotifyDependantServicesController.onPageLoad(CheckMode)
+      } else {
+        commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
     case NotifyDependantServicesPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
 

@@ -20,13 +20,13 @@ import controllers.routes
 import controllers.security.routes as securityRoutes
 import models.*
 import pages.*
-import pages.security.{FrontendAuthenticationPage, ProtectedMicroserviceAuthPage, PublicMicroserviceAuthPage}
+import pages.security.*
 import play.api.mvc.Call
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class SecurityNavigator @Inject()() {
+class SecurityNavigator @Inject() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
@@ -41,9 +41,19 @@ class SecurityNavigator @Inject()() {
 
   private val checkRouteMap: Page => UserAnswers => Call = {
 
-    case FrontendAuthenticationPage => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
+    case FrontendAuthenticationPage => userAnswers =>
+      if (userAnswers.get(PublicMicroserviceAuthPage).isEmpty) {
+        securityRoutes.PublicMicroserviceAuthController.onPageLoad(CheckMode)
+      } else {
+        securityRoutes.CheckYourAnswersController.onPageLoad()
+      }
 
-    case PublicMicroserviceAuthPage => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
+    case PublicMicroserviceAuthPage => userAnswers =>
+      if (userAnswers.get(ProtectedMicroserviceAuthPage).isEmpty) {
+        securityRoutes.ProtectedMicroserviceAuthController.onPageLoad(CheckMode)
+      } else {
+        securityRoutes.CheckYourAnswersController.onPageLoad()
+      }
     
     case ProtectedMicroserviceAuthPage => _ => securityRoutes.CheckYourAnswersController.onPageLoad() 
 

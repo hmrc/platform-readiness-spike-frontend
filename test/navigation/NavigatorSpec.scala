@@ -19,10 +19,9 @@ package navigation
 import base.SpecBase
 import controllers.routes
 import controllers.buildResilience.routes as buildResilienceRoutes
-import controllers.security.routes as securityRoutes
 import models.*
 import pages.*
-import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
+import pages.buildResilience.*
 class NavigatorSpec extends SpecBase {
 
   val navigator = new Navigator
@@ -170,7 +169,7 @@ class NavigatorSpec extends SpecBase {
 
     "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
       case object UnknownPage extends Page
-      navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe securityRoutes.CheckYourAnswersController.onPageLoad()
+      navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
     }
   }
 }
