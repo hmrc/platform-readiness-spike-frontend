@@ -109,9 +109,7 @@ class Navigator @Inject() {
       } else {
         buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
       }
-      
-    case AppropriateTimeoutsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
-
+    
     case _ => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
   }
 

@@ -111,9 +111,7 @@ class DataPersistenceNavigator @Inject() {
       } else {
         dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
       }
-      
-    case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
-
+    
     case _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
   }
 

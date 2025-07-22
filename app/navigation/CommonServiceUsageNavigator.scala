@@ -45,9 +45,7 @@ class CommonServiceUsageNavigator @Inject() {
       } else {
         commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
       }
-
-    case NotifyDependantServicesPage => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
-
+    
     case _ => _ => commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
   }
 

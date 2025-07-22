@@ -54,8 +54,6 @@ class SecurityNavigator @Inject() {
       } else {
         securityRoutes.CheckYourAnswersController.onPageLoad()
       }
-    
-    case ProtectedMicroserviceAuthPage => _ => securityRoutes.CheckYourAnswersController.onPageLoad() 
 
     case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
   }
