@@ -21,7 +21,7 @@ import controllers.commonServiceUsage.routes as commonServiceUsageRoutes
 import controllers.routes
 import models.*
 import pages.*
-import pages.commonServiceUsage.{IntegrationCheckPage, NotifyDependantServicesPage}
+import pages.commonServiceUsage.*
 
 class CommonServiceUsageNavigatorSpec extends SpecBase {
 
@@ -30,6 +30,11 @@ class CommonServiceUsageNavigatorSpec extends SpecBase {
   "Navigator" - {
 
     "in Normal mode" - {
+
+      "must go from a page that doesn't exist in the route map to Index" in {
+        case object UnknownPage extends Page
+        navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad()
+      }
       
       "must go from the Integration Check page to Notify Dependant Services page" in {
         navigator.nextPage(IntegrationCheckPage, NormalMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.NotifyDependantServicesController.onPageLoad(NormalMode)
@@ -40,10 +45,16 @@ class CommonServiceUsageNavigatorSpec extends SpecBase {
     }
 
     "in Check mode" - {
-      
-      "must go from the Integration Check page to Check Your Answers page" in {
-        navigator.nextPage(IntegrationCheckPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
+
+      "must go from the Integration Check page to the Notify Dependant Services page WHEN Notify Dependant Services Page does not have an Answer" in {
+        navigator.nextPage(IntegrationCheckPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.NotifyDependantServicesController.onPageLoad(CheckMode)
       }
+      "must go from the Integration Check page to the Check Your Answers page WHEN Notify Dependant Service page has an Answer" in {
+        UserAnswers("id").set(NotifyDependantServicesPage, true).foreach { userAnswers =>
+          navigator.nextPage(IntegrationCheckPage, CheckMode, userAnswers) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
+        }
+      }
+
       "must go from the Notify Dependant Services page to Check Your Answers page" in {
         navigator.nextPage(NotifyDependantServicesPage, CheckMode, UserAnswers("id")) mustBe commonServiceUsageRoutes.CheckYourAnswersController.onPageLoad()
       }

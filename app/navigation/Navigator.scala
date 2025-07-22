@@ -17,17 +17,16 @@
 package navigation
 
 import controllers.buildResilience.routes as buildResilienceRoutes
-import controllers.security.routes as securityRoutes
 import controllers.routes
 import models.*
 import pages.*
-import pages.buildResilience.{AppropriateTimeoutsPage, BreakBobbyRulesPage, DeprecatedLibrariesPage, DoesNonstandardPatternPage, NonstandardPatternPage, ReadMeFitForPurposePage, ServiceURLPage, UsingHTTPVerbsPage}
+import pages.buildResilience.*
 import play.api.mvc.Call
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class Navigator @Inject()() {
+class Navigator @Inject() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
@@ -113,7 +112,7 @@ class Navigator @Inject()() {
       
     case AppropriateTimeoutsPage => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
+    case _ => _ => buildResilienceRoutes.CheckYourAnswersController.onPageLoad()
   }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {

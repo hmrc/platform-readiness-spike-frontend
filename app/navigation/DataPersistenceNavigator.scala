@@ -18,18 +18,16 @@ package navigation
 
 import controllers.dataPersistence.routes as dataPersistenceRoutes
 import controllers.routes
-import controllers.security.routes as securityRoutes
 import models.*
 import pages.*
 import pages.dataPersistence.*
 import play.api.libs.json.Reads
 import play.api.mvc.Call
-import queries.Gettable
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class DataPersistenceNavigator @Inject()() {
+class DataPersistenceNavigator @Inject() {
   
   private val normalRoutes: Page => UserAnswers => Call = {
 
@@ -116,7 +114,7 @@ class DataPersistenceNavigator @Inject()() {
       
     case CorrectRetentionPeriodPage => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
 
-    case _ => _ => securityRoutes.CheckYourAnswersController.onPageLoad()
+    case _ => _ => dataPersistenceRoutes.CheckYourAnswersController.onPageLoad()
   }
 
     def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
