@@ -216,3 +216,31 @@ protectedMicroserviceAuth.checkYourAnswersLabel =  Protected Microservices shoul
 protectedMicroserviceAuth.error.required = Select yes if  Protected Microservices are being authenticated and authorised by default.
 protectedMicroserviceAuth.change.hidden = ProtectedMicroserviceAuth
 protectedMicroserviceAuth.hint = Internal Auth is an option for service-to-service authentication.
+
+#========================================
+#            Admin Services
+#========================================
+
+noPublicRoute.title = Does your service have Public Routing to the service in MDTP Frontend Routes?
+noPublicRoute.heading = Does your service have Public Routing to the service in MDTP Frontend Routes?
+noPublicRoute.checkYourAnswersLabel = Does your service have Public Routing to the service in MDTP Frontend Routes?
+noPublicRoute.error.required = Select yes if your admin service has a public routing to the service in the MDTP Frontend Routes
+noPublicRoute.change.hidden = NoPublicRoute
+
+strideOrVPN.title = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+strideOrVPN.heading = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+strideOrVPN.checkYourAnswersLabel = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+strideOrVPN.error.required = Select yes if your admin service only accessible either on the HMRC VPN or by using a Stride device
+strideOrVPN.change.hidden = StrideOrVPN
+
+strideOrInternalAuth.title = Is access to this service restricted by using internal-auth or Stride authentication?
+strideOrInternalAuth.heading = Is access to this service restricted by using internal-auth or Stride authentication?
+strideOrInternalAuth.checkYourAnswersLabel = Is access to this service restricted by using internal-auth or Stride authentication?
+strideOrInternalAuth.error.required = Select yes if access to this service restricted by using internal-auth or Stride authentication?
+strideOrInternalAuth.change.hidden = StrideOrInternalAuth
+
+accessProductionAdminFrontend.title = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+accessProductionAdminFrontend.heading = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+accessProductionAdminFrontend.checkYourAnswersLabel = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+accessProductionAdminFrontend.error.required = Select yes if the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+accessProductionAdminFrontend.change.hidden = AccessProductionAdminFrontend
