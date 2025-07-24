@@ -20,7 +20,7 @@ import models.{Mode, UserAnswers}
 import pages.*
 import play.api.mvc.Call
 
-class FakeAdminServicesNavigator(desiredRoute: Call) extends Navigator {
+class FakeAdminServicesNavigator(desiredRoute: Call) extends AdminServicesNavigator {
 
   override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call =
     desiredRoute

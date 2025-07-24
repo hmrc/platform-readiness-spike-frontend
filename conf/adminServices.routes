@@ -1,4 +1,3 @@
-
 GET        /no-public-route                              controllers.adminServices.NoPublicRouteController.onPageLoad(mode: Mode = NormalMode)
 POST       /no-public-route                              controllers.adminServices.NoPublicRouteController.onSubmit(mode: Mode = NormalMode)
 GET        /change-no-public-route                       controllers.adminServices.NoPublicRouteController.onPageLoad(mode: Mode = CheckMode)

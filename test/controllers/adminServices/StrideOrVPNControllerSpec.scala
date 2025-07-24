@@ -22,7 +22,7 @@ import controllers.adminServices.routes as adminServicesRoutes
 import base.SpecBase
 import forms.adminServices.StrideOrVPNFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeNavigator, Navigator}
+import navigation.{FakeAdminServicesNavigator, AdminServicesNavigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -91,7 +91,7 @@ class StrideOrVPNControllerSpec extends SpecBase with MockitoSugar {
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[AdminServicesNavigator].toInstance(new FakeAdminServicesNavigator(onwardRoute)),
             bind[SessionService].toInstance(mockSessionService)
           )
           .build()

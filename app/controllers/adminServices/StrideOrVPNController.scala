@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.adminServices.StrideOrVPNFormProvider
 import javax.inject.Inject
 import models.Mode
-import navigation.Navigator
+import navigation.AdminServicesNavigator
 import pages.adminServices.StrideOrVPNPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class StrideOrVPNController @Inject()(
                                          override val messagesApi: MessagesApi,
                                          sessionService: SessionService,
-                                         navigator: Navigator,
+                                         navigator: AdminServicesNavigator,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
