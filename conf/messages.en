@@ -233,14 +233,14 @@ strideOrVPN.checkYourAnswersLabel = Is your admin service only accessible either
 strideOrVPN.error.required = Select yes if your admin service only accessible either on the HMRC VPN or by using a Stride device
 strideOrVPN.change.hidden = StrideOrVPN
 
-strideOrInternalAuth.title = Is access to this service restricted to Stride or an Internal Auth?
-strideOrInternalAuth.heading = Is access to this service restricted to Stride or an Internal Auth?
-strideOrInternalAuth.checkYourAnswersLabel = Is access to this service restricted to Stride or an Internal Auth?
-strideOrInternalAuth.error.required = Select yes if access to this service restricted to Stride or an Internal Auth
+strideOrInternalAuth.title = Is access to this service restricted by using internal-auth or Stride authentication?
+strideOrInternalAuth.heading = Is access to this service restricted by using internal-auth or Stride authentication?
+strideOrInternalAuth.checkYourAnswersLabel = Is access to this service restricted by using internal-auth or Stride authentication?
+strideOrInternalAuth.error.required = Select yes if access to this service restricted by using internal-auth or Stride authentication?
 strideOrInternalAuth.change.hidden = StrideOrInternalAuth
 
-accessProductionAdminFrontend.title = Has access to the Production Admin Service Frontend been specified in conjunction with your Risk Assessor?
-accessProductionAdminFrontend.heading = Has access to the Production Admin Service Frontend been specified in conjunction with your Risk Assessor?
-accessProductionAdminFrontend.checkYourAnswersLabel = Has access to the Production Admin Service Frontend been specified in conjunction with your Risk Assessor?
-accessProductionAdminFrontend.error.required = Select yes if access to the Production Admin Service Frontend been specified in conjunction with your Risk Assessor
+accessProductionAdminFrontend.title = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+accessProductionAdminFrontend.heading = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+accessProductionAdminFrontend.checkYourAnswersLabel = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+accessProductionAdminFrontend.error.required = Select yes if the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
 accessProductionAdminFrontend.change.hidden = AccessProductionAdminFrontend
