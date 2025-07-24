@@ -1,0 +1,22 @@
+
+GET        /no-public-route                              controllers.adminServices.NoPublicRouteController.onPageLoad(mode: Mode = NormalMode)
+POST       /no-public-route                              controllers.adminServices.NoPublicRouteController.onSubmit(mode: Mode = NormalMode)
+GET        /change-no-public-route                       controllers.adminServices.NoPublicRouteController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-no-public-route                       controllers.adminServices.NoPublicRouteController.onSubmit(mode: Mode = CheckMode)
+
+GET        /stride-or-vpn                                controllers.adminServices.StrideOrVPNController.onPageLoad(mode: Mode = NormalMode)
+POST       /stride-or-vpn                                controllers.adminServices.StrideOrVPNController.onSubmit(mode: Mode = NormalMode)
+GET        /change-stride-or-vpn                         controllers.adminServices.StrideOrVPNController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-stride-or-vpn                         controllers.adminServices.StrideOrVPNController.onSubmit(mode: Mode = CheckMode)
+
+GET        /stride-or-internal-auth                      controllers.adminServices.StrideOrInternalAuthController.onPageLoad(mode: Mode = NormalMode)
+POST       /stride-or-internal-auth                      controllers.adminServices.StrideOrInternalAuthController.onSubmit(mode: Mode = NormalMode)
+GET        /change-stride-or-internal-auth               controllers.adminServices.StrideOrInternalAuthController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-stride-or-internal-auth               controllers.adminServices.StrideOrInternalAuthController.onSubmit(mode: Mode = CheckMode)
+
+GET        /access-production-admin-frontend             controllers.adminServices.AccessProductionAdminFrontendController.onPageLoad(mode: Mode = NormalMode)
+POST       /access-production-admin-frontend             controllers.adminServices.AccessProductionAdminFrontendController.onSubmit(mode: Mode = NormalMode)
+GET        /change-access-production-admin-frontend      controllers.adminServices.AccessProductionAdminFrontendController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-access-production-admin-frontend      controllers.adminServices.AccessProductionAdminFrontendController.onSubmit(mode: Mode = CheckMode)
+
+GET        /check-your-answers                           controllers.adminServices.CheckYourAnswersController.onPageLoad()
