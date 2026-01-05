@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package config
+package models
 
-import com.google.inject.AbstractModule
-import controllers.actions.*
+import play.api.libs.json.*
 
-import java.time.{Clock, ZoneOffset}
+final case class QuestionResponse(
+  service: String,
+  questions: Seq[Question]
+)
 
-class Module extends AbstractModule {
-
-  override def configure(): Unit = {
-
-    // For session based storage instead of cred based, change to SessionIdentifierAction
-    bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
-
-    bind(classOf[Clock]).toInstance(Clock.systemDefaultZone.withZone(ZoneOffset.UTC))
-  }
+object QuestionResponse {
+  implicit val format: OFormat[QuestionResponse] = Json.format[QuestionResponse]
 }

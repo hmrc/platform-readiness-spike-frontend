@@ -18,7 +18,6 @@ package views
 
 import base.ViewSpecBase
 import matchers.ViewMatchers
-import models.NormalMode
 import play.twirl.api.Html
 import views.html.IndexView
 
@@ -29,7 +28,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
   "view" should {
 
     def createView: Html =
-      page(controllers.buildResilience.routes.ServiceURLController.onPageLoad(NormalMode).url)(request, messages)
+      page()(request, messages)
 
     val view = createView
 
@@ -46,7 +45,7 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
       view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
       view
         .getElementById("start")
-        .attr("href") mustBe controllers.buildResilience.routes.ServiceURLController.onPageLoad(NormalMode).url
+        .attr("href") mustBe controllers.routes.AssessmentSectionsController.onPageLoad("Service1").url
     }
   }  
 }

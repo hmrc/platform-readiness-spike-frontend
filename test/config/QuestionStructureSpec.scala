@@ -16,18 +16,21 @@
 
 package config
 
-import com.google.inject.AbstractModule
-import controllers.actions.*
+import org.scalatest.freespec.AnyFreeSpec
+import org.scalatest.matchers.must.Matchers
 
-import java.time.{Clock, ZoneOffset}
+class QuestionStructureSpec extends AnyFreeSpec with Matchers {
 
-class Module extends AbstractModule {
+  ".sections" - {
 
-  override def configure(): Unit = {
-
-    // For session based storage instead of cred based, change to SessionIdentifierAction
-    bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
-
-    bind(classOf[Clock]).toInstance(Clock.systemDefaultZone.withZone(ZoneOffset.UTC))
+    "must not contain any duplicate page names" in {
+      val pageNames: Seq[String] =
+        for {
+          section <- QuestionStructure.sections
+          question <- section.questionPages
+        } yield question.name
+      pageNames.distinct mustEqual pageNames
+    }
   }
+
 }

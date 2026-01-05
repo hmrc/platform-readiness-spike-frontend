@@ -17,8 +17,6 @@
 package controllers
 
 import base.SpecBase
-import models.NormalMode
-import navigation.{FakeNavigator, Navigator}
 import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
@@ -30,10 +28,8 @@ class IndexControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val navigator = new FakeNavigator(buildResilience.routes.ServiceURLController.onPageLoad(NormalMode))
 
-      val application = applicationBuilder(userAnswers = None)
-        .overrides(bind[Navigator].toInstance(navigator))
+      val application = applicationBuilder()
         .build()
 
       running(application) {
@@ -45,7 +41,7 @@ class IndexControllerSpec extends SpecBase {
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(buildResilience.routes.ServiceURLController.onPageLoad(NormalMode).url)(request, messages(application)).toString
+        contentAsString(result) mustEqual view()(request, messages(application)).toString
       }
     }
   }

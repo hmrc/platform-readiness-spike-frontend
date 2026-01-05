@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package config
+package models
 
-import com.google.inject.AbstractModule
-import controllers.actions.*
+import play.api.libs.json.*
+import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
-import java.time.{Clock, ZoneOffset}
+import java.time.Instant
 
-class Module extends AbstractModule {
+final case class ServiceReview(
+  service: String,
+  lastReviewed: Instant = Instant.now,
+  reviewStatus: ReviewStatus,
+  reviewerUsername: String
+)
 
-  override def configure(): Unit = {
-
-    // For session based storage instead of cred based, change to SessionIdentifierAction
-    bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
-
-    bind(classOf[Clock]).toInstance(Clock.systemDefaultZone.withZone(ZoneOffset.UTC))
-  }
+object ServiceReview {
+  implicit val dateFormat: Format[Instant] = MongoJavatimeFormats.instantFormat
+  implicit val format: OFormat[ServiceReview] = Json.format[ServiceReview]
 }

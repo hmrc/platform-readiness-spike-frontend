@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,22 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package config
+@this(
+layout: templates.Layout,
+govukButton: GovukButton,
+section: components.section,
+govukTable: GovukTable
+)
 
-import com.google.inject.AbstractModule
-import controllers.actions.*
+@(table: Table)(implicit request: Request[_], messages: Messages)
 
-import java.time.{Clock, ZoneOffset}
+@layout(pageTitle = titleNoForm(messages("buildResilience.section.title"))) {
 
-class Module extends AbstractModule {
+  <h1 class="govuk-heading-xl">@messages("buildResilience.section.heading")</h1>
 
-  override def configure(): Unit = {
-
-    // For session based storage instead of cred based, change to SessionIdentifierAction
-    bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
-
-    bind(classOf[Clock]).toInstance(Clock.systemDefaultZone.withZone(ZoneOffset.UTC))
-  }
+  @govukTable(table)
 }

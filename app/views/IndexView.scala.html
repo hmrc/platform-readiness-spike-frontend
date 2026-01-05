@@ -14,12 +14,14 @@
  * limitations under the License.
  *@
 
+@import controllers.routes
+
 @this(
     layout: templates.Layout,
     govukButton: GovukButton
 )
 
-@(nextPageLink: String)(implicit request: Request[_], messages: Messages)
+@()(implicit request: Request[_], messages: Messages)
 
 @layout(
     pageTitle    = titleNoForm(messages("index.title")),
@@ -42,7 +44,7 @@
 
     <div>
         @govukButton(Button(
-            href = Some(nextPageLink),
+            href = Some(routes.AssessmentSectionsController.onPageLoad("Service1").url),
             isStartButton = true,
             content = Text(messages("site.continue")),
             attributes = Map("id" -> "start")
