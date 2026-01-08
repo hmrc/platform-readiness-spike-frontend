@@ -25,7 +25,11 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import viewmodels.QuestionSummary
 import views.html.SectionView
-
+import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.{eq => eqTo}
+import uk.gov.hmrc.internalauth.client.Retrieval
+import uk.gov.hmrc.internalauth.client.Retrieval.Username
+import scala.concurrent.Future
 import java.time.Instant
 
 class SectionControllerSpec extends SpecBase {
@@ -45,6 +49,8 @@ class SectionControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
+      when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
+
       val application = applicationBuilder()
         .overrides(
           bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("service123", Seq()))),
@@ -52,6 +58,7 @@ class SectionControllerSpec extends SpecBase {
 
       running(application) {
         val request = FakeRequest(GET, routes.SectionController.onPageLoad("service123", sectionName).url)
+          .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
 

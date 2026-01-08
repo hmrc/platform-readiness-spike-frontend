@@ -16,6 +16,8 @@
 
 package config
 
+import models.Question
+import models.repositories.ServiceType
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 
@@ -26,7 +28,7 @@ class QuestionStructureSpec extends AnyFreeSpec with Matchers {
     "must not contain any duplicate page names" in {
       val pageNames: Seq[String] =
         for {
-          section <- QuestionStructure.sections
+          section <- QuestionStructure.sections(true)
           question <- section.questionPages
         } yield question.name
       pageNames.distinct mustEqual pageNames

@@ -81,8 +81,8 @@ object QuestionStructure {
     AdminServices
   )
 
-  def sections(service: AssessedService): Seq[AssessmentSection] = {
-    if (service.isAdminService) assessmentSections
+  def sections(isAdminService: Boolean): Seq[AssessmentSection] = {
+    if (isAdminService) assessmentSections
     else assessmentSections.filter(_ != AdminServices)
   }
 

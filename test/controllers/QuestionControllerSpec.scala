@@ -25,6 +25,11 @@ import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import views.html.QuestionView
+import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.{eq => eqTo}
+import uk.gov.hmrc.internalauth.client.Retrieval
+import uk.gov.hmrc.internalauth.client.Retrieval.Username
+import scala.concurrent.Future
 
 class QuestionControllerSpec extends SpecBase {
 
@@ -37,20 +42,24 @@ class QuestionControllerSpec extends SpecBase {
 
       val application = applicationBuilder()
         .overrides(
-          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("service123", Seq()))),
+          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("some-frontend", Seq()))),
         ).build()
 
       running(application) {
+
+        when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
+
         val formProvider = application.injector.instanceOf[QuestionFormProvider]
-        val form = formProvider("service123", questionName, "User", "User")
-        val request = FakeRequest(GET, routes.QuestionController.onPageLoad("service123", sectionName, questionName).url)
+        val form = formProvider("some-frontend", questionName, "User", "User")
+        val request = FakeRequest(GET, routes.QuestionController.onPageLoad("some-frontend", sectionName, questionName).url)
+          .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[QuestionView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view("service123", sectionName, questionName, form)(request, messages(application)).toString
+        contentAsString(result) mustEqual view("some-frontend", sectionName, questionName, form)(request, messages(application)).toString
       }
     }
   }

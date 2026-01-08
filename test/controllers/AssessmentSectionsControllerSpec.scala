@@ -25,15 +25,19 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import viewmodels.SectionSummary
 import views.html.AssessmentSectionsView
-
+import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.{eq => eqTo}
+import uk.gov.hmrc.internalauth.client.Retrieval
+import uk.gov.hmrc.internalauth.client.Retrieval.Username
+import scala.concurrent.Future
 import java.time.Instant
 
 class AssessmentSectionsControllerSpec extends SpecBase {
 
-  private val emptySections = QuestionStructure.sections.map(assessmentSection =>
+  private val emptySections = QuestionStructure.sections(false).map(assessmentSection =>
     SectionSummary(
       title = assessmentSection.name,
-      href = controllers.routes.SectionController.onPageLoad("service123", assessmentSection.name).url,
+      href = controllers.routes.SectionController.onPageLoad("some-frontend", assessmentSection.name).url,
       teamStatus = ReviewStatus.NeedsReview,
       reviewerStatus = ReviewStatus.NeedsReview
     )
@@ -45,18 +49,21 @@ class AssessmentSectionsControllerSpec extends SpecBase {
 
       val application = applicationBuilder()
         .overrides(
-          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("service123", Seq()))),
+          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("some-frontend", Seq()))),
         ).build()
 
+      when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
+
       running(application) {
-        val request = FakeRequest(GET, routes.AssessmentSectionsController.onPageLoad("service123").url)
+        val request = FakeRequest(GET, routes.AssessmentSectionsController.onPageLoad("some-frontend").url)
+          .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[AssessmentSectionsView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view("service123", emptySections, ReviewStatus.NeedsReview, ReviewStatus.NeedsReview)(request, messages(application)).toString
+        contentAsString(result) mustEqual view("some-frontend", emptySections, ReviewStatus.NeedsReview, ReviewStatus.NeedsReview)(request, messages(application)).toString
       }
     }
   }
@@ -64,7 +71,7 @@ class AssessmentSectionsControllerSpec extends SpecBase {
   "createViewModel" - {
 
     def generateQuestion(questionId: String, teamStatus: ReviewStatus, reviewerStatus: ReviewStatus) = questionId -> Question(
-      service = "service123",
+      service = "some-frontend",
       questionId = questionId,
       lastUpdated = Instant.now,
       teamComment = None,
@@ -88,11 +95,11 @@ class AssessmentSectionsControllerSpec extends SpecBase {
 
       val expected = SectionSummary(
         title = section.name,
-        href = controllers.routes.SectionController.onPageLoad("service123", section.name).url,
+        href = controllers.routes.SectionController.onPageLoad("some-frontend", section.name).url,
         teamStatus = ReviewStatus.NeedsReview,
         reviewerStatus = ReviewStatus.NeedsReview
       )
-      val result = AssessmentSectionsController.createViewModel("service123", section, questions)
+      val result = AssessmentSectionsController.createViewModel("some-frontend", section, questions)
       result mustEqual expected
     }
 
@@ -109,11 +116,11 @@ class AssessmentSectionsControllerSpec extends SpecBase {
 
       val expected = SectionSummary(
         title = section.name,
-        href = controllers.routes.SectionController.onPageLoad("service123", section.name).url,
+        href = controllers.routes.SectionController.onPageLoad("some-frontend", section.name).url,
         teamStatus = ReviewStatus.Warning,
         reviewerStatus = ReviewStatus.Fail
       )
-      val result = AssessmentSectionsController.createViewModel("service123", section, questions)
+      val result = AssessmentSectionsController.createViewModel("some-frontend", section, questions)
       result mustEqual expected
     }
   }

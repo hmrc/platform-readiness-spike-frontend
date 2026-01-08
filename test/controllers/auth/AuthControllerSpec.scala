@@ -21,7 +21,11 @@ import config.FrontendAppConfig
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
-
+import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.{eq => eqTo}
+import uk.gov.hmrc.internalauth.client.Retrieval
+import uk.gov.hmrc.internalauth.client.Retrieval.Username
+import scala.concurrent.Future
 import java.net.URLEncoder
 
 class AuthControllerSpec extends SpecBase with MockitoSugar {
@@ -29,15 +33,18 @@ class AuthControllerSpec extends SpecBase with MockitoSugar {
   "signOut" - {
 
     "must redirect to sign out, specifying the exit survey as the continue URL" in {
-      
+
       val application =
         applicationBuilder()
           .build()
+
+      when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
 
       running(application) {
 
         val appConfig = application.injector.instanceOf[FrontendAppConfig]
         val request   = FakeRequest(GET, routes.AuthController.signOut().url)
+          .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
 
@@ -58,10 +65,13 @@ class AuthControllerSpec extends SpecBase with MockitoSugar {
         applicationBuilder()
           .build()
 
+      when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
+
       running(application) {
 
         val appConfig = application.injector.instanceOf[FrontendAppConfig]
         val request   = FakeRequest(GET, routes.AuthController.signOutNoSurvey().url)
+          .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
 

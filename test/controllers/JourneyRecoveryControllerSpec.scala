@@ -21,6 +21,11 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import uk.gov.hmrc.play.bootstrap.binders.RedirectUrl
 import views.html.{JourneyRecoveryContinueView, JourneyRecoveryStartAgainView}
+import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.{eq => eqTo}
+import uk.gov.hmrc.internalauth.client.Retrieval
+import uk.gov.hmrc.internalauth.client.Retrieval.Username
+import scala.concurrent.Future
 
 class JourneyRecoveryControllerSpec extends SpecBase {
 
@@ -32,9 +37,12 @@ class JourneyRecoveryControllerSpec extends SpecBase {
 
         val application = applicationBuilder().build()
 
+        when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
+
         running(application) {
           val continueUrl = RedirectUrl("/foo")
           val request     = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad(Some(continueUrl)).url)
+            .withSession("authToken" -> "Token some-token")
 
           val result = route(application, request).value
 
@@ -52,9 +60,12 @@ class JourneyRecoveryControllerSpec extends SpecBase {
 
         val application = applicationBuilder().build()
 
+        when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
+
         running(application) {
           val continueUrl = RedirectUrl("https://foo.com")
           val request     = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad(Some(continueUrl)).url)
+            .withSession("authToken" -> "Token some-token")
 
           val result = route(application, request).value
 
@@ -72,8 +83,11 @@ class JourneyRecoveryControllerSpec extends SpecBase {
 
         val application = applicationBuilder().build()
 
+        when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
+
         running(application) {
           val request = FakeRequest(GET, routes.JourneyRecoveryController.onPageLoad().url)
+            .withSession("authToken" -> "Token some-token")
 
           val result = route(application, request).value
 

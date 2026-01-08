@@ -25,6 +25,7 @@ import scala.concurrent.Future
 
 class FakeTeamsAndRepositoriesConnector extends TeamsAndRepositoriesConnector {
   def allRepositories(using HeaderCarrier): Future[Seq[GitRepository]] = Future.successful(Seq(FakeTeamsAndRepositoriesConnector.testRepository))
+  def getRepository(name: String)(using HeaderCarrier): Future[Option[GitRepository]] = Future.successful(Some(FakeTeamsAndRepositoriesConnector.testRepository))
 }
 
 object FakeTeamsAndRepositoriesConnector {

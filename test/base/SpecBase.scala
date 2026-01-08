@@ -20,13 +20,21 @@ import controllers.actions.*
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
-import org.scalatest.{OptionValues, TryValues}
+import org.scalatest.{BeforeAndAfterEach, OptionValues, TryValues}
 import play.api.Application
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import connectors.TeamsAndRepositoriesConnector
+import auth.FrontendAuthStubProvider
+import uk.gov.hmrc.internalauth.client.FrontendAuthComponents
+import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.eq as eqTo
+import org.mockito.Mockito
+import org.mockito.Mockito.{times, verify, when}
+import uk.gov.hmrc.internalauth.client.test.StubBehaviour
 
 trait SpecBase
   extends AnyFreeSpec
@@ -34,14 +42,26 @@ trait SpecBase
     with TryValues
     with OptionValues
     with ScalaFutures
-    with IntegrationPatience {
+    with IntegrationPatience
+    with MockitoSugar
+    with BeforeAndAfterEach {
   
   def messages(app: Application): Messages = app.injector.instanceOf[MessagesApi].preferred(FakeRequest())
+
+  val mockStubBehaviour: StubBehaviour = mock[StubBehaviour]
 
   protected def applicationBuilder(): GuiceApplicationBuilder =
     new GuiceApplicationBuilder()
       .overrides(
-        bind[IdentifierAction].to[FakeIdentifierAction],
+        bind[StubBehaviour].toInstance(mockStubBehaviour),
+        bind[FrontendAuthComponents].toProvider[FrontendAuthStubProvider],
         bind[TeamsAndRepositoriesConnector].to[FakeTeamsAndRepositoriesConnector]
       )
+
+  override protected def beforeEach(): Unit = {
+    Mockito.reset[Any](
+      mockStubBehaviour
+    )
+    super.beforeEach()
+  }
 }

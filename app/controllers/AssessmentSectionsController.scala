@@ -48,7 +48,7 @@ class AssessmentSectionsController @Inject()(
       retrieval = Retrieval.username
     ) andThen repositoryActionFactory.action(service)) { implicit request =>
 
-      val sections: Seq[SectionSummary] = QuestionStructure.sections(request.assessedService).map(
+      val sections: Seq[SectionSummary] = QuestionStructure.sections(request.assessedService.isAdminService).map(
         s => AssessmentSectionsController.createViewModel(service, s, request.assessedService.answeredQuestions)
       )
       val overallTeamStatus = ReviewStatus.getOverallStatus(sections.map(_.teamStatus))
