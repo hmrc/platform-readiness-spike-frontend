@@ -16,6 +16,8 @@
 
 package config
 
+import models.repositories.{AssessedService, GitRepository, Tag}
+
 object QuestionStructure {
 
   val BuildAndResilience: AssessmentSection = AssessmentSection(
@@ -61,14 +63,30 @@ object QuestionStructure {
     )
   )
 
-  val sections: Seq[AssessmentSection] = Seq(
+  val AdminServices: AssessmentSection = AssessmentSection(
+    "admin-service",
+    Seq(
+      QuestionPage("no-public-route"),
+      QuestionPage("stride-or-vpn"),
+      QuestionPage("stride-or-internal-auth"),
+      QuestionPage("access-to-production")
+    )
+  )
+
+  val assessmentSections: Seq[AssessmentSection] = Seq(
     BuildAndResilience,
     DataPersistence,
     CommonServiceUsage,
-    Security
+    Security,
+    AdminServices
   )
 
-  val sectionsMap: Map[String, Seq[QuestionPage]] = sections.map(s => s.name -> s.questionPages).toMap()
+  def sections(service: AssessedService): Seq[AssessmentSection] = {
+    if (service.isAdminService) assessmentSections
+    else assessmentSections.filter(_ != AdminServices)
+  }
+
+  val sectionsMap: Map[String, Seq[QuestionPage]] = assessmentSections.map(s => s.name -> s.questionPages).toMap()
 
 }
 

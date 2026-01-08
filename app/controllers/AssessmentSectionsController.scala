@@ -17,36 +17,40 @@
 package controllers
 
 import config.{AssessmentSection, QuestionStructure}
-import connectors.QuestionConnector
+import connectors.{QuestionConnector, TeamsAndRepositoriesConnector}
 import controllers.actions.*
 import models.ReviewStatus.NeedsReview
+import models.repositories.GitRepository
 import models.{Question, ReviewStatus}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.SectionSummary
-import views.html.AssessmentSectionsView
+import views.html.{AssessmentSectionsView, ErrorTemplate}
 
 import javax.inject.Inject
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class AssessmentSectionsController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        identify: IdentifierAction,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AssessmentSectionsView,
-                                       connector: QuestionConnector
+                                       questionConnector: QuestionConnector,
+                                       repositoryConnector: TeamsAndRepositoriesConnector,
+                                       repositoryActionFactory: RepositoryActionFactory
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(service: String): Action[AnyContent] = (identify).async {
+  def onPageLoad(service: String): Action[AnyContent] = (identify andThen repositoryActionFactory.action(service)) {
     implicit request =>
-      connector.getCurrentQuestions(service).map { questionResponse =>
-        val questionMap: Map[String, Question] = questionResponse.questions.map(q => q.questionId -> q).toMap
-        val sections: Seq[SectionSummary] = QuestionStructure.sections.map(s => AssessmentSectionsController.createViewModel(service, s, questionMap))
-        val overallTeamStatus = ReviewStatus.getOverallStatus(sections.map(_.teamStatus))
-        val overallReviewerStatus = ReviewStatus.getOverallStatus(sections.map(_.reviewerStatus))
-        Ok(view(service, sections, overallTeamStatus, overallReviewerStatus))
-      }
+      
+      val sections: Seq[SectionSummary] = QuestionStructure.sections(request.assessedService).map(
+        s => AssessmentSectionsController.createViewModel(service, s, request.assessedService.answeredQuestions)
+      )
+      val overallTeamStatus = ReviewStatus.getOverallStatus(sections.map(_.teamStatus))
+      val overallReviewerStatus = ReviewStatus.getOverallStatus(sections.map(_.reviewerStatus))
+      Ok(view(service, sections, overallTeamStatus, overallReviewerStatus))
+
   }
 
 }
@@ -54,7 +58,9 @@ class AssessmentSectionsController @Inject()(
 object AssessmentSectionsController {
 
   def createViewModel(service: String, assessmentSection: AssessmentSection, questionMap: Map[String, Question]): SectionSummary = {
-    val questions: Seq[Question] = assessmentSection.questionPages.map(q => questionMap.getOrElse(q.name, Question(service = service, questionId = q.name, teamStatus = NeedsReview, reviewerStatus = NeedsReview)))
+    val questions: Seq[Question] = assessmentSection.questionPages.map(q =>
+      questionMap.getOrElse(q.name, Question(service = service, questionId = q.name, teamStatus = NeedsReview, reviewerStatus = NeedsReview))
+    )
     val sectionTeamStatus = ReviewStatus.getOverallStatus(questions.map(_.teamStatus))
     val sectionReviewerStatus = ReviewStatus.getOverallStatus(questions.map(_.reviewerStatus))
 

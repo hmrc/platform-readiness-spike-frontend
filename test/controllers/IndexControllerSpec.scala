@@ -16,11 +16,11 @@
 
 package controllers
 
-import base.SpecBase
-import play.api.inject.bind
+import base.{FakeTeamsAndRepositoriesConnector, SpecBase}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import views.html.IndexView
+import play.api.i18n.{Messages, MessagesApi}
 
 class IndexControllerSpec extends SpecBase {
 
@@ -39,9 +39,13 @@ class IndexControllerSpec extends SpecBase {
 
         val view = application.injector.instanceOf[IndexView]
 
+        val realMessagesApi: MessagesApi = application.injector.instanceOf[MessagesApi]
+        given Messages = realMessagesApi.preferred(request)
+        val table = IndexController.tableFromRepos(Seq(FakeTeamsAndRepositoriesConnector.testRepository))
+
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view()(request, messages(application)).toString
+        contentAsString(result) mustEqual view(table)(request, messages(application)).toString
       }
     }
   }

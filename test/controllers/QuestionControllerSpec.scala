@@ -16,31 +16,17 @@
 
 package controllers
 
-import base.SpecBase
+import base.{FakeQuestionConnector, SpecBase}
 import config.QuestionStructure
 import connectors.QuestionConnector
-import controllers.actions.{FakeIdentifierAction, IdentifierAction}
-import controllers.routes
 import forms.QuestionFormProvider
-import models.{Question, QuestionResponse, ReviewStatus}
+import models.QuestionResponse
 import play.api.inject.bind
-import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.mvc.Result
-import play.api.mvc.Results.Created
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
-import uk.gov.hmrc.http.HeaderCarrier
-import viewmodels.{QuestionSummary, SectionSummary}
-import views.html.{AssessmentSectionsView, QuestionView, SectionView}
-
-import scala.concurrent.Future
+import views.html.QuestionView
 
 class QuestionControllerSpec extends SpecBase {
-
-  object FakeQuestionConnector extends QuestionConnector {
-    def getCurrentQuestions(service: String)(implicit hc: HeaderCarrier): Future[QuestionResponse] = Future.successful(QuestionResponse("service123", Seq()))
-    def insertQuestion(question: Question)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(Created)
-  }
 
   private val sectionName = QuestionStructure.BuildAndResilience.name
   private val questionName = "nonstandard-pattern"
@@ -51,7 +37,7 @@ class QuestionControllerSpec extends SpecBase {
 
       val application = applicationBuilder()
         .overrides(
-          bind[QuestionConnector].toInstance(FakeQuestionConnector),
+          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("service123", Seq()))),
         ).build()
 
       running(application) {

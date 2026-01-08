@@ -37,24 +37,25 @@ class QuestionController @Inject()(
                                    view: QuestionView,
                                    errorView: ErrorTemplate,
                                    formProvider: QuestionFormProvider,
-                                   connector: QuestionConnector
+                                   connector: QuestionConnector,
+                                   repositoryActionFactory: RepositoryActionFactory
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(service: String, section: String, question: String): Action[AnyContent] = (identify).async {
+  def onPageLoad(service: String, section: String, question: String): Action[AnyContent] = (identify andThen repositoryActionFactory.action(service)) {
     implicit request =>
 
       val form = formProvider(service, question, "User", "User")
 
       QuestionStructure.sectionsMap(section).find(_.name == question) match {
-        case Some(q) => connector.getCurrentQuestions(service).map { response =>
-          val savedQuestion: Option[Question] = response.questions.find(_.questionId == question)
+        case Some(q) => {
+          val savedQuestion: Option[Question] = request.assessedService.answeredQuestions.get(question)
           val preparedForm = savedQuestion match {
             case None => form
             case Some(value) => form.fill(value)
           }
           Ok(view(service, section, question, preparedForm))
         }
-        case None => Future.successful(NotFound(errorView("questionNotFound.title", "questionNotFound.heading", "questionNotFound.message")))
+        case None => NotFound(errorView("questionNotFound.title", "questionNotFound.heading", "questionNotFound.message"))
       }
   }
 

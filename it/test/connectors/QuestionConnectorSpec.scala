@@ -53,10 +53,10 @@ class QuestionConnectorSpec extends AnyFreeSpec with Matchers with ScalaFutures 
     questionId = "Question1",
     lastUpdated = date,
     teamComment = Some("This looks really good"),
-    teamStatus = ReviewStatus("PASSED"),
+    teamStatus = ReviewStatus.Pass,
     teamMemberUsername = Some("user"),
     reviewerComment = Some("Not sure about this"),
-    reviewerStatus = ReviewStatus("FAILED"),
+    reviewerStatus = ReviewStatus.Fail,
     reviewerUsername = Some("Reviewer")
   )
 

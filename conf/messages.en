@@ -73,6 +73,10 @@ questionNotFound.title = Question not found
 questionNotFound.heading = Question not found
 questionNotFound.message = We can’t find this question. Please go back to the section page and select another question.
 
+serviceNotFound.title = Service not found
+serviceNotFound.heading = Service not found
+serviceNotFound.message = We can’t find this service. Please go back to the service list and select another service.
+
 #========================================
 #          Build & Resilience
 #========================================
@@ -240,29 +244,29 @@ protected-auth.hint = Internal Auth is an option for service-to-service authenti
 #            Admin Services
 #========================================
 
-noPublicRoute.title = Does your service have Public Routing to the service in MDTP Frontend Routes?
-noPublicRoute.heading = Does your service have Public Routing to the service in MDTP Frontend Routes?
-noPublicRoute.checkYourAnswersLabel = Does your service have Public Routing to the service in MDTP Frontend Routes?
-noPublicRoute.error.required = Select yes if your admin service has a public routing to the service in the MDTP Frontend Routes
-noPublicRoute.change.hidden = NoPublicRoute
+no-public-route.title = Does your service have Public Routing to the service in MDTP Frontend Routes?
+no-public-route.heading = Does your service have Public Routing to the service in MDTP Frontend Routes?
+no-public-route.checkYourAnswersLabel = Does your service have Public Routing to the service in MDTP Frontend Routes?
+no-public-route.error.required = Select yes if your admin service has a public routing to the service in the MDTP Frontend Routes
+no-public-route.change.hidden = NoPublicRoute
 
-strideOrVPN.title = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
-strideOrVPN.heading = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
-strideOrVPN.checkYourAnswersLabel = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
-strideOrVPN.error.required = Select yes if your admin service only accessible either on the HMRC VPN or by using a Stride device
-strideOrVPN.change.hidden = StrideOrVPN
+stride-or-vpn.title = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+stride-or-vpn.heading = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+stride-or-vpn.checkYourAnswersLabel = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+stride-or-vpn.error.required = Select yes if your admin service only accessible either on the HMRC VPN or by using a Stride device
+stride-or-vpn.change.hidden = StrideOrVPN
 
-strideOrInternalAuth.title = Is access to this service restricted by using internal-auth or Stride authentication?
-strideOrInternalAuth.heading = Is access to this service restricted by using internal-auth or Stride authentication?
-strideOrInternalAuth.checkYourAnswersLabel = Is access to this service restricted by using internal-auth or Stride authentication?
-strideOrInternalAuth.error.required = Select yes if access to this service restricted by using internal-auth or Stride authentication?
-strideOrInternalAuth.change.hidden = StrideOrInternalAuth
+stride-or-internal-auth.title = Is access to this service restricted by using internal-auth or Stride authentication?
+stride-or-internal-auth.heading = Is access to this service restricted by using internal-auth or Stride authentication?
+stride-or-internal-auth.checkYourAnswersLabel = Is access to this service restricted by using internal-auth or Stride authentication?
+stride-or-internal-auth.error.required = Select yes if access to this service restricted by using internal-auth or Stride authentication?
+stride-or-internal-auth.change.hidden = StrideOrInternalAuth
 
-accessProductionAdminFrontend.title = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
-accessProductionAdminFrontend.heading = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
-accessProductionAdminFrontend.checkYourAnswersLabel = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
-accessProductionAdminFrontend.error.required = Select yes if the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
-accessProductionAdminFrontend.change.hidden = AccessProductionAdminFrontend
+access-to-production.title = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+access-to-production.heading = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+access-to-production.checkYourAnswersLabel = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+access-to-production.error.required = Select yes if the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+access-to-production.change.hidden = AccessProductionAdminFrontend
 
 assessmentSections.title = Platform Readiness Assessment
 assessmentSections.heading = Platform Readiness Assessment
@@ -270,6 +274,7 @@ assessmentSections.headings.build-and-resilience = Build and resilience
 assessmentSections.headings.data-persistence = Data persistence
 assessmentSections.headings.common-service-usage = Common service usage
 assessmentSections.headings.security = Security
+assessmentSections.headings.admin-service = Admin service
 assessmentSections.headings.performance = Performance
 assessmentSections.headings.logging = Logging
 assessmentSections.headings.errors = Error Handling

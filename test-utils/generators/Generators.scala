@@ -22,7 +22,7 @@ import org.scalacheck.{Gen, Shrink}
 
 import java.time.{Instant, LocalDate, ZoneOffset}
 
-trait Generators extends ModelGenerators {
+trait Generators {
 
   implicit val dontShrink: Shrink[String] = Shrink.shrinkAny
 

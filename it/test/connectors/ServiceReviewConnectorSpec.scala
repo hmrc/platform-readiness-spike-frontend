@@ -51,7 +51,7 @@ class ServiceReviewConnectorSpec extends AnyFreeSpec with Matchers with ScalaFut
   private val serviceReview = ServiceReview(
     service = "123",
     lastReviewed = date,
-    reviewStatus = ReviewStatus("PASSED"),
+    reviewStatus = ReviewStatus.Pass,
     reviewerUsername = "Reviewer"
   )
 

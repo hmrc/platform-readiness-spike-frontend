@@ -36,20 +36,19 @@ class SectionController @Inject()(
                                    identify: IdentifierAction,
                                    val controllerComponents: MessagesControllerComponents,
                                    view: SectionView,
-                                   connector: QuestionConnector
+                                   connector: QuestionConnector,
+                                   repositoryActionFactory: RepositoryActionFactory
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(service: String, section: String): Action[AnyContent] = (identify).async {
+  def onPageLoad(service: String, section: String): Action[AnyContent] = (identify andThen repositoryActionFactory.action(service)) {
     implicit request =>
-      connector.getCurrentQuestions(service).map { questionResponse =>
-        val questionSummaries = QuestionStructure.sectionsMap(section).map { q =>
-          val currentQuestion = questionResponse.questions.find(_.questionId == q.name)
-          SectionController.createViewModel(service, section, q, currentQuestion)
-        }
-        val overallTeamStatus = ReviewStatus.getOverallStatus(questionSummaries.map(_.teamStatus))
-        val overallReviewerStatus = ReviewStatus.getOverallStatus(questionSummaries.map(_.reviewerStatus))
-        Ok(view(service, section, questionSummaries, overallTeamStatus, overallReviewerStatus))
+      val questionSummaries = QuestionStructure.sectionsMap(section).map { q =>
+        val currentQuestion = request.assessedService.answeredQuestions.get(q.name)
+        SectionController.createViewModel(service, section, q, currentQuestion)
       }
+      val overallTeamStatus = ReviewStatus.getOverallStatus(questionSummaries.map(_.teamStatus))
+      val overallReviewerStatus = ReviewStatus.getOverallStatus(questionSummaries.map(_.reviewerStatus))
+      Ok(view(service, section, questionSummaries, overallTeamStatus, overallReviewerStatus))
   }
 
 }

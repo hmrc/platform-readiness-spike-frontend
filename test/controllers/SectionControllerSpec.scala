@@ -16,31 +16,19 @@
 
 package controllers
 
-import base.SpecBase
+import base.{FakeQuestionConnector, SpecBase}
 import config.{QuestionPage, QuestionStructure}
 import connectors.QuestionConnector
-import controllers.actions.{FakeIdentifierAction, IdentifierAction}
-import controllers.routes
 import models.{Question, QuestionResponse, ReviewStatus}
 import play.api.inject.bind
-import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.mvc.Result
-import play.api.mvc.Results.Created
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
-import uk.gov.hmrc.http.HeaderCarrier
-import viewmodels.{QuestionSummary, SectionSummary}
-import views.html.{AssessmentSectionsView, SectionView}
+import viewmodels.QuestionSummary
+import views.html.SectionView
 
 import java.time.Instant
-import scala.concurrent.Future
 
 class SectionControllerSpec extends SpecBase {
-
-  object FakeQuestionConnector extends QuestionConnector {
-    def getCurrentQuestions(service: String)(implicit hc: HeaderCarrier): Future[QuestionResponse] = Future.successful(QuestionResponse("service123", Seq()))
-    def insertQuestion(question: Question)(implicit hc: HeaderCarrier): Future[Result] = Future.successful(Created)
-  }
 
   private val sectionName = QuestionStructure.BuildAndResilience.name
 
@@ -59,7 +47,7 @@ class SectionControllerSpec extends SpecBase {
 
       val application = applicationBuilder()
         .overrides(
-          bind[QuestionConnector].toInstance(FakeQuestionConnector),
+          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("service123", Seq()))),
         ).build()
 
       running(application) {
