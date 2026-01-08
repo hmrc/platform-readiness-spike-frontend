@@ -17,8 +17,8 @@
 package controllers
 
 import connectors.{TeamsAndRepositoriesConnector, TestTeamsAndRepositoriesConnector}
-import controllers.actions.IdentifierAction
 import models.repositories.{GitRepository, Tag}
+import models.requests.AssessedServiceRequest
 import play.api.Logging
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -28,25 +28,30 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{HeadCell, Table, TableR
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import views.html.components.serviceLink
+import uk.gov.hmrc.internalauth.client.{FrontendAuthComponents, Retrieval}
 
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
 class IndexController @Inject()(
                                  val controllerComponents: MessagesControllerComponents,
-                                 identify: IdentifierAction,
+                                 auth: FrontendAuthComponents,
                                  view: IndexView,
                                  teamsAndRepositoriesConnector: TeamsAndRepositoriesConnector,
                                  testConnector: TestTeamsAndRepositoriesConnector,
                                  serviceLink: serviceLink
                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
-  def onPageLoad(): Action[AnyContent] = (identify).async { implicit request =>
-    for {
-      _ <- testConnector.addRepositories
-      repos <- teamsAndRepositoriesConnector.allRepositories
-      table = IndexController.tableFromRepos(repos)
-    } yield Ok(view(table))
+  def onPageLoad(): Action[AnyContent] =
+    auth.authenticatedAction(
+      continueUrl = routes.IndexController.onPageLoad(),
+      retrieval = Retrieval.username
+    )().async { implicit request =>
+      for {
+        _ <- testConnector.addRepositories
+        repos <- teamsAndRepositoriesConnector.allRepositories
+        table = IndexController.tableFromRepos(repos)
+      } yield Ok(view(table))
   }
 
 }

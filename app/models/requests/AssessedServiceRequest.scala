@@ -17,6 +17,6 @@
 package models.requests
 
 import models.repositories.AssessedService
-import play.api.mvc.WrappedRequest
+import play.api.mvc.{Request, WrappedRequest}
 
-case class AssessedServiceRequest[A](request: IdentifierRequest[A], assessedService: AssessedService) extends WrappedRequest[A](request)
+case class AssessedServiceRequest[A](request: Request[A], userId: String, assessedService: AssessedService) extends WrappedRequest[A](request)

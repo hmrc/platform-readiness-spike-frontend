@@ -27,13 +27,14 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.SectionSummary
 import views.html.{AssessmentSectionsView, ErrorTemplate}
+import uk.gov.hmrc.internalauth.client.{FrontendAuthComponents, Retrieval}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class AssessmentSectionsController @Inject()(
                                        override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
+                                       auth: FrontendAuthComponents,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AssessmentSectionsView,
                                        questionConnector: QuestionConnector,
@@ -41,16 +42,18 @@ class AssessmentSectionsController @Inject()(
                                        repositoryActionFactory: RepositoryActionFactory
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(service: String): Action[AnyContent] = (identify andThen repositoryActionFactory.action(service)) {
-    implicit request =>
-      
+  def onPageLoad(service: String): Action[AnyContent] =
+    (auth.authenticatedAction(
+      continueUrl = routes.AssessmentSectionsController.onPageLoad(service),
+      retrieval = Retrieval.username
+    ) andThen repositoryActionFactory.action(service)) { implicit request =>
+
       val sections: Seq[SectionSummary] = QuestionStructure.sections(request.assessedService).map(
         s => AssessmentSectionsController.createViewModel(service, s, request.assessedService.answeredQuestions)
       )
       val overallTeamStatus = ReviewStatus.getOverallStatus(sections.map(_.teamStatus))
       val overallReviewerStatus = ReviewStatus.getOverallStatus(sections.map(_.reviewerStatus))
       Ok(view(service, sections, overallTeamStatus, overallReviewerStatus))
-
   }
 
 }

@@ -28,23 +28,26 @@ import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import com.google.inject.{Inject, Singleton}
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import views.html.ErrorTemplate
+import uk.gov.hmrc.internalauth.client.{FrontendAuthComponents, Retrieval}
+import uk.gov.hmrc.internalauth.client.AuthenticatedRequest
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.reflect.ClassTag
 
 @Singleton
 class RepositoryActionFactory @Inject()(
-                                      val repositoryConnector: TeamsAndRepositoriesConnector,
-                                      val questionConnector: QuestionConnector,
-                                      val parser: BodyParsers.Default,
-                                      val errorView: ErrorTemplate,
-                                      val messagesApi: MessagesApi
-                                     )
-                                     (implicit val executionContext: ExecutionContext) {
+                                         val repositoryConnector: TeamsAndRepositoriesConnector,
+                                         val questionConnector: QuestionConnector,
+                                         val parser: BodyParsers.Default,
+                                         val errorView: ErrorTemplate,
+                                         val messagesApi: MessagesApi
+                                       )
+                                       (implicit val executionContext: ExecutionContext) {
   def action(service: String) =
-    new RepositoryAction(service, repositoryConnector, questionConnector, parser, errorView, messagesApi)
+    new RepositoryActionBuilder(service, repositoryConnector, questionConnector, parser, errorView, messagesApi)
 }
 
-class RepositoryAction(
+class RepositoryActionBuilder(
                         val service: String,
                         val repositoryConnector: TeamsAndRepositoriesConnector,
                         val questionConnector: QuestionConnector,
@@ -52,12 +55,13 @@ class RepositoryAction(
                         val errorView: ErrorTemplate,
                         val messagesApi: MessagesApi
                       )(implicit val executionContext: ExecutionContext)
-  extends ActionRefiner[IdentifierRequest, AssessedServiceRequest] with I18nSupport {
+  extends ActionRefiner[RepositoryActionBuilder.AuthenticatedRequestWithUsername, AssessedServiceRequest] with I18nSupport {
 
-  override protected def refine[A](request: IdentifierRequest[A]): Future[Either[Result, AssessedServiceRequest[A]]] = {
-
+  override def refine[A](
+                          request: RepositoryActionBuilder.AuthenticatedRequestWithUsername[A]
+                        ): Future[Either[Result, AssessedServiceRequest[A]]] = {
     given HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
-    given Request[A] = request.request
+    given Request[A] = request
 
     repositoryConnector.getRepository(service).flatMap {
       case None => Future.successful(Left(NotFound(errorView("serviceNotFound.title", "serviceNotFound.heading", "serviceNotFound.message"))))
@@ -72,10 +76,14 @@ class RepositoryAction(
             repo.tags.getOrElse(Set()).contains(Tag.Api),
             questionMap
           )
-          // Get user data and cross-reference with the owner of the service
-          Right(AssessedServiceRequest(request, assessedService))
+          Right(AssessedServiceRequest(request, request.retrieval.value, assessedService))
         }
     }
   }
 
+}
+
+private object RepositoryActionBuilder {
+  private type AuthenticatedRequestWithUsername[A] =
+    AuthenticatedRequest[A, Retrieval.Username]
 }

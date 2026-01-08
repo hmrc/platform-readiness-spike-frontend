@@ -27,12 +27,13 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.{ErrorTemplate, QuestionView}
+import uk.gov.hmrc.internalauth.client.{FrontendAuthComponents, Retrieval}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class QuestionController @Inject()(
                                    override val messagesApi: MessagesApi,
-                                   identify: IdentifierAction,
+                                   auth: FrontendAuthComponents,
                                    val controllerComponents: MessagesControllerComponents,
                                    view: QuestionView,
                                    errorView: ErrorTemplate,
@@ -41,8 +42,11 @@ class QuestionController @Inject()(
                                    repositoryActionFactory: RepositoryActionFactory
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(service: String, section: String, question: String): Action[AnyContent] = (identify andThen repositoryActionFactory.action(service)) {
-    implicit request =>
+  def onPageLoad(service: String, section: String, question: String): Action[AnyContent] =
+    (auth.authenticatedAction(
+      continueUrl = routes.QuestionController.onPageLoad(service, section, question),
+      retrieval = Retrieval.username
+    )() andThen repositoryActionFactory.action(service)) { implicit request =>
 
       val form = formProvider(service, question, "User", "User")
 
@@ -59,7 +63,10 @@ class QuestionController @Inject()(
       }
   }
 
-  def onSubmit(service: String, section: String, question: String): Action[AnyContent] = (identify).async {
+  def onSubmit(service: String, section: String, question: String): Action[AnyContent] = (auth.authenticatedAction(
+    continueUrl = routes.QuestionController.onPageLoad(service, section, question),
+    retrieval = Retrieval.username
+  ) andThen repositoryActionFactory.action(service)).async {
     implicit request =>
 
       val form = formProvider(service, question, "User", "User")

@@ -21,6 +21,7 @@ import connectors.QuestionConnector
 import controllers.actions.*
 import models.ReviewStatus.{NeedsReview, Pass}
 import models.{Question, ReviewStatus}
+import uk.gov.hmrc.internalauth.client.{FrontendAuthComponents, Retrieval}
 
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -33,15 +34,19 @@ import scala.concurrent.ExecutionContext
 
 class SectionController @Inject()(
                                    override val messagesApi: MessagesApi,
-                                   identify: IdentifierAction,
+                                   auth: FrontendAuthComponents,
                                    val controllerComponents: MessagesControllerComponents,
                                    view: SectionView,
                                    connector: QuestionConnector,
                                    repositoryActionFactory: RepositoryActionFactory
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(service: String, section: String): Action[AnyContent] = (identify andThen repositoryActionFactory.action(service)) {
-    implicit request =>
+  def onPageLoad(service: String, section: String): Action[AnyContent] =
+    (auth.authenticatedAction(
+      continueUrl = routes.SectionController.onPageLoad(service, section),
+      retrieval = Retrieval.username
+    )() andThen repositoryActionFactory.action(service)) { implicit request =>
+      
       val questionSummaries = QuestionStructure.sectionsMap(section).map { q =>
         val currentQuestion = request.assessedService.answeredQuestions.get(q.name)
         SectionController.createViewModel(service, section, q, currentQuestion)
