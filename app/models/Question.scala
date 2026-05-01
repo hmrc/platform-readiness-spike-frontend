@@ -16,6 +16,7 @@
 
 package models
 
+import models.ReviewStatus.NeedsReview
 import play.api.libs.json.*
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
@@ -26,10 +27,10 @@ final case class Question(
   questionId: String,
   lastUpdated: Instant = Instant.now,
   teamComment: Option[String] = None,
-  teamStatus: ReviewStatus,
+  teamStatus: ReviewStatus = NeedsReview,
   teamMemberUsername: Option[String] = None,
   reviewerComment: Option[String] = None,
-  reviewerStatus: ReviewStatus,
+  reviewerStatus: ReviewStatus = NeedsReview,
   reviewerUsername: Option[String] = None
 )
 

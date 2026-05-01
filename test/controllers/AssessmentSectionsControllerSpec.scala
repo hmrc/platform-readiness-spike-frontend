@@ -37,7 +37,7 @@ class AssessmentSectionsControllerSpec extends SpecBase {
   private val emptySections = QuestionStructure.sections(false).map(assessmentSection =>
     SectionSummary(
       title = assessmentSection.name,
-      href = controllers.routes.SectionController.onPageLoad("some-frontend", assessmentSection.name).url,
+      href = controllers.routes.SectionController.onPageLoad("pertax-frontend", assessmentSection.name).url,
       teamStatus = ReviewStatus.NeedsReview,
       reviewerStatus = ReviewStatus.NeedsReview
     )
@@ -49,13 +49,13 @@ class AssessmentSectionsControllerSpec extends SpecBase {
 
       val application = applicationBuilder()
         .overrides(
-          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("some-frontend", Seq()))),
+          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("pertax-frontend", Seq()))),
         ).build()
 
       when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
 
       running(application) {
-        val request = FakeRequest(GET, routes.AssessmentSectionsController.onPageLoad("some-frontend").url)
+        val request = FakeRequest(GET, routes.AssessmentSectionsController.onPageLoad("pertax-frontend").url)
           .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
@@ -63,7 +63,7 @@ class AssessmentSectionsControllerSpec extends SpecBase {
         val view = application.injector.instanceOf[AssessmentSectionsView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view("some-frontend", emptySections, ReviewStatus.NeedsReview, ReviewStatus.NeedsReview)(request, messages(application)).toString
+        contentAsString(result) mustEqual view("pertax-frontend", emptySections, ReviewStatus.NeedsReview, ReviewStatus.NeedsReview)(request, messages(application)).toString
       }
     }
   }
@@ -71,7 +71,7 @@ class AssessmentSectionsControllerSpec extends SpecBase {
   "createViewModel" - {
 
     def generateQuestion(questionId: String, teamStatus: ReviewStatus, reviewerStatus: ReviewStatus) = questionId -> Question(
-      service = "some-frontend",
+      service = "pertax-frontend",
       questionId = questionId,
       lastUpdated = Instant.now,
       teamComment = None,
@@ -95,11 +95,11 @@ class AssessmentSectionsControllerSpec extends SpecBase {
 
       val expected = SectionSummary(
         title = section.name,
-        href = controllers.routes.SectionController.onPageLoad("some-frontend", section.name).url,
+        href = controllers.routes.SectionController.onPageLoad("pertax-frontend", section.name).url,
         teamStatus = ReviewStatus.NeedsReview,
         reviewerStatus = ReviewStatus.NeedsReview
       )
-      val result = AssessmentSectionsController.createViewModel("some-frontend", section, questions)
+      val result = AssessmentSectionsController.createViewModel("pertax-frontend", section, questions)
       result mustEqual expected
     }
 
@@ -116,11 +116,11 @@ class AssessmentSectionsControllerSpec extends SpecBase {
 
       val expected = SectionSummary(
         title = section.name,
-        href = controllers.routes.SectionController.onPageLoad("some-frontend", section.name).url,
+        href = controllers.routes.SectionController.onPageLoad("pertax-frontend", section.name).url,
         teamStatus = ReviewStatus.Warning,
         reviewerStatus = ReviewStatus.Fail
       )
-      val result = AssessmentSectionsController.createViewModel("some-frontend", section, questions)
+      val result = AssessmentSectionsController.createViewModel("pertax-frontend", section, questions)
       result mustEqual expected
     }
   }

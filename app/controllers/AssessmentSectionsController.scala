@@ -17,7 +17,8 @@
 package controllers
 
 import config.{AssessmentSection, QuestionStructure}
-import connectors.{QuestionConnector, TeamsAndRepositoriesConnector}
+import connectors.QuestionConnector
+import services.TeamsAndRepositoriesService
 import controllers.actions.*
 import models.ReviewStatus.NeedsReview
 import models.repositories.GitRepository
@@ -38,7 +39,7 @@ class AssessmentSectionsController @Inject()(
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AssessmentSectionsView,
                                        questionConnector: QuestionConnector,
-                                       repositoryConnector: TeamsAndRepositoriesConnector,
+                                       repositoryConnector: TeamsAndRepositoriesService,
                                        repositoryActionFactory: RepositoryActionFactory
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 

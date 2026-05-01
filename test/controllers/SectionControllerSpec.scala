@@ -39,7 +39,7 @@ class SectionControllerSpec extends SpecBase {
   private val emptyQuestions = QuestionStructure.BuildAndResilience.questionPages.map(question =>
     QuestionSummary(
       title = question.name,
-      href = controllers.routes.QuestionController.onPageLoad("service123", sectionName, question.name).url,
+      href = controllers.routes.QuestionController.onPageLoad("pertax-frontend", sectionName, question.name).url,
       teamStatus = ReviewStatus.NeedsReview,
       reviewerStatus = ReviewStatus.NeedsReview
     )
@@ -53,11 +53,11 @@ class SectionControllerSpec extends SpecBase {
 
       val application = applicationBuilder()
         .overrides(
-          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("service123", Seq()))),
+          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("pertax-frontend", Seq()))),
         ).build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.SectionController.onPageLoad("service123", sectionName).url)
+        val request = FakeRequest(GET, routes.SectionController.onPageLoad("pertax-frontend", sectionName).url)
           .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
@@ -65,7 +65,7 @@ class SectionControllerSpec extends SpecBase {
         val view = application.injector.instanceOf[SectionView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view("service123", sectionName, emptyQuestions, ReviewStatus.NeedsReview, ReviewStatus.NeedsReview)(request, messages(application)).toString
+        contentAsString(result) mustEqual view("pertax-frontend", sectionName, emptyQuestions, ReviewStatus.NeedsReview, ReviewStatus.NeedsReview)(request, messages(application)).toString
       }
     }
   }
@@ -77,17 +77,17 @@ class SectionControllerSpec extends SpecBase {
     "defaults to NeedsReview where question isn't answered" in {
       val expected = QuestionSummary(
         title = questionName,
-        href = controllers.routes.QuestionController.onPageLoad("service123", sectionName, questionName).url,
+        href = controllers.routes.QuestionController.onPageLoad("pertax-frontend", sectionName, questionName).url,
         teamStatus = ReviewStatus.NeedsReview,
         reviewerStatus = ReviewStatus.NeedsReview
       )
-      val result = SectionController.createViewModel("service123", sectionName, QuestionPage(questionName), None)
+      val result = SectionController.createViewModel("pertax-frontend", sectionName, QuestionPage(questionName), None)
       result mustEqual expected
     }
 
     "uses the statuses where the question is populated" in {
       val question = Question(
-        service = "service123",
+        service = "pertax-frontend",
         questionId = questionName,
         lastUpdated = Instant.now,
         teamComment = Some("Some comment"),
@@ -99,11 +99,11 @@ class SectionControllerSpec extends SpecBase {
       )
       val expected = QuestionSummary(
         title = questionName,
-        href = controllers.routes.QuestionController.onPageLoad("service123", sectionName, questionName).url,
+        href = controllers.routes.QuestionController.onPageLoad("pertax-frontend", sectionName, questionName).url,
         teamStatus = ReviewStatus.Pass,
         reviewerStatus = ReviewStatus.Fail
       )
-      val result = SectionController.createViewModel("service123", sectionName, QuestionPage(questionName), Some(question))
+      val result = SectionController.createViewModel("pertax-frontend", sectionName, QuestionPage(questionName), Some(question))
       result mustEqual expected
     }
   }

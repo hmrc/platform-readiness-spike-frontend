@@ -16,11 +16,12 @@
 
 package controllers.actions
 
-import connectors.{QuestionConnector, TeamsAndRepositoriesConnector}
+import connectors.QuestionConnector
+import services.TeamsAndRepositoriesService
 import controllers.routes
 import models.Question
 import models.repositories.{AssessedService, Tag}
-import models.requests.{AssessedServiceRequest, IdentifierRequest}
+import models.requests.{AssessedServiceRequest, IdentifierRequest, ReviewMode}
 import play.api.mvc.*
 import play.api.mvc.Results.*
 import uk.gov.hmrc.http.HeaderCarrier
@@ -36,7 +37,7 @@ import scala.reflect.ClassTag
 
 @Singleton
 class RepositoryActionFactory @Inject()(
-                                         val repositoryConnector: TeamsAndRepositoriesConnector,
+                                         val repositoryConnector: TeamsAndRepositoriesService,
                                          val questionConnector: QuestionConnector,
                                          val parser: BodyParsers.Default,
                                          val errorView: ErrorTemplate,
@@ -49,7 +50,7 @@ class RepositoryActionFactory @Inject()(
 
 class RepositoryActionBuilder(
                         val service: String,
-                        val repositoryConnector: TeamsAndRepositoriesConnector,
+                        val repositoryConnector: TeamsAndRepositoriesService,
                         val questionConnector: QuestionConnector,
                         val parser: BodyParsers.Default,
                         val errorView: ErrorTemplate,
@@ -76,7 +77,14 @@ class RepositoryActionBuilder(
             repo.tags.getOrElse(Set()).contains(Tag.Api),
             questionMap
           )
-          Right(AssessedServiceRequest(request, request.retrieval.value, assessedService))
+          val username = request.retrieval.value
+          val reviewMode = username match {
+            case "1" => ReviewMode.TeamMember
+            case "2" => ReviewMode.Reviewer
+            case _ => ReviewMode.Viewer
+          }
+          Right(AssessedServiceRequest(request, username, reviewMode, assessedService))
+          Right(AssessedServiceRequest(request, username, reviewMode, assessedService))
         }
     }
   }

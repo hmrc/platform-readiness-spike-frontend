@@ -30,6 +30,7 @@ import org.mockito.ArgumentMatchers.{eq => eqTo}
 import uk.gov.hmrc.internalauth.client.Retrieval
 import uk.gov.hmrc.internalauth.client.Retrieval.Username
 import scala.concurrent.Future
+import models.requests.ReviewMode
 
 class QuestionControllerSpec extends SpecBase {
 
@@ -50,8 +51,8 @@ class QuestionControllerSpec extends SpecBase {
         when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
 
         val formProvider = application.injector.instanceOf[QuestionFormProvider]
-        val form = formProvider("some-frontend", questionName, "User", "User")
-        val request = FakeRequest(GET, routes.QuestionController.onPageLoad("some-frontend", sectionName, questionName).url)
+        val form = formProvider(ReviewMode.Viewer)
+        val request = FakeRequest(GET, routes.QuestionController.onPageLoad("pertax-frontend", sectionName, questionName).url)
           .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
@@ -59,7 +60,7 @@ class QuestionControllerSpec extends SpecBase {
         val view = application.injector.instanceOf[QuestionView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view("some-frontend", sectionName, questionName, form)(request, messages(application)).toString
+        contentAsString(result) mustEqual view("pertax-frontend", sectionName, questionName, form, None, ReviewMode.Viewer)(request, messages(application)).toString
       }
     }
   }

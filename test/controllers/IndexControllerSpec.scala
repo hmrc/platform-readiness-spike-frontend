@@ -16,7 +16,8 @@
 
 package controllers
 
-import base.{FakeTeamsAndRepositoriesConnector, SpecBase}
+import base.SpecBase
+import services.TeamsAndRepositoriesService
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import views.html.IndexView
@@ -48,7 +49,7 @@ class IndexControllerSpec extends SpecBase {
 
         val realMessagesApi: MessagesApi = application.injector.instanceOf[MessagesApi]
         given Messages = realMessagesApi.preferred(request)
-        val table = IndexController.tableFromRepos(Seq(FakeTeamsAndRepositoriesConnector.testRepository))
+        val table = IndexController.tableFromRepos(TeamsAndRepositoriesService.repos.values.toSeq)
 
         status(result) mustEqual OK
 

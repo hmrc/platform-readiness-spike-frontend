@@ -7,6 +7,7 @@ site.no = No
 site.yes = Yes
 site.continue = Continue
 site.save = Save and continue
+site.cancel = Cancel
 site.start = Start now
 site.startAgain = Start again
 site.signIn = Sign in

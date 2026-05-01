@@ -16,7 +16,7 @@
 
 package controllers
 
-import connectors.{TeamsAndRepositoriesConnector, TestTeamsAndRepositoriesConnector}
+import services.TeamsAndRepositoriesService
 import models.repositories.{GitRepository, Tag}
 import models.requests.AssessedServiceRequest
 import play.api.Logging
@@ -37,7 +37,7 @@ class IndexController @Inject()(
                                  val controllerComponents: MessagesControllerComponents,
                                  auth: FrontendAuthComponents,
                                  view: IndexView,
-                                 teamsAndRepositoriesConnector: TeamsAndRepositoriesConnector,
+                                 teamsAndRepositoriesConnector: TeamsAndRepositoriesService,
                                  serviceLink: serviceLink
                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
@@ -66,8 +66,7 @@ object IndexController {
       head = Some(
         Seq(
           HeadCell(Text(messages("Service"))),
-          HeadCell(Text(messages("Service type"))),
-          HeadCell(Text(messages("Admin service?")))
+          HeadCell(Text(messages("Service type")))
         )
       ),
       firstCellIsHeader = true,
@@ -80,9 +79,16 @@ object IndexController {
     val html = serviceLink()(repo.name)
     Seq(
       TableRow(HtmlContent(html)),
-      TableRow(Text(repo.serviceType.map(_.toString).getOrElse("N/A"))),
-      TableRow(Text(repo.isAdminService.toString))
+      TableRow(Text(getServiceType(repo)))
     )
   }
+
+  private def getServiceType(repo:GitRepository): String =
+    val serviceType = repo.serviceType.map(_.toString).getOrElse("N/A")
+    if (repo.tags.getOrElse(Set()).contains(Tag.AdminFrontend))
+      s"$serviceType - Admin Service"
+    else if (repo.tags.getOrElse(Set()).contains(Tag.Api))
+      s"$serviceType - API"
+    else serviceType
 }
 

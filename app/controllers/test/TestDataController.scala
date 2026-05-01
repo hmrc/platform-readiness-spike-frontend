@@ -33,21 +33,21 @@ import views.html.components.serviceLink
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
-class TestDataController @Inject()(
-                                 val controllerComponents: MessagesControllerComponents,
-                                 auth: FrontendAuthComponents,
-                                 teamsAndRepositoriesConnector: TeamsAndRepositoriesConnector,
-                                 testConnector: TestTeamsAndRepositoriesConnector,
-                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
+// class TestDataController @Inject()(
+//                                  val controllerComponents: MessagesControllerComponents,
+//                                  auth: FrontendAuthComponents,
+//                                  teamsAndRepositoriesConnector: TeamsAndRepositoriesConnector,
+//                                  testConnector: TestTeamsAndRepositoriesConnector,
+//                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
-  def onPageLoad(): Action[AnyContent] =
-    auth.authenticatedAction(
-      continueUrl = controllers.test.routes.TestDataController.onPageLoad(),
-      retrieval = Retrieval.username
-    )().async { implicit request =>
-      for {
-        _ <- testConnector.addRepositories
-      } yield Redirect(controllers.routes.IndexController.onPageLoad())
-  }
+//   def onPageLoad(): Action[AnyContent] =
+//     auth.authenticatedAction(
+//       continueUrl = controllers.test.routes.TestDataController.onPageLoad(),
+//       retrieval = Retrieval.username
+//     )().async { implicit request =>
+//       for {
+//         _ <- testConnector.addRepositories
+//       } yield Redirect(controllers.routes.IndexController.onPageLoad())
+//   }
 
-}
+// }

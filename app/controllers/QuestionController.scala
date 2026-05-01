@@ -19,9 +19,10 @@ package controllers
 import config.{QuestionPage, QuestionStructure}
 import connectors.QuestionConnector
 import controllers.actions.*
-import forms.QuestionFormProvider
+import forms.{QuestionFormModel, QuestionFormProvider}
 import models.Question
-
+import models.ReviewStatus.NeedsReview
+import models.requests.ReviewMode
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -42,22 +43,22 @@ class QuestionController @Inject()(
                                    repositoryActionFactory: RepositoryActionFactory
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
+
   def onPageLoad(service: String, section: String, question: String): Action[AnyContent] =
     (auth.authenticatedAction(
       continueUrl = routes.QuestionController.onPageLoad(service, section, question),
       retrieval = Retrieval.username
     )() andThen repositoryActionFactory.action(service)) { implicit request =>
 
-      val form = formProvider(service, question, "User", "User")
-
       QuestionStructure.sectionsMap(section).find(_.name == question) match {
         case Some(q) => {
           val savedQuestion: Option[Question] = request.assessedService.answeredQuestions.get(question)
-          val preparedForm = savedQuestion match {
-            case None => form
-            case Some(value) => form.fill(value)
+          val preparedForm = (savedQuestion, request.reviewMode) match {
+            case (Some(sq), ReviewMode.TeamMember) => formProvider(request.reviewMode).fill(QuestionFormModel(sq.teamComment, sq.teamStatus))
+            case (Some(sq), ReviewMode.Reviewer) => formProvider(request.reviewMode).fill(QuestionFormModel(sq.reviewerComment, sq.reviewerStatus))
+            case _ => formProvider(request.reviewMode)
           }
-          Ok(view(service, section, question, preparedForm))
+          Ok(view(service, section, question, preparedForm, savedQuestion, request.reviewMode))
         }
         case None => NotFound(errorView("questionNotFound.title", "questionNotFound.heading", "questionNotFound.message"))
       }
@@ -69,15 +70,22 @@ class QuestionController @Inject()(
   ) andThen repositoryActionFactory.action(service)).async {
     implicit request =>
 
-      val form = formProvider(service, question, "User", "User")
+      val savedQuestion: Option[Question] = request.assessedService.answeredQuestions.get(question)
 
-      form.bindFromRequest().fold(
+      formProvider(request.reviewMode).bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(service, section, question, formWithErrors))),
+          Future.successful(BadRequest(view(service, section, question, formWithErrors, savedQuestion, request.reviewMode))),
 
         value =>
+          val updatedQuestion = (savedQuestion, request.reviewMode) match {
+            case (Some(sq), ReviewMode.TeamMember) => sq.copy(teamComment = value.comment, teamStatus = value.status)
+            case (Some(sq), ReviewMode.Reviewer) => sq.copy(reviewerComment = value.comment, reviewerStatus = value.status)
+            case (None, ReviewMode.TeamMember) => Question(service, question, teamComment = value.comment, teamStatus = value.status)
+            case (None, ReviewMode.Reviewer) => Question(service, question, reviewerComment = value.comment, reviewerStatus = value.status)
+            case _ => throw new Exception("Viewers shouldn't be able to submit questions")
+          }
           for {
-            _ <- connector.insertQuestion(value)
+            _ <- connector.insertQuestion(updatedQuestion)
           } yield Redirect(controllers.routes.SectionController.onPageLoad(service, section))
       )
   }

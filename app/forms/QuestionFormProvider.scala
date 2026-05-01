@@ -21,28 +21,32 @@ import forms.mappings.Mappings
 import models.{Question, ReviewStatus}
 import play.api.data.Form
 import play.api.data.Forms.{mapping, optional}
+import models.requests.ReviewMode
 
 import java.time.Instant
 
+case class QuestionFormModel(
+                              comment: Option[String],
+                              status: ReviewStatus
+                            )
+
+
 class QuestionFormProvider @Inject() extends Mappings {
 
-  def apply(service: String, questionId: String, teamMemberUsername: String, reviewerUsername: String): Form[Question] =
+  def apply(reviewMode: ReviewMode): Form[QuestionFormModel] = {
+    val (commentField, statusField) = reviewMode match {
+      case ReviewMode.TeamMember => ("teamComment", "teamStatus")
+      case _ => ("reviewerComment", "reviewerStatus")
+    }
+
     Form(
       mapping(
-        "teamComment" -> optional(text("question.teamComment.error.required")),
-        "teamStatus" -> enumerable[ReviewStatus]("question.teamStatus.error.required"),
-        "reviewerComment" -> optional(text("question.reviewerComment.error.required")),
-        "reviewerStatus" -> enumerable[ReviewStatus]("question.reviewerStatus.error.required")
-      )((teamComment, teamStatus, reviewerComment, reviewerStatus) =>
-          Question(service,
-            questionId,
-            Instant.now,
-            teamComment,
-            teamStatus,
-            Some(teamMemberUsername),
-            reviewerComment,
-            reviewerStatus,
-            Some(reviewerUsername)))
-        (q => Some(q.teamComment, q.teamStatus, q.reviewerComment, q.reviewerStatus))
+        commentField -> optional(text(s"question.$commentField.error.required")),
+        statusField -> enumerable[ReviewStatus](s"question.$statusField.error.required")
+      )(QuestionFormModel.apply)(q => Some((q.comment, q.status)))
     )
+  }
+
 }
+
+
