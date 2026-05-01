@@ -20,13 +20,21 @@
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage._
+@import uk.gov.hmrc.govukfrontend.views.html.components.FullWidthPageLayout
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardHeader
+
 
 @this(
+govukLayout: GovukLayout,
+hmrcHead: HmrcHead,
+hmrcScripts: HmrcScripts,
     appConfig: FrontendAppConfig,
     hmrcTimeoutDialog: HmrcTimeoutDialog,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
     alphaBanner: StandardAlphaBanner,
-    hmrcStandardPage: HmrcStandardPage
+    hmrcStandardPage: HmrcStandardPage,
+    fullWidthPageLayout: FullWidthPageLayout,
+    hmrcStandardHeader: HmrcStandardHeader
 )
 
 @(pageTitle: String, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, showHmrcBanner: Boolean = false)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
@@ -37,9 +45,8 @@
         @hmrcTimeoutDialog(TimeoutDialog(
             timeout             = Some(appConfig.timeout),
             countdown           = Some(appConfig.countdown),
-            keepAliveUrl        = Some(routes.KeepAliveController.keepAlive().url),
             keepAliveButtonText = Some(messages("timeout.keepAlive")),
-            signOutUrl          = Some(controllers.auth.routes.AuthController.signOut().url),
+            signOutUrl          = Some(appConfig.signOutUrl),
             signOutButtonText   = Some(messages("timeout.signOut")),
             title               = Some(messages("timeout.title")),
             message             = Some(messages("timeout.message")),
@@ -48,24 +55,28 @@
     }
 }
 
-@content = {
-    @contentBlock
-    @hmrcReportTechnicalIssueHelper()
+@headerBlock = {
+  @hmrcStandardHeader(
+    serviceUrl = Some("http://localhost:50000/platform-readiness-assessment"),
+    signOutUrl = Some(controllers.auth.routes.AuthController.signOut().url),
+    serviceName = Some(messages("service.name"))
+  )
 }
 
-@hmrcStandardPage(HmrcStandardPageParams(
-    pageTitle = Some(pageTitle),
-    templateOverrides = TemplateOverrides(
-        additionalHeadBlock = Some(head)
-    ),
-    serviceURLs = ServiceURLs(
-        serviceUrl = Some(routes.IndexController.onPageLoad().url),
-        signOutUrl = if(showSignOut) Some(controllers.auth.routes.AuthController.signOut().url) else None
-    ),
-    banners = Banners(
-        displayHmrcBanner = showHmrcBanner,
-        phaseBanner = Some(alphaBanner(appConfig.feedbackUrl))
-    ),
-    isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
-    backLink = if (showBackLink) Some(BackLink.mimicsBrowserBackButtonViaJavaScript) else None
-))(content)
+@myLayout = {
+<div class="govuk-width-container ">
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  @contentBlock
+</main>
+</div>
+}
+
+@govukLayout(
+  pageTitle = Some(pageTitle),
+  headBlock = Some(hmrcHead(headBlock = Some(head))),
+  headerBlock = Some(headerBlock),
+  beforeContentBlock = None,
+  assetPath = None,
+  mainContentLayout = None,
+  pageLayout = Some(_ => myLayout)
+)(contentBlock)

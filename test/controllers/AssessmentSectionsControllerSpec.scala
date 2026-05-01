@@ -1,0 +1,128 @@
+/*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package controllers
+
+import base.{FakeQuestionConnector, SpecBase}
+import config.QuestionStructure
+import connectors.QuestionConnector
+import models.{Question, QuestionResponse, ReviewStatus}
+import play.api.inject.bind
+import play.api.test.FakeRequest
+import play.api.test.Helpers.*
+import viewmodels.SectionSummary
+import views.html.AssessmentSectionsView
+import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.{eq => eqTo}
+import uk.gov.hmrc.internalauth.client.Retrieval
+import uk.gov.hmrc.internalauth.client.Retrieval.Username
+import scala.concurrent.Future
+import java.time.Instant
+
+class AssessmentSectionsControllerSpec extends SpecBase {
+
+  private val emptySections = QuestionStructure.sections(false).map(assessmentSection =>
+    SectionSummary(
+      title = assessmentSection.name,
+      href = controllers.routes.SectionController.onPageLoad("pertax-frontend", assessmentSection.name).url,
+      teamStatus = ReviewStatus.NeedsReview,
+      reviewerStatus = ReviewStatus.NeedsReview
+    )
+  )
+
+  "AssessmentSections Controller" - {
+
+    "must return OK and the correct view for a GET" in {
+
+      val application = applicationBuilder()
+        .overrides(
+          bind[QuestionConnector].toInstance(new FakeQuestionConnector(QuestionResponse("pertax-frontend", Seq()))),
+        ).build()
+
+      when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
+
+      running(application) {
+        val request = FakeRequest(GET, routes.AssessmentSectionsController.onPageLoad("pertax-frontend").url)
+          .withSession("authToken" -> "Token some-token")
+
+        val result = route(application, request).value
+
+        val view = application.injector.instanceOf[AssessmentSectionsView]
+
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view("pertax-frontend", emptySections, ReviewStatus.NeedsReview, ReviewStatus.NeedsReview)(request, messages(application)).toString
+      }
+    }
+  }
+
+  "createViewModel" - {
+
+    def generateQuestion(questionId: String, teamStatus: ReviewStatus, reviewerStatus: ReviewStatus) = questionId -> Question(
+      service = "pertax-frontend",
+      questionId = questionId,
+      lastUpdated = Instant.now,
+      teamComment = None,
+      teamStatus = teamStatus,
+      teamMemberUsername = None,
+      reviewerComment = None,
+      reviewerStatus = reviewerStatus,
+      reviewerUsername = None
+    )
+
+    "returns NeedsReview where all questions have been unanswered" in {
+      val section = QuestionStructure.BuildAndResilience
+      val questions = Map(
+        generateQuestion("nonstandard-pattern", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+        generateQuestion("bobby-rules", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+        generateQuestion("http-verbs", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+        generateQuestion("deprecated-libraries", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+        generateQuestion("readme", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+        generateQuestion("appropriate-timeouts", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+      )
+
+      val expected = SectionSummary(
+        title = section.name,
+        href = controllers.routes.SectionController.onPageLoad("pertax-frontend", section.name).url,
+        teamStatus = ReviewStatus.NeedsReview,
+        reviewerStatus = ReviewStatus.NeedsReview
+      )
+      val result = AssessmentSectionsController.createViewModel("pertax-frontend", section, questions)
+      result mustEqual expected
+    }
+
+    "determines the statuses by the underlying questions" in {
+      val section = QuestionStructure.BuildAndResilience
+      val questions = Map(
+        generateQuestion("nonstandard-pattern", ReviewStatus.Warning, ReviewStatus.NeedsReview),
+        generateQuestion("bobby-rules", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+        generateQuestion("http-verbs", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+        generateQuestion("deprecated-libraries", ReviewStatus.NeedsReview, ReviewStatus.Fail),
+        generateQuestion("readme", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+        generateQuestion("appropriate-timeouts", ReviewStatus.NeedsReview, ReviewStatus.NeedsReview),
+      )
+
+      val expected = SectionSummary(
+        title = section.name,
+        href = controllers.routes.SectionController.onPageLoad("pertax-frontend", section.name).url,
+        teamStatus = ReviewStatus.Warning,
+        reviewerStatus = ReviewStatus.Fail
+      )
+      val result = AssessmentSectionsController.createViewModel("pertax-frontend", section, questions)
+      result mustEqual expected
+    }
+  }
+
+}

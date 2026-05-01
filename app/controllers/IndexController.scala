@@ -16,34 +16,79 @@
 
 package controllers
 
-import controllers.actions.{DataRetrievalAction, IdentifierAction}
-import models.{NormalMode, UserAnswers}
-import navigation.Navigator
-import pages.IndexPage
-import play.api.i18n.I18nSupport
+import services.TeamsAndRepositoriesService
+import models.repositories.{GitRepository, Tag}
+import models.requests.AssessedServiceRequest
+import play.api.Logging
+import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import services.SessionService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IndexView
+import uk.gov.hmrc.govukfrontend.views.viewmodels.table.{HeadCell, Table, TableRow}
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
+import views.html.components.serviceLink
+import uk.gov.hmrc.internalauth.client.{FrontendAuthComponents, Retrieval}
 
 import javax.inject.Inject
+import scala.concurrent.ExecutionContext
 
 class IndexController @Inject()(
                                  val controllerComponents: MessagesControllerComponents,
-                                 identify: IdentifierAction,
-                                 sessionService: SessionService,
-                                 navigator: Navigator,
+                                 auth: FrontendAuthComponents,
                                  view: IndexView,
-                                 getData: DataRetrievalAction
-                               ) extends FrontendBaseController with I18nSupport {
+                                 teamsAndRepositoriesConnector: TeamsAndRepositoriesService,
+                                 serviceLink: serviceLink
+                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData) { implicit request =>
-    request.userAnswers match {
-      case None =>
-        val newUserAnswers = UserAnswers(request.userId)
-        sessionService.setUserAnswers(newUserAnswers)
-        Ok(view(navigator.nextPage(IndexPage, NormalMode, newUserAnswers).url))
-      case Some(userAnswers) => Ok(view(navigator.nextPage(IndexPage, NormalMode, userAnswers).url))
-    }
+  def onPageLoad(): Action[AnyContent] =
+    auth.authenticatedAction(
+      continueUrl = routes.IndexController.onPageLoad(),
+      retrieval = Retrieval.username
+    )().async { implicit request =>
+      for {
+        repos <- teamsAndRepositoriesConnector.allRepositories
+        table = IndexController.tableFromRepos(repos)
+      } yield Ok(view(table))
   }
+
 }
+
+object IndexController {
+
+  def tableFromRepos(repos: Seq[GitRepository])(implicit messages: Messages): Table = {
+    createTable(repos.map(r => storeEntryToTableRow(r)))
+  }
+
+  private def createTable(rows: Seq[Seq[TableRow]])(implicit messages: Messages): Table =
+    Table(
+      rows = rows,
+      head = Some(
+        Seq(
+          HeadCell(Text(messages("Service"))),
+          HeadCell(Text(messages("Service type")))
+        )
+      ),
+      firstCellIsHeader = true,
+      attributes = Map("id" -> "service-table"),
+      caption = Some(messages("index.heading")),
+      captionClasses = "govuk-heading-xl"
+    )
+
+  private def storeEntryToTableRow(repo: GitRepository)(implicit messages: Messages): Seq[TableRow] = {
+    val html = serviceLink()(repo.name)
+    Seq(
+      TableRow(HtmlContent(html)),
+      TableRow(Text(getServiceType(repo)))
+    )
+  }
+
+  private def getServiceType(repo:GitRepository): String =
+    val serviceType = repo.serviceType.map(_.toString).getOrElse("N/A")
+    if (repo.tags.getOrElse(Set()).contains(Tag.AdminFrontend))
+      s"$serviceType - Admin Service"
+    else if (repo.tags.getOrElse(Set()).contains(Tag.Api))
+      s"$serviceType - API"
+    else serviceType
+}
+

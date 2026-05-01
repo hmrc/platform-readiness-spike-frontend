@@ -14,39 +14,22 @@
  * limitations under the License.
  *@
 
+@import controllers.routes
+@import models.repositories.GitRepository
+
 @this(
     layout: templates.Layout,
-    govukButton: GovukButton
+    govukButton: GovukButton,
+    govukTable: GovukTable
 )
 
-@(nextPageLink: String)(implicit request: Request[_], messages: Messages)
+@(table: Table)(implicit request: Request[_], messages: Messages)
 
 @layout(
     pageTitle    = titleNoForm(messages("index.title")),
     showBackLink = false
 ) {
 
-    <h1 class="govuk-heading-xl">@messages("index.heading")</h1>
-
-    <p class="govuk-body">@messages("index.guidance")</p>
-    <p class="govuk-body">@messages("index.guidance2")
-        <ol class="govuk-body">
-            <li>@messages("index.guidance3")</li>
-            <li>@messages("index.guidance4")</li>
-            <li>@messages("index.guidance5")</li>
-            <li>@messages("index.guidance6")</li>
-        </ol>
-    </p>
-    <p class="govuk-body">@messages("index.guidance7")</p>
-
-
-    <div>
-        @govukButton(Button(
-            href = Some(nextPageLink),
-            isStartButton = true,
-            content = Text(messages("site.continue")),
-            attributes = Map("id" -> "start")
-        ))
-    </div>
+    @govukTable(table)
 
 }

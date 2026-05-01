@@ -6,6 +6,8 @@ site.change = Change
 site.no = No
 site.yes = Yes
 site.continue = Continue
+site.save = Save and continue
+site.cancel = Cancel
 site.start = Start now
 site.startAgain = Start again
 site.signIn = Sign in
@@ -55,6 +57,28 @@ unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
 
 #========================================
+#          Question page
+#========================================
+
+questionPage.teamComment = Owning team comment
+questionPage.reviewerComment = Reviewer comment
+questionPage.teamStatus = Owning team status
+questionPage.reviewerStatus = Reviewer status
+
+reviewStatus.needsReview = Needs review
+reviewStatus.fail = Fail
+reviewStatus.warning = Warning
+reviewStatus.pass = Pass
+
+questionNotFound.title = Question not found
+questionNotFound.heading = Question not found
+questionNotFound.message = We can’t find this question. Please go back to the section page and select another question.
+
+serviceNotFound.title = Service not found
+serviceNotFound.heading = Service not found
+serviceNotFound.message = We can’t find this service. Please go back to the service list and select another service.
+
+#========================================
 #          Build & Resilience
 #========================================
 
@@ -73,174 +97,189 @@ doesNonstandardPattern.checkYourAnswersLabel = Does your service implement any n
 doesNonstandardPattern.error.required = Select yes if your service implements any non-standard patterns, or contradicts any MDTP Opinions
 doesNonstandardPattern.change.hidden = DoesNonstandardPattern
 
-nonstandardPattern.title = What non-standard patterns are implemented on your service?
-nonstandardPattern.heading = What non-standard patterns are implemented on your service?
-nonstandardPattern.checkYourAnswersLabel = What non-standard patterns are implemented on your service?
-nonstandardPattern.error.required = Enter any non-standard patterns which may be implemented by your service
-nonstandardPattern.error.length = This text must be 100 characters or less
-nonstandardPattern.change.hidden = NonstandardPattern
+nonstandard-pattern.title = What non-standard patterns are implemented on your service?
+nonstandard-pattern.heading = What non-standard patterns are implemented on your service?
+nonstandard-pattern.checkYourAnswersLabel = What non-standard patterns are implemented on your service?
+nonstandard-pattern.error.required = Enter any non-standard patterns which may be implemented by your service
+nonstandard-pattern.error.length = This text must be 100 characters or less
+nonstandard-pattern.change.hidden = NonstandardPattern
 
-breakBobbyRules.title = Does your service break any Bobby Rules?
-breakBobbyRules.heading = Does your service break any Bobby Rules?
-breakBobbyRules.checkYourAnswersLabel = Does your service break any Bobby Rules?
-breakBobbyRules.error.required = Select yes if your service breaks any Bobby Rules
-breakBobbyRules.change.hidden = BreakBobbyRules
+bobby-rules.title = Does your service break any Bobby Rules?
+bobby-rules.heading = Does your service break any Bobby Rules?
+bobby-rules.checkYourAnswersLabel = Does your service break any Bobby Rules?
+bobby-rules.error.required = Select yes if your service breaks any Bobby Rules
+bobby-rules.change.hidden = BreakBobbyRules
 
-usingHTTPVerbs.title = Are you using HTTP Verbs in your outbound calls?
-usingHTTPVerbs.heading = Are you using HTTP Verbs in your outbound calls?
-usingHTTPVerbs.checkYourAnswersLabel = Are you using HTTP Verbs in your outbound calls?
-usingHTTPVerbs.error.required = Select yes if your service uses HTTP Verbs in outbound calls
-usingHTTPVerbs.change.hidden = UsingHTTPVerbs
+http-verbs.title = Are you using HTTP Verbs in your outbound calls?
+http-verbs.heading = Are you using HTTP Verbs in your outbound calls?
+http-verbs.checkYourAnswersLabel = Are you using HTTP Verbs in your outbound calls?
+http-verbs.error.required = Select yes if your service uses HTTP Verbs in outbound calls
+http-verbs.change.hidden = UsingHTTPVerbs
 
-deprecatedLibraries.title = Is your service using any deprecated HMRC Libraries?
-deprecatedLibraries.heading = Is your service using any deprecated HMRC Libraries?
-deprecatedLibraries.checkYourAnswersLabel = Is your service using any deprecated HMRC Libraries?
-deprecatedLibraries.error.required = Select yes if your service is using deprecated HMRC Libraries
-deprecatedLibraries.change.hidden = DeprecatedLibraries
+deprecated-libraries.title = Is your service using any deprecated HMRC Libraries?
+deprecated-libraries.heading = Is your service using any deprecated HMRC Libraries?
+deprecated-libraries.checkYourAnswersLabel = Is your service using any deprecated HMRC Libraries?
+deprecated-libraries.error.required = Select yes if your service is using deprecated HMRC Libraries
+deprecated-libraries.change.hidden = DeprecatedLibraries
 
-readMeFitForPurpose.title = Is your service ReadMe document up to date and fit for purpose?
-readMeFitForPurpose.heading = Is your service ReadMe document up to date and fit for purpose?
-readMeFitForPurpose.checkYourAnswersLabel = Is your README up to date and fit for purpose?
-readMeFitForPurpose.error.required = Select yes if your service(s) ReadMe document(s) are both up to date and are fit for purpose
-readMeFitForPurpose.change.hidden = ReadMeFitForPurpose
+readme.title = Is your service ReadMe document up to date and fit for purpose?
+readme.heading = Is your service ReadMe document up to date and fit for purpose?
+readme.checkYourAnswersLabel = Is your README up to date and fit for purpose?
+readme.error.required = Select yes if your service(s) ReadMe document(s) are both up to date and are fit for purpose
+readme.change.hidden = ReadMeFitForPurpose
 
-appropriateTimeouts.title = Are appropriate timeouts used on all I/O within your service?
-appropriateTimeouts.heading = Are appropriate timeouts used on all I/O within your service?
-appropriateTimeouts.checkYourAnswersLabel = Are appropriate timeouts used on all I/O within your service?
-appropriateTimeouts.error.required = Select yes if appropriate timeouts are used on all I/O within your service
-appropriateTimeouts.change.hidden = AppropriateTimeouts
-appropriateTimeouts.hint = This should be proven through tests. Check the documentation on:
-appropriateTimeouts.hintURL = MDTP Retries and Timeouts
-appropriateTimeouts.hint2 = If a downstream system starts to consistently fail your services should degrade gracefully, this should be proven with tests.
-appropriateTimeouts.hint3 = You should also confirm HoD API usage fits within the Scrubbing Centre rate limits.
+appropriate-timeouts.title = Are appropriate timeouts used on all I/O within your service?
+appropriate-timeouts.heading = Are appropriate timeouts used on all I/O within your service?
+appropriate-timeouts.checkYourAnswersLabel = Are appropriate timeouts used on all I/O within your service?
+appropriate-timeouts.error.required = Select yes if appropriate timeouts are used on all I/O within your service
+appropriate-timeouts.change.hidden = AppropriateTimeouts
+appropriate-timeouts.hint = This should be proven through tests. Check the documentation on:
+appropriate-timeouts.hintURL = MDTP Retries and Timeouts
+appropriate-timeouts.hint2 = If a downstream system starts to consistently fail your services should degrade gracefully, this should be proven with tests.
+appropriate-timeouts.hint3 = You should also confirm HoD API usage fits within the Scrubbing Centre rate limits.
 
 #========================================
 #           Data Persistence
 #========================================
 
-usingMongo.title = Are you using Mongo for JSON data persistence?
-usingMongo.heading = Are you using Mongo for JSON data persistence?
-usingMongo.checkYourAnswersLabel = Are you using Mongo for JSON data persistence?
-usingMongo.error.required = Select yes if you are using Mongo for JSON data persistence
-usingMongo.change.hidden = UsingMongo
+using-mongo.title = Are you using Mongo for JSON data persistence?
+using-mongo.heading = Are you using Mongo for JSON data persistence?
+using-mongo.checkYourAnswersLabel = Are you using Mongo for JSON data persistence?
+using-mongo.error.required = Select yes if you are using Mongo for JSON data persistence
+using-mongo.change.hidden = UsingMongo
 
-resilientRecycleMongo.title = Are you resilient to a recycle of Mongo?
-resilientRecycleMongo.heading = Are you resilient to a recycle of Mongo?
-resilientRecycleMongo.checkYourAnswersLabel = Are you resilient to a recycle of Mongo?
-resilientRecycleMongo.error.required = Select yes if you are resilient to a recycle of Mongo
-resilientRecycleMongo.change.hidden = ResilientRecycleMongo
+mongo-recycle.title = Are you resilient to a recycle of Mongo?
+mongo-recycle.heading = Are you resilient to a recycle of Mongo?
+mongo-recycle.checkYourAnswersLabel = Are you resilient to a recycle of Mongo?
+mongo-recycle.error.required = Select yes if you are resilient to a recycle of Mongo
+mongo-recycle.change.hidden = ResilientRecycleMongo
 
-publicMongoTTL.title = Does your public Mongo have a Time to Live of less than or equal to 7 days?
-publicMongoTTL.heading = Does your public Mongo have a Time to Live of less than or equal to 7 days?
-publicMongoTTL.checkYourAnswersLabel = Does your public Mongo have a Time to Live of less than or equal to 7 days?
-publicMongoTTL.error.required = Select yes if your public Mongo has a Time to Live of 7 or less days
-publicMongoTTL.change.hidden = PublicMongoTTL
+public-mongo-ttl.title = Does your public Mongo have a Time to Live of less than or equal to 7 days?
+public-mongo-ttl.heading = Does your public Mongo have a Time to Live of less than or equal to 7 days?
+public-mongo-ttl.checkYourAnswersLabel = Does your public Mongo have a Time to Live of less than or equal to 7 days?
+public-mongo-ttl.error.required = Select yes if your public Mongo has a Time to Live of 7 or less days
+public-mongo-ttl.change.hidden = PublicMongoTTL
 
-fieldLevelEncryption.title = Does your service use Field Level Encryption wherever necessary?
-fieldLevelEncryption.heading = Does your service use Field Level Encryption wherever necessary?
-fieldLevelEncryption.checkYourAnswersLabel = Does your service use Field Level Encryption wherever necessary?
-fieldLevelEncryption.error.required = Select yes if your service uses Field Level Encryption where necessary
-fieldLevelEncryption.change.hidden = FieldLevelEncryption
+field-level-encryption.title = Does your service use Field Level Encryption wherever necessary?
+field-level-encryption.heading = Does your service use Field Level Encryption wherever necessary?
+field-level-encryption.checkYourAnswersLabel = Does your service use Field Level Encryption wherever necessary?
+field-level-encryption.error.required = Select yes if your service uses Field Level Encryption where necessary
+field-level-encryption.change.hidden = FieldLevelEncryption
 
-protectedMongoTTL.title = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
-protectedMongoTTL.heading = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
-protectedMongoTTL.checkYourAnswersLabel = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
-protectedMongoTTL.error.required = Select yes if your protected Mongo has a Time to Live of 30 or less days
-protectedMongoTTL.change.hidden = ProtectedMongoTTL
+protected-mongo-ttl.title = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
+protected-mongo-ttl.heading = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
+protected-mongo-ttl.checkYourAnswersLabel = Does your protected Mongo have a Time to Live of less than or equal to 30 days?
+protected-mongo-ttl.error.required = Select yes if your protected Mongo has a Time to Live of 30 or less days
+protected-mongo-ttl.change.hidden = ProtectedMongoTTL
 
-mongoTestedWithIndexing.title = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
-mongoTestedWithIndexing.heading = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
-mongoTestedWithIndexing.checkYourAnswersLabel = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
-mongoTestedWithIndexing.error.required = Select yes if you have BOTH performance tested your service with production like data volumes AND have applied indexes where necessary
-mongoTestedWithIndexing.change.hidden = MongoTestedWithIndexing
+performance-tested.title = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
+performance-tested.heading = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
+performance-tested.checkYourAnswersLabel = Have you performance tested your service with production like data volumes in Mongo, and have you applied indexes where necessary?
+performance-tested.error.required = Select yes if you have BOTH performance tested your service with production like data volumes AND have applied indexes where necessary
+performance-tested.change.hidden = MongoTestedWithIndexing
 
-usingObjectStore.title = Are you using Object Store for Binary data persistence?
-usingObjectStore.heading = Are you using Object Store for Binary data persistence?
-usingObjectStore.checkYourAnswersLabel = Are you using Object Store for Binary data persistence?
-usingObjectStore.error.required = Select yes if you are using Object Store for Binary data persistence?
-usingObjectStore.change.hidden = UsingObjectStore
+object-store.title = Are you using Object Store for Binary data persistence?
+object-store.heading = Are you using Object Store for Binary data persistence?
+object-store.checkYourAnswersLabel = Are you using Object Store for Binary data persistence?
+object-store.error.required = Select yes if you are using Object Store for Binary data persistence?
+object-store.change.hidden = UsingObjectStore
 
-correctRetentionPeriod.title = Have you correctly set the retention period in the upload bucket?
-correctRetentionPeriod.heading = Have you correctly set the retention period in the upload bucket?
-correctRetentionPeriod.checkYourAnswersLabel = Have you correctly set the retention period in the upload bucket?
-correctRetentionPeriod.error.required = Select yes if the correct retention period in the upload bucket has been set
-correctRetentionPeriod.change.hidden = CorrectRetentionPeriod
+retention-period.title = Have you correctly set the retention period in the upload bucket?
+retention-period.heading = Have you correctly set the retention period in the upload bucket?
+retention-period.checkYourAnswersLabel = Have you correctly set the retention period in the upload bucket?
+retention-period.error.required = Select yes if the correct retention period in the upload bucket has been set
+retention-period.change.hidden = CorrectRetentionPeriod
 
 #========================================
 #          Common Service Usage
 #========================================
 
-integrationCheck.title = Have you checked the integration with any dependent services in QA and that you are not overloading them?
-integrationCheck.heading = Have you checked the integration with any dependent services in QA and that you are not overloading them?
-integrationCheck.checkYourAnswersLabel = Have you checked the integration with any dependent services in QA and that you are not overloading them?
-integrationCheck.error.required = Select yes if you have checked the integration with any dependent services in QA and that you are not overloading them?
-integrationCheck.change.hidden = IntegrationCheck
+integration.title = Have you checked the integration with any dependent services in QA and that you are not overloading them?
+integration.heading = Have you checked the integration with any dependent services in QA and that you are not overloading them?
+integration.checkYourAnswersLabel = Have you checked the integration with any dependent services in QA and that you are not overloading them?
+integration.error.required = Select yes if you have checked the integration with any dependent services in QA and that you are not overloading them?
+integration.change.hidden = IntegrationCheck
 
-notifyDependantServices.title = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
-notifyDependantServices.heading = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
-notifyDependantServices.checkYourAnswersLabel = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
-notifyDependantServices.error.required = Select yes if we have notified our dependent services (both on and off Platform) as to expected load from our service?
-notifyDependantServices.change.hidden = NotifyDependantServices
-notifyDependantServices.hint = Some examples of dependent services that your team may wish to have a conversation with:
-notifyDependantServices.hint2 = SCP
-notifyDependantServices.hint3 = HoDs (confirmed usage may need a CR or RFC)
-notifyDependantServices.hint4 = Auth
-notifyDependantServices.hint5 = Email
-notifyDependantServices.hint6 = EACD
-notifyDependantServices.hint7 = The rule of thumb here is that your service going into production and putting load (however big) onto your dependencies should
-notifyDependantServices.hint8 = not
-notifyDependantServices.hint9 = be a surprise to them.
+notify-dependent-services.title = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
+notify-dependent-services.heading = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
+notify-dependent-services.checkYourAnswersLabel = Have we notified our dependent services (both on and off Platform) as to expected load from our service?
+notify-dependent-services.error.required = Select yes if we have notified our dependent services (both on and off Platform) as to expected load from our service?
+notify-dependent-services.hidden = NotifyDependantServices
+notify-dependent-services.hint = Some examples of dependent services that your team may wish to have a conversation with:
+notify-dependent-services.hint2 = SCP
+notify-dependent-services.hint3 = HoDs (confirmed usage may need a CR or RFC)
+notify-dependent-services.hint4 = Auth
+notify-dependent-services.hint5 = Email
+notify-dependent-services.hint6 = EACD
+notify-dependent-services.hint7 = The rule of thumb here is that your service going into production and putting load (however big) onto your dependencies should
+notify-dependent-services.hint8 = not
+notify-dependent-services.hint9 = be a surprise to them.
 
 #========================================
 #               Security
 #========================================
 
-frontendAuthentication.title = Has your service gone through Security Integration?
-frontendAuthentication.heading = Has your service gone through Security Integration?
-frontendAuthentication.checkYourAnswersLabel = Has your service gone through Security Integration?
-frontendAuthentication.error.required = Select yes if your service has been through Security Integration
-frontendAuthentication.change.hidden = FrontendAuthentication
-frontendAuthentication.hint = We authenticate users via
-frontendAuthentication.hintAnchor = Security Integration Services
-frontendAuthentication.hint2 = when necessary
+frontend-auth.title = Has your service gone through Security Integration?
+frontend-auth.heading = Has your service gone through Security Integration?
+frontend-auth.checkYourAnswersLabel = Has your service gone through Security Integration?
+frontend-auth.error.required = Select yes if your service has been through Security Integration
+frontend-auth.change.hidden = FrontendAuthentication
+frontend-auth.hint = We authenticate users via
+frontend-auth.hintAnchor = Security Integration Services
+frontend-auth.hint2 = when necessary
 
-publicMicroserviceAuth.title = Public Microservices should be authenticated and authorised by default.
-publicMicroserviceAuth.heading = Public Microservices should be authenticated and authorised by default.
-publicMicroserviceAuth.checkYourAnswersLabel = Public Microservices should be authenticated and authorised by default.
-publicMicroserviceAuth.error.required = Select yes if Public Microservices are being authenticated and authorised by default.
-publicMicroserviceAuth.change.hidden = PublicMicroserviceAuth
+public-auth.title = Public Microservices should be authenticated and authorised by default.
+public-auth.heading = Public Microservices should be authenticated and authorised by default.
+public-auth.checkYourAnswersLabel = Public Microservices should be authenticated and authorised by default.
+public-auth.error.required = Select yes if Public Microservices are being authenticated and authorised by default.
+public-auth.change.hidden = PublicMicroserviceAuth
 
-protectedMicroserviceAuth.title =  Protected Microservices should be authenticated and authorised by default.
-protectedMicroserviceAuth.heading =  Protected Microservices should be authenticated and authorised by default.
-protectedMicroserviceAuth.checkYourAnswersLabel =  Protected Microservices should be authenticated and authorised by default.
-protectedMicroserviceAuth.error.required = Select yes if  Protected Microservices are being authenticated and authorised by default.
-protectedMicroserviceAuth.change.hidden = ProtectedMicroserviceAuth
-protectedMicroserviceAuth.hint = Internal Auth is an option for service-to-service authentication.
+protected-auth.title =  Protected Microservices should be authenticated and authorised by default.
+protected-auth.heading =  Protected Microservices should be authenticated and authorised by default.
+protected-auth.checkYourAnswersLabel =  Protected Microservices should be authenticated and authorised by default.
+protected-auth.error.required = Select yes if  Protected Microservices are being authenticated and authorised by default.
+protected-auth.change.hidden = ProtectedMicroserviceAuth
+protected-auth.hint = Internal Auth is an option for service-to-service authentication.
 
 #========================================
 #            Admin Services
 #========================================
 
-noPublicRoute.title = Does your service have Public Routing to the service in MDTP Frontend Routes?
-noPublicRoute.heading = Does your service have Public Routing to the service in MDTP Frontend Routes?
-noPublicRoute.checkYourAnswersLabel = Does your service have Public Routing to the service in MDTP Frontend Routes?
-noPublicRoute.error.required = Select yes if your admin service has a public routing to the service in the MDTP Frontend Routes
-noPublicRoute.change.hidden = NoPublicRoute
+no-public-route.title = Does your service have Public Routing to the service in MDTP Frontend Routes?
+no-public-route.heading = Does your service have Public Routing to the service in MDTP Frontend Routes?
+no-public-route.checkYourAnswersLabel = Does your service have Public Routing to the service in MDTP Frontend Routes?
+no-public-route.error.required = Select yes if your admin service has a public routing to the service in the MDTP Frontend Routes
+no-public-route.change.hidden = NoPublicRoute
 
-strideOrVPN.title = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
-strideOrVPN.heading = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
-strideOrVPN.checkYourAnswersLabel = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
-strideOrVPN.error.required = Select yes if your admin service only accessible either on the HMRC VPN or by using a Stride device
-strideOrVPN.change.hidden = StrideOrVPN
+stride-or-vpn.title = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+stride-or-vpn.heading = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+stride-or-vpn.checkYourAnswersLabel = Is your admin service only accessible either on the HMRC VPN or by using a Stride device?
+stride-or-vpn.error.required = Select yes if your admin service only accessible either on the HMRC VPN or by using a Stride device
+stride-or-vpn.change.hidden = StrideOrVPN
 
-strideOrInternalAuth.title = Is access to this service restricted by using internal-auth or Stride authentication?
-strideOrInternalAuth.heading = Is access to this service restricted by using internal-auth or Stride authentication?
-strideOrInternalAuth.checkYourAnswersLabel = Is access to this service restricted by using internal-auth or Stride authentication?
-strideOrInternalAuth.error.required = Select yes if access to this service restricted by using internal-auth or Stride authentication?
-strideOrInternalAuth.change.hidden = StrideOrInternalAuth
+stride-or-internal-auth.title = Is access to this service restricted by using internal-auth or Stride authentication?
+stride-or-internal-auth.heading = Is access to this service restricted by using internal-auth or Stride authentication?
+stride-or-internal-auth.checkYourAnswersLabel = Is access to this service restricted by using internal-auth or Stride authentication?
+stride-or-internal-auth.error.required = Select yes if access to this service restricted by using internal-auth or Stride authentication?
+stride-or-internal-auth.change.hidden = StrideOrInternalAuth
 
-accessProductionAdminFrontend.title = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
-accessProductionAdminFrontend.heading = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
-accessProductionAdminFrontend.checkYourAnswersLabel = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
-accessProductionAdminFrontend.error.required = Select yes if the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
-accessProductionAdminFrontend.change.hidden = AccessProductionAdminFrontend
+access-to-production.title = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+access-to-production.heading = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+access-to-production.checkYourAnswersLabel = Have the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+access-to-production.error.required = Select yes if the admin service`s access routes and authorisation restrictions been agreed with your Risk Assessor?
+access-to-production.change.hidden = AccessProductionAdminFrontend
+
+assessmentSections.title = Platform Readiness Assessment
+assessmentSections.heading = Platform Readiness Assessment
+assessmentSections.headings.build-and-resilience = Build and resilience
+assessmentSections.headings.data-persistence = Data persistence
+assessmentSections.headings.common-service-usage = Common service usage
+assessmentSections.headings.security = Security
+assessmentSections.headings.admin-service = Admin service
+assessmentSections.headings.performance = Performance
+assessmentSections.headings.logging = Logging
+assessmentSections.headings.errors = Error Handling
+assessmentSections.headings.config = Configuration
+
+breadcrumbs.assessment = Assessment
+breadcrumbs.home = Home

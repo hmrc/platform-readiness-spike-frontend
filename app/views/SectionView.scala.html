@@ -1,0 +1,60 @@
+@*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import viewmodels.QuestionSummary
+
+@this(
+  layout: templates.Layout,
+  govukButton: GovukButton,
+  govukBreadcrumbs: GovukBreadcrumbs,
+  question: components.question
+)
+
+@(service: String, section: String, questions: Seq[QuestionSummary], teamStatus: ReviewStatus, reviewerStatus: ReviewStatus)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = titleNoForm(messages(s"assessmentSections.headings.$section"))) {
+
+  @govukBreadcrumbs(Breadcrumbs(Seq(
+    BreadcrumbsItem(
+      content = messages(s"breadcrumbs.home"),
+      href = Some(controllers.routes.IndexController.onPageLoad().url)
+    ),
+    BreadcrumbsItem(
+      content = messages(s"breadcrumbs.assessment"),
+      href = Some(controllers.routes.AssessmentSectionsController.onPageLoad(service).url)
+    )
+  )))
+  <span class="govuk-caption-xl">@service</span>
+  <h1 class="govuk-heading-xl">@messages(s"assessmentSections.headings.$section")</h1>
+
+  <ul class="govuk-task-list">
+    <li class="govuk-task-list__item">
+      <div class="govuk-task-list__name-and-hint govuk-!-font-weight-bold govuk-grid-column-one-half">Question</div>
+      <div class="govuk-grid-column-one-quarter"><div class="govuk-task-list__status govuk-!-font-weight-bold" >Team result</div></div>
+      <div class="govuk-grid-column-one-quarter"><div class="govuk-task-list__status govuk-!-font-weight-bold" >Assessor result</div></div>
+    </li>
+
+    @questions.map(question(_))
+
+    <li class="govuk-task-list__item">
+      <div class="govuk-task-list__name-and-hint govuk-grid-column-one-half govuk-!-font-weight-bold"><a class="govuk-task-list govuk-!-font-weight-bold">Overall</a></div>
+      <div class="govuk-grid-column-one-quarter govuk-!-padding-left-5"><div class="govuk-tag govuk-tag--@ReviewStatus.tagColour(teamStatus) govuk-!-font-weight-bold" id="overall-team-status">@messages(s"reviewStatus.$teamStatus")</div></div>
+      <div class="govuk-grid-column-one-quarter govuk-!-padding-left-5"><div class="govuk-tag govuk-tag--@ReviewStatus.tagColour(reviewerStatus) govuk-!-font-weight-bold" id="overall-assessor-status">@messages(s"reviewStatus.$reviewerStatus")</div></div>
+    </li>
+
+  </ul>
+
+}

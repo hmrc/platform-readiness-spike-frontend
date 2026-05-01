@@ -17,12 +17,16 @@
 package controllers
 
 import base.SpecBase
-import models.NormalMode
-import navigation.{FakeNavigator, Navigator}
-import play.api.inject.bind
+import services.TeamsAndRepositoriesService
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
 import views.html.IndexView
+import play.api.i18n.{Messages, MessagesApi}
+import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.{eq => eqTo}
+import uk.gov.hmrc.internalauth.client.Retrieval
+import uk.gov.hmrc.internalauth.client.Retrieval.Username
+import scala.concurrent.Future
 
 class IndexControllerSpec extends SpecBase {
 
@@ -30,22 +34,26 @@ class IndexControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val navigator = new FakeNavigator(buildResilience.routes.ServiceURLController.onPageLoad(NormalMode))
+      when(mockStubBehaviour.stubAuth(eqTo(None), eqTo(Retrieval.username))).thenReturn(Future.successful(Username("username")))
 
-      val application = applicationBuilder(userAnswers = None)
-        .overrides(bind[Navigator].toInstance(navigator))
+      val application = applicationBuilder()
         .build()
 
       running(application) {
         val request = FakeRequest(GET, routes.IndexController.onPageLoad().url)
+          .withSession("authToken" -> "Token some-token")
 
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[IndexView]
 
+        val realMessagesApi: MessagesApi = application.injector.instanceOf[MessagesApi]
+        given Messages = realMessagesApi.preferred(request)
+        val table = IndexController.tableFromRepos(TeamsAndRepositoriesService.repos.values.toSeq)
+
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(buildResilience.routes.ServiceURLController.onPageLoad(NormalMode).url)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(table)(request, messages(application)).toString
       }
     }
   }
