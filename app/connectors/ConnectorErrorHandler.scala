@@ -18,6 +18,8 @@ package connectors
 
 import models.Error
 import play.api.Logging
+import uk.gov.hmrc.http.HttpResponse
+import play.api.libs.json.{Reads, JsError, JsSuccess}
 
 import scala.concurrent.Future
 

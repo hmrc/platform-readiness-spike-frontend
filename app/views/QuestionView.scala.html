@@ -1,0 +1,142 @@
+@*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import viewmodels.InputWidth._
+@import models.requests.ReviewMode
+
+@this(
+  layout: templates.Layout,
+  formHelper: FormWithCSRF,
+  govukErrorSummary: GovukErrorSummary,
+  govukSelect: GovukSelect,
+  govukTextarea: GovukTextarea,
+  govukButton: GovukButton,
+  govukBreadcrumbs: GovukBreadcrumbs
+)
+
+@(service: String, section: String, question: String, form: Form[_], savedQuestion: Option[Question], reviewMode: ReviewMode)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages(s"${question}.title"))) {
+
+  @formHelper(action = controllers.routes.QuestionController.onSubmit(service, section, question)) {
+
+    @govukBreadcrumbs(Breadcrumbs(Seq(
+      BreadcrumbsItem(
+        content = messages(s"breadcrumbs.home"),
+        href = Some(controllers.routes.IndexController.onPageLoad().url)
+      ),
+      BreadcrumbsItem(
+        content = messages(s"breadcrumbs.assessment"),
+        href = Some(controllers.routes.AssessmentSectionsController.onPageLoad(service).url)
+      ),
+      BreadcrumbsItem(
+        content = messages(s"assessmentSections.headings.$section"),
+        href = Some(controllers.routes.SectionController.onPageLoad(service, section).url)
+      )
+    )))
+
+
+    @if(form.errors.nonEmpty) {
+      @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
+
+    <span class="govuk-caption-xl">@service</span>
+    <h1 class="govuk-heading-xl">@messages(s"${question}.heading")</h1>
+
+    @if(reviewMode == ReviewMode.TeamMember) {
+      @govukSelect(Select(
+        id = "teamStatus",
+        name = "teamStatus",
+        items = ReviewStatus.options(form("teamStatus").value),
+        label = Label(content = Text(messages(s"questionPage.teamStatus")))
+      ))
+
+      @govukTextarea(
+        Textarea(
+          id = "teamComment",
+          name = "teamComment",
+          value = form("teamComment").value,
+          label = LabelViewModel(messages(s"questionPage.teamComment"))
+        )
+      )
+    } else {
+      <div class="govuk-body">
+        <p class="govuk-label">@messages(s"questionPage.teamStatus")</p>
+        <span class="govuk-tag govuk-tag--@ReviewStatus.tagColour(savedQuestion.map(_.teamStatus).getOrElse(ReviewStatus.NeedsReview))">@messages(s"reviewStatus.${savedQuestion.map(_.teamStatus).getOrElse(ReviewStatus.NeedsReview)}")</span>
+      </div>
+
+      @govukTextarea(
+        Textarea(
+          id = "teamComment",
+          name = "teamComment",
+          value = savedQuestion.flatMap(_.teamComment),
+          label = LabelViewModel(messages(s"questionPage.teamComment")),
+          disabled = Some(true)
+        )
+      )
+    }
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    @if(reviewMode == ReviewMode.Reviewer) {
+      @govukSelect(Select(
+        id = "reviewerStatus",
+        name = "reviewerStatus",
+        items = ReviewStatus.options(form("reviewerStatus").value),
+        label = Label(content = Text(messages(s"questionPage.reviewerStatus")))
+      ))
+
+      @govukTextarea(
+        Textarea(
+          id = "reviewerComment",
+          name = "reviewerComment",
+          value = form("reviewerComment").value,
+          label = LabelViewModel(messages(s"questionPage.reviewerComment"))
+        )
+      )
+    } else {
+      <div class="govuk-body">
+        <p class="govuk-label">@messages(s"questionPage.reviewerStatus")</p>
+        <span class="govuk-tag govuk-tag--@ReviewStatus.tagColour(savedQuestion.map(_.reviewerStatus).getOrElse(ReviewStatus.NeedsReview))">@messages(s"reviewStatus.${savedQuestion.map(_.reviewerStatus).getOrElse(ReviewStatus.NeedsReview)}")</span>
+      </div>
+
+      @govukTextarea(
+        Textarea(
+          id = "reviewerComment",
+          name = "reviewerComment",
+          value = savedQuestion.flatMap(_.reviewerComment),
+          label = LabelViewModel(messages(s"questionPage.reviewerComment")),
+          disabled = Some(true)
+        )
+      )
+    }
+    @if(reviewMode == ReviewMode.Reviewer || reviewMode == ReviewMode.TeamMember) {
+      <div class="govuk-button-group">
+        @govukButton(
+          ButtonViewModel(messages("site.save"))
+        )
+
+        @govukButton(
+          ButtonViewModel(messages("site.cancel"))
+            .asLink(controllers.routes.SectionController.onPageLoad(service, section).url)
+            .asSecondaryButton()
+        )
+
+      </div>
+    }
+  }
+
+}

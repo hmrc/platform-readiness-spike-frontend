@@ -18,9 +18,10 @@ package views
 
 import base.ViewSpecBase
 import matchers.ViewMatchers
-import models.NormalMode
+import models.repositories.GitRepository
 import play.twirl.api.Html
 import views.html.IndexView
+import controllers.IndexController
 
 class IndexViewSpec extends ViewSpecBase with ViewMatchers {
 
@@ -28,10 +29,12 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
 
   "view" should {
 
-    def createView: Html =
-      page(controllers.buildResilience.routes.ServiceURLController.onPageLoad(NormalMode).url)(request, messages)
+    def createView(repositories: Seq[GitRepository]): Html = {
+      val table = IndexController.tableFromRepos(repositories)
+      page(table)(request, messages)
+    }
 
-    val view = createView
+    val view = createView(Seq())
 
     "have title" in {
       view.select("title").text() must include(messages("index.title"))
@@ -40,13 +43,6 @@ class IndexViewSpec extends ViewSpecBase with ViewMatchers {
     "contain heading" in {
       view.getElementsByClass("govuk-heading-xl").text() mustBe messages("index.heading")
     }
-
-    "display the start now button when full disclosure journey enabled is true" in {
-      view.getElementsByClass("govuk-button").first() must haveId("start")
-      view.getElementsByClass("govuk-button").text() mustBe messages("site.continue")
-      view
-        .getElementById("start")
-        .attr("href") mustBe controllers.buildResilience.routes.ServiceURLController.onPageLoad(NormalMode).url
-    }
+    
   }  
 }

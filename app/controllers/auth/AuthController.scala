@@ -17,28 +17,37 @@
 package controllers.auth
 
 import config.FrontendAppConfig
-import controllers.actions.IdentifierAction
+import controllers.auth.routes
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import uk.gov.hmrc.internalauth.client.{FrontendAuthComponents, Retrieval}
 
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
 
 class AuthController @Inject()(
+                                auth: FrontendAuthComponents,
                                 val controllerComponents: MessagesControllerComponents,
-                                config: FrontendAppConfig,
-                                identify: IdentifierAction
+                                config: FrontendAppConfig
                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def signOut(): Action[AnyContent] = identify {
-    implicit request =>
-            Redirect(config.signOutUrl, Map("continue" -> Seq(config.exitSurveyUrl)))
+  def signOut(): Action[AnyContent] = {
+    auth.authenticatedAction(
+      continueUrl = routes.AuthController.signOutNoSurvey(),
+      retrieval = Retrieval.username
+    )() { implicit request =>
+      Redirect(config.signOutUrl, Map("continue" -> Seq(config.exitSurveyUrl)))
+    }
   }
 
-  def signOutNoSurvey(): Action[AnyContent] = identify {
-    implicit request =>
-        Redirect(config.signOutUrl, Map("continue" -> Seq(routes.SignedOutController.onPageLoad().url)))
+  def signOutNoSurvey(): Action[AnyContent] = {
+    auth.authenticatedAction(
+      continueUrl = routes.AuthController.signOutNoSurvey(),
+      retrieval = Retrieval.username
+    )() { implicit request =>
+      Redirect(config.signOutUrl, Map("continue" -> Seq(routes.SignedOutController.onPageLoad().url)))
+    }
   }
 }
